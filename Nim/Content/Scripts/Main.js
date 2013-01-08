@@ -1,5 +1,5 @@
 ﻿require.config({
-    deps: ["$", "Underscore", "Backbone", "Marionette", "Handlebars", "SignalR"],
+    deps: ["$", "Underscore", "Backbone", "Marionette", "Handlebars"],
     shim: {
         $: {
             exports: "jQuery"
@@ -21,13 +21,14 @@
         SignalR: {
             deps: ["$"]
         },
-        "noext!signalr/hubs": {
+        Hubs: {
             deps: ["SignalR", "$"]
         }
     },
     paths: {
         $: "Vendor/JQuery/jquery-1.8.3",
         SignalR: "Vendor/JQuery/SignalR/jquery.signalR-1.0.0-rc1",
+        Hubs: "noext!signalr/hubs",
         Underscore: "Vendor/Underscore/underscore",
         Backbone: "Vendor/Backbone/backbone",
         Marionette: "Vendor/Backbone/Marionette/backbone.marionette",
@@ -41,7 +42,7 @@
 });
 
 
-require(["CustomConfiguration", "SignalR", "noext!signalr/hubs", "Nim/App"], function (CustomConfiguration, SignalR, hubs, App) {
+require(["CustomConfiguration", "SignalR", "Hubs", "Nim/App"], function (CustomConfiguration, SignalR, hubs, App) {
 
     //Configure
     CustomConfiguration.configure();
