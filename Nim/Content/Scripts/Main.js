@@ -20,15 +20,11 @@
         },
         SignalR: {
             deps: ["$"]
-        },
-        Hubs: {
-            deps: ["SignalR", "$"]
         }
     },
     paths: {
         $: "Vendor/JQuery/jquery-1.8.3",
         SignalR: "Vendor/JQuery/SignalR/jquery.signalR-1.0.0-rc1",
-        Hubs: "signalr/hubs",
         Underscore: "Vendor/Underscore/underscore",
         Backbone: "Vendor/Backbone/backbone",
         Marionette: "Vendor/Backbone/Marionette/backbone.marionette",
@@ -43,7 +39,7 @@
 
 
 require(["CustomConfiguration", "SignalR", "Nim/App"], function (CustomConfiguration, SignalR, App) {
-    require(["noext!Hubs"], function (hubs) {
+    require(["noext!signalr/hubs"], function (hubs) {
 
         //Configure
         CustomConfiguration.configure();
