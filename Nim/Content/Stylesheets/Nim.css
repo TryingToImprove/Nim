@@ -1,6 +1,6 @@
 ﻿body
 {
-    padding:0;
+    padding: 0;
 }
 
 .form-signin
@@ -30,12 +30,67 @@
 }
 
 
-.commands 
-{   
-    text-align:center;
+.commands
+{
+    text-align: center;
 }
 
 .canvas-holder
 {
-    text-align:center;
+    text-align: center;
+}
+
+.canvas
+{
+    position: relative;
+}
+.canvas > .vertical-line
+{
+    position: absolute;
+    background-color: Red;
+    z-index: 10;
+    -webkit-transition: all 700ms cubic-bezier(0.600, 0, 0.735, 0.045); /* older webkit */
+    -webkit-transition: all 700ms cubic-bezier(0.600, -0.280, 0.735, 0.045);
+    -moz-transition: all 700ms cubic-bezier(0.600, -0.280, 0.735, 0.045);
+    -ms-transition: all 700ms cubic-bezier(0.600, -0.280, 0.735, 0.045);
+    -o-transition: all 700ms cubic-bezier(0.600, -0.280, 0.735, 0.045);
+    transition: all 700ms cubic-bezier(0.600, -0.280, 0.735, 0.045); /* easeInBack */
+    -webkit-transition-timing-function: cubic-bezier(0.600, 0, 0.735, 0.045); /* older webkit */
+    -webkit-transition-timing-function: cubic-bezier(0.600, -0.280, 0.735, 0.045);
+    -moz-transition-timing-function: cubic-bezier(0.600, -0.280, 0.735, 0.045);
+    -ms-transition-timing-function: cubic-bezier(0.600, -0.280, 0.735, 0.045);
+    -o-transition-timing-function: cubic-bezier(0.600, -0.280, 0.735, 0.045);
+    border-radius:10px;
+    transition-timing-function: cubic-bezier(0.600, -0.280, 0.735, 0.045); /* easeInBack */
+}
+
+.canvas > .horizontal-holder
+{
+    position: absolute;
+    z-index: 0;
+}
+
+.canvas > .horizontal-holder > .line
+{
+    margin: 0 auto;
+    width: 20px;
+    height: 100%;
+    background-color: Black;
+}
+
+@media (max-width: 767px)
+{
+    .canvas > .horizontal-holder
+    {
+        position: absolute;
+        z-index: 0;
+    }
+
+    .canvas > .horizontal-holder > .line
+    {
+        margin: 0 auto;
+        height: 20px;
+        width: 100%;
+        background-color: Black;
+    }
 }

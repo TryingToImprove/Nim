@@ -135,6 +135,7 @@
     <Content Include="Content\Templates\GameLayout.html" />
     <Content Include="Content\Templates\CanvasView.html" />
     <Content Include="Content\Templates\LoginView.html" />
+    <Content Include="CSScanvas.htm" />
     <Content Include="Default.html" />
     <Content Include="Global.asax" />
     <Content Include="Web.config" />
