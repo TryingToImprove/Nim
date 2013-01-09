@@ -70,32 +70,37 @@ define(["$", "Underscore", "Backbone", "Marionette", "Nim/App", "text!Templates/
 
             $(".horizontal-holder", this.$el).each(function (i) {
 
-                var $this = $(this);
+                var $this = $(this), 
+                    marginTop = 0, 
+                    width = "100%", 
+                    height = "100%", 
+                    lineWidth = "100%",
+                    lineHeight = "100%",
+                    y = 0, 
+                    x = 0;
 
                 if (!window.matchMedia("(max-width: 767px)").matches) {
-                    $this.height("100%").width(that.LINE_WIDTH);
-                    
-                    $(".line", $this).css({
-                        "width": that.spec.line.size
-                    });
-
-                    y = 0;
+                    width = that.LINE_WIDTH;
+                    lineWidth = that.spec.line.size + "px";
                     x = Math.floor((that.LINE_WIDTH * i));
                 } else {
-                    $this.height(that.LINE_HEIGHT).width("100%");
-
-                    $(".line", $this).css({
-                        "margin-top": (that.LINE_HEIGHT / 2) - (that.spec.line.width / 2) + "px",
-                        "height": that.spec.line.size
-                    });
-
+                    marginTop = (that.LINE_HEIGHT / 2) - (that.spec.line.size / 2);
+                    height = that.LINE_HEIGHT;
+                    lineHeight = that.spec.line.size + "px";
                     y = Math.floor((that.LINE_HEIGHT * i));
-                    x = 0;
                 }
 
                 $this.css({
+                    "height": height,
+                    "width": width,
                     "top": y + "px",
                     "left": x + "px"
+                });
+
+                $(".line", $this).css({
+                    "margin-top": marginTop + "px",
+                    "height": lineHeight,
+                    "width": lineWidth
                 });
 
             });
