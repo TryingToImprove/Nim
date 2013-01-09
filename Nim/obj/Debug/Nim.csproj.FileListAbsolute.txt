@@ -15,3 +15,19 @@ C:\Users\Administrator.WIN-HE3BCLD6K7P\Dropbox\Itucation\Nim\Nim\bin\Microsoft.O
 C:\Users\Administrator.WIN-HE3BCLD6K7P\Dropbox\Itucation\Nim\Nim\bin\Newtonsoft.Json.xml
 C:\Users\Administrator.WIN-HE3BCLD6K7P\Dropbox\Itucation\Nim\Nim\obj\Debug\Nim.dll
 C:\Users\Administrator.WIN-HE3BCLD6K7P\Dropbox\Itucation\Nim\Nim\obj\Debug\Nim.pdb
+C:\Users\Oliver\Documents\Visual Studio 11\Projects\Itucation\Nim\Nim\bin\Nim.dll
+C:\Users\Oliver\Documents\Visual Studio 11\Projects\Itucation\Nim\Nim\bin\Nim.pdb
+C:\Users\Oliver\Documents\Visual Studio 11\Projects\Itucation\Nim\Nim\bin\Microsoft.AspNet.SignalR.Core.dll
+C:\Users\Oliver\Documents\Visual Studio 11\Projects\Itucation\Nim\Nim\bin\Microsoft.AspNet.SignalR.Owin.dll
+C:\Users\Oliver\Documents\Visual Studio 11\Projects\Itucation\Nim\Nim\bin\Microsoft.AspNet.SignalR.SystemWeb.dll
+C:\Users\Oliver\Documents\Visual Studio 11\Projects\Itucation\Nim\Nim\bin\Microsoft.Owin.Host.SystemWeb.dll
+C:\Users\Oliver\Documents\Visual Studio 11\Projects\Itucation\Nim\Nim\bin\Newtonsoft.Json.dll
+C:\Users\Oliver\Documents\Visual Studio 11\Projects\Itucation\Nim\Nim\bin\Owin.dll
+C:\Users\Oliver\Documents\Visual Studio 11\Projects\Itucation\Nim\Nim\bin\Microsoft.AspNet.SignalR.Core.xml
+C:\Users\Oliver\Documents\Visual Studio 11\Projects\Itucation\Nim\Nim\bin\Microsoft.AspNet.SignalR.Owin.xml
+C:\Users\Oliver\Documents\Visual Studio 11\Projects\Itucation\Nim\Nim\bin\Microsoft.AspNet.SignalR.SystemWeb.xml
+C:\Users\Oliver\Documents\Visual Studio 11\Projects\Itucation\Nim\Nim\bin\Microsoft.Owin.Host.SystemWeb.xml
+C:\Users\Oliver\Documents\Visual Studio 11\Projects\Itucation\Nim\Nim\bin\Newtonsoft.Json.xml
+C:\Users\Oliver\Documents\Visual Studio 11\Projects\Itucation\Nim\Nim\obj\Debug\Nim.csprojResolveAssemblyReference.cache
+C:\Users\Oliver\Documents\Visual Studio 11\Projects\Itucation\Nim\Nim\obj\Debug\Nim.dll
+C:\Users\Oliver\Documents\Visual Studio 11\Projects\Itucation\Nim\Nim\obj\Debug\Nim.pdb
