@@ -28,7 +28,7 @@
     paths: {
         $: "Vendor/JQuery/jquery-1.8.3",
         SignalR: "Vendor/JQuery/SignalR/jquery.signalR-1.0.0-rc1",
-        Hubs: "signalr/hubs",
+        SignalRhub: "../../signalr/hubs",
         Underscore: "Vendor/Underscore/underscore",
         Backbone: "Vendor/Backbone/backbone",
         Marionette: "Vendor/Backbone/Marionette/backbone.marionette",
@@ -42,7 +42,7 @@
 });
 
 
-require(["CustomConfiguration", "SignalR", "noext!Hubs", "Nim/App"], function (CustomConfiguration, SignalR, hubs, App) {
+require(["CustomConfiguration", "SignalR", "noext!SignalRhub", "Nim/App"], function (CustomConfiguration, SignalR, hubs, App) {
 
     //Configure
     CustomConfiguration.configure();
