@@ -1,0 +1,168 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style type="text/css">
+        .canvas
+        {
+            height: 400px;
+            position: relative;
+        }
+        .canvas > .vertical-line
+        {
+            position: absolute;
+            height: 20px;
+            background-color: Red;
+            top: 190px;
+            z-index: 10;
+            -webkit-transition: all 700ms cubic-bezier(0.600, 0, 0.735, 0.045); /* older webkit */
+            -webkit-transition: all 700ms cubic-bezier(0.600, -0.280, 0.735, 0.045);
+            -moz-transition: all 700ms cubic-bezier(0.600, -0.280, 0.735, 0.045);
+            -ms-transition: all 700ms cubic-bezier(0.600, -0.280, 0.735, 0.045);
+            -o-transition: all 700ms cubic-bezier(0.600, -0.280, 0.735, 0.045);
+            transition: all 700ms cubic-bezier(0.600, -0.280, 0.735, 0.045); /* easeInBack */
+            -webkit-transition-timing-function: cubic-bezier(0.600, 0, 0.735, 0.045); /* older webkit */
+            -webkit-transition-timing-function: cubic-bezier(0.600, -0.280, 0.735, 0.045);
+            -moz-transition-timing-function: cubic-bezier(0.600, -0.280, 0.735, 0.045);
+            -ms-transition-timing-function: cubic-bezier(0.600, -0.280, 0.735, 0.045);
+            -o-transition-timing-function: cubic-bezier(0.600, -0.280, 0.735, 0.045);
+            transition-timing-function: cubic-bezier(0.600, -0.280, 0.735, 0.045); /* easeInBack */
+        }
+        
+        .canvas > .horizontal-holder
+        {
+            position: absolute;
+            height: 100%;
+            width: 100px;
+            z-index: 0;
+        }
+        
+        .canvas > .horizontal-holder > .line
+        {
+            margin: 0 auto;
+            width: 20px;
+            height: 100%;
+            background-color: Black;
+        }
+        
+        @media (max-width: 767px)
+        {
+            .canvas > .horizontal-holder
+            {
+                position: absolute;
+                width: 100%;
+                height: 100px;
+                z-index: 0;
+            }
+        
+            .canvas > .horizontal-holder > .line
+            {
+                margin: 0 auto;
+                height: 20px;
+                width: 100%;
+                background-color: Black;
+            }
+        }
+    </style>
+    <script src="http://code.jquery.com/jquery.min.js"></script>
+</head>
+<body>
+    <div class="canvas">
+        <div id="cross-line" class="vertical-line">
+        </div>
+        <div class="horizontal-holder" style="top: 0px; left: 0px;">
+            <div class="line">
+            </div>
+        </div>
+        <div class="horizontal-holder" style="top: 0px; left: 100px;">
+            <div class="line">
+            </div>
+        </div>
+        <div class="horizontal-holder" style="top: 0px; left: 200px;">
+            <div class="line">
+            </div>
+        </div>
+        <div class="horizontal-holder" style="top: 0px; left: 300px;">
+            <div class="line">
+            </div>
+        </div>
+        <div class="horizontal-holder" style="top: 0px; left: 400px;">
+            <div class="line">
+            </div>
+        </div>
+        <div class="horizontal-holder" style="top: 0px; left: 500px;">
+            <div class="line">
+            </div>
+        </div>
+        <div class="horizontal-holder" style="top: 0px; left: 600px;">
+            <div class="line">
+            </div>
+        </div>
+        <div class="horizontal-holder" style="top: 0px; left: 700px;">
+            <div class="line">
+            </div>
+        </div>
+        <div class="horizontal-holder" style="top: 0px; left: 800px;">
+            <div class="line">
+            </div>
+        </div>
+    </div>
+    <script>
+        var crossOut;
+
+        $(function () {
+            var lineBox = 100,
+            lineWidth = 20,
+            crossLine = document.getElementById("cross-line");
+
+
+            crossOut = function (sum) {
+
+
+                var mq = window.matchMedia("(max-width: 767px)"), width;
+                if (!mq.matches) {
+                    width = ((parseInt(crossLine.style.width, 10) || 0) + (lineBox * sum));
+                    crossLine.style.width = width + "px";
+                } else {
+                    width = ((parseInt(crossLine.style.height, 10) || 0) + (lineBox * sum));
+                    crossLine.style.height = width + "px";
+                }
+            };
+
+            // media query event handler
+            if (matchMedia) {
+                var mq = window.matchMedia("(min-width: 767px)");
+                mq.addListener(WidthChange);
+                console.log("added");
+            }
+
+            // media query change
+            function WidthChange(mq) {
+
+                console.log("changing");
+
+                $(".horizontal-holder").each(function (i) {
+
+                    var $this = $(this),
+                        tempTop = $(this).css("top");
+
+
+                    $this.css("top", $this.css("left")).css("left", tempTop);
+
+                });
+
+                var line = $("#cross-line"),
+                    temp = line.css("left");
+
+                line.css("left", line.css("top")).css("top", temp);
+
+                temp = line.css("width");
+                line.css("width", line.css("height"));
+                line.css("height", temp);
+            }
+        });
+
+    </script>
+</body>
+</html>

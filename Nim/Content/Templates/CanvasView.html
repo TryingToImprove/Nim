@@ -1,2 +1,10 @@
-﻿<canvas>
-    Your browser does not support canvas</canvas>
+﻿<div class="canvas">
+    <div id="cross-line" class="vertical-line">
+    </div>
+    {{#each lines}}
+    <div class="horizontal-holder">
+        <div class="line">
+        </div>
+    </div>
+    {{/each}}
+</div>

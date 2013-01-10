@@ -1,6 +1,11 @@
 ﻿/// <reference path="../docs.js" />
 
 define(["$", "Underscore", "Backbone", "Marionette", "Nim/App", "Nim/Views/GameLayout", "Nim/Views/CanvasView", "Nim/Views/CommandView", "Nim/Views/IdleView"], function ($, _, Backbone, Marionette, app, GameLayout, CanvasView, CommandView, IdleView) {
+
+    var CanvasViewModel = Backbone.Model.extend({
+    });
+
+
     var Controller = {
         layout: new GameLayout(),
         canvasView: null,
@@ -14,9 +19,18 @@ define(["$", "Underscore", "Backbone", "Marionette", "Nim/App", "Nim/Views/GameL
 
             this.turnManager(game.CurrentTurn);
 
+            var lines = [];
+            for (var i = 0; i < this.game.Lines; i += 1) {
+                lines.push({});
+            }
+
+            
             this.canvasView = new CanvasView({
                 LINES_LENGTH: this.game.Lines,
-                controller: this
+                controller: this,
+                model: new CanvasViewModel({
+                    lines: lines
+                })
             });
 
             this.layout.canvas.show(this.canvasView);
