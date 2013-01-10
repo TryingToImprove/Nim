@@ -1,6 +1,7 @@
 ﻿body
 {
     padding: 0;
+    overflow:auto;
 }
 
 .form-signin
@@ -69,7 +70,8 @@
     position: absolute;
     z-index: 0;
 }
-x
+
+
 .canvas > .horizontal-holder > .line
 {
     margin: 0 auto;
@@ -95,11 +97,3 @@ x
     }
 
 }
-
-    @media (max-width: 767px) and (orientation:landscape) {
-        .commands .btn 
-        {
-            float:none;
-            display:block;
-        }
-    }
