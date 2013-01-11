@@ -26,6 +26,12 @@ define(["$", "Underscore", "Backbone", "Marionette", "SignalR"], function ($, _,
     app.vent.on("game:idle", function () {
         require(["Nim/Views/IdleView"], function (IdleView) {
             app.content.show(new IdleView());
+
+//            app.vent.trigger("game:start", {
+//                GameId: 323,
+//                Lines: 10,
+//                CurrentTurn: ""
+//            });
             app.gameHub.server.requestGame(app.user.get("name"));
         })
     });
@@ -34,6 +40,10 @@ define(["$", "Underscore", "Backbone", "Marionette", "SignalR"], function ($, _,
         require(["Nim/Controllers/GameController"], function (GameController) {
             app.gameController = GameController.start(game, app.gameHub);
         });
+    });
+    
+    app.addInitializer(function () {
+        window.addEventListener("resize", function () { app.vent.trigger("window:resize"); }, false);
     });
 
     app.addInitializer(function () {

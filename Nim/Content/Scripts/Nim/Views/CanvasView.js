@@ -2,141 +2,205 @@
 
 define(["$", "Underscore", "Backbone", "Marionette", "Nim/App", "text!Templates/CanvasView.html"], function ($, _, Backbone, Marionette, app, viewTemplate) {
 
-    var View = Backbone.Marionette.ItemView.extend({
-        template: viewTemplate,
-        tagName: "div",
-        className: "canvas",
-        crossed: 0,
-        initialize: function (options) {
-            var width = $(document).width(), height = $(document).height() - 100;
+    var Orientation = {
+        PORTRAIT: 0,
+        LANDSCAPE: 1,
+        getOrientation: function (width, height) {
+            var orientation, temp, realWidth, realdHeight;
 
-            options = options || {}
-
-            this.LINES_LENGTH = options.LINES_LENGTH || 10;
-            this.LINE_WIDTH = width / this.LINES_LENGTH;
-            this.LINE_HEIGHT = height / this.LINES_LENGTH;
-
-
-            this.$el.css({
-                "width": width + "px",
-                "height": height + "px"
-            });
-        },
-        crossOut: function (sum) {
-            if (sum > this.getLinesLeft()) {
-                throw new Error("There are not lines enough to cross " + sum);
-            }
-
-            this.crossed += sum;
-
-            this.renderLine();
-        },
-        renderLine: function () {
-            var x, y, crossLine = $("#cross-line"), size;
-
-            if (!window.matchMedia("(max-width: 767px)").matches) {
-                size = (this.LINE_WIDTH * this.crossed);
-
-                y = ((this.$el.height() / 2) - (this.spec.cross.height / 2)) + "px";
-                x = 0;
-                width = size;
-                height = this.spec.cross.height;
-
+            if(arguments.length === 1){
+                temp = width;
+                realWidth = temp.width();
+                realHeight = temp.height();
             } else {
-                size = (this.LINE_HEIGHT * this.crossed);
-
-                y = 0;
-                x = ((this.$el.width() / 2) - (this.spec.cross.height / 2)) + "px";
-                width = this.spec.cross.height;
-                height = size;
+               realWidth = width;
+               realHeight = height;
+            }
+            
+            if (realWidth > realHeight) {
+                orientation = this.LANDSCAPE;
+            } else {
+                orientation = this.PORTRAIT;
             }
 
-            crossLine.css({
-                "top": y,
-                "left": x,
-                "width": width,
-                "height": height
-            });
-        },
-        getLinesLeft: function () {
-            return this.LINES_LENGTH - this.crossed;
-        },
-        onRender: function () {
+            return orientation;
+        }
+    },
+        View = Backbone.Marionette.ItemView.extend({
+            template: viewTemplate,
+            tagName: "div",
+            className: "canvas",
+            crossed: 0,
+            resize: function (options) {
+                //Reset the canvas dimensions so we don't fuck up the layout
+                this.$el.css({
+                    "width": "100%",
+                    "height": 0 + "px"
+                });
 
+                var cssClassNew,
+                    cssClassOld, 
 
-            var that = this;
+                    $document = $(document),
+                    width = $document.width(),
+                    height = $document.height(),
 
-            $(".horizontal-holder", this.$el).each(function (i) {
+                    //Get current orientation
+                    orientation = this.orientation = Orientation.getOrientation(width, height);
+                                   
+                switch(orientation){
+                    case Orientation.PORTRAIT:
+                        //Make space at the bottom                        
+                        height -= 100;
 
-                var $this = $(this), 
-                    marginTop = 0, 
-                    width = "100%", 
-                    height = "100%", 
-                    lineWidth = "100%",
-                    lineHeight = "100%",
-                    y = 0, 
-                    x = 0;
+                        //define css class for portrait orientation
+                        cssClassNew = "portrait-mode";
+                        cssClassOld = "landscape-mode";
+                        break;
+                    case Orientation.LANDSCAPE:
+                        //Make space to the left
+                        width -= 100;
 
-                if (!window.matchMedia("(max-width: 767px)").matches) {
-                    width = that.LINE_WIDTH;
-                    lineWidth = that.spec.line.size + "px";
-                    x = Math.floor((that.LINE_WIDTH * i));
-                } else {
-                    marginTop = (that.LINE_HEIGHT / 2) - (that.spec.line.size / 2);
-                    height = that.LINE_HEIGHT;
-                    lineHeight = that.spec.line.size + "px";
-                    y = Math.floor((that.LINE_HEIGHT * i));
+                        //define css class for landscape orientation
+                        cssClassOld = "portrait-mode";
+                        cssClassNew = "landscape-mode";
+                        break;
+                }
+                                
+                //Calculate the new value for the lines
+                this.calculateLineDimensions(this.LINES_LENGTH, width, height);
+                
+                //Set the canvas
+                this.$el.css({
+                    "width": (width) + "px",
+                    "height": height + "px"
+                })
+                .removeClass(cssClassOld) //remove the old css class
+                .addClass(cssClassNew) //add the new css class
+                .empty();
+
+                //Render
+                this.render();
+                this.renderLine();
+            },
+            calculateLineDimensions: function(numberOfLines, width, height){
+                //Get the new line width
+                this.LINE_WIDTH = Math.floor(width / numberOfLines);
+
+                //Get the new line height
+                this.LINE_HEIGHT = Math.floor(height / numberOfLines);
+            },
+            initialize: function (options) {
+                options = options || {}; //Make sure there is a options object
+
+                var view = this;
+
+                this.LINES_LENGTH = options.LINES_LENGTH || 10;
+
+                app.vent.on("window:resize", function () {
+                    view.resize.call(view, options);
+                });
+
+                this.resize(options);
+            },
+            crossOut: function (sum) {
+                if (sum > this.getLinesLeft()) {
+                    throw new Error("There are not lines enough to cross " + sum);
                 }
 
-                $this.css({
-                    "height": height,
-                    "width": width,
-                    "top": y + "px",
-                    "left": x + "px"
-                });
+                this.crossed += sum;
 
-                $(".line", $this).css({
-                    "margin-top": marginTop + "px",
-                    "height": lineHeight,
-                    "width": lineWidth
-                });
-
-            });
-
-            this.renderLine();
-
-
-        },
-        spec: {
-            line: {
-                size: 10,
+                this.renderLine();
             },
-            cross: {
-                height: 30
+            renderLine: function () {
+                var position = {
+                        left: 0, 
+                        top: 0 
+                    },
+                    cssClassMode,
+                    crossLine = $("#cross-line");
+                    
+                switch(this.orientation){
+                    case Orientation.PORTRAIT:
+                        //Set the position on the x-axis (left css)
+                        position.left = ((this.$el.width() / 2) - (this.spec.cross.height / 2));
+
+                        width = this.spec.cross.height;
+                        height = this.LINE_HEIGHT * this.crossed;
+
+                        break;
+                    case Orientation.LANDSCAPE:          
+                        //Set the position on the y-axis (top css)    
+                        position.top = ((this.$el.height() / 2) - (this.spec.cross.height / 2));
+
+                        width = this.LINE_WIDTH * this.crossed;
+                        height = this.spec.cross.height;
+                        break;
+                }
+
+                crossLine.css({
+                    "top": position.top + "px",
+                    "left": position.left + "px",
+                    "width": width + "px",
+                    "height": height + "px"
+                });
+            },
+            getLinesLeft: function () {
+                return this.LINES_LENGTH - this.crossed;
+            },
+            onRender: function () {
+                var that = this;
+
+                $(".horizontal-holder", this.$el).each(function (i) {
+
+                    var $this = $(this),
+                        marginTop = 0,
+                        width = "100%",
+                        height = "100%",
+                        lineWidth = "100%",
+                        lineHeight = "100%",
+                        y = 0,
+                        x = 0;
+
+                    if (that.orientation === Orientation.LANDSCAPE) {
+                        width = that.LINE_WIDTH;
+                        lineWidth = that.spec.line.size + "px";
+                        x = Math.floor((that.LINE_WIDTH * i));
+                    } else {
+                        marginTop = (that.LINE_HEIGHT / 2) - (that.spec.line.size / 2);
+                        height = that.LINE_HEIGHT;
+                        lineHeight = that.spec.line.size + "px";
+                        y = Math.floor((that.LINE_HEIGHT * i));
+                    }
+
+                    $this.css({
+                        "height": height,
+                        "width": width,
+                        "top": y + "px",
+                        "left": x + "px"
+                    });
+
+                    $(".line", $this).css({
+                        "margin-top": marginTop + "px",
+                        "height": lineHeight,
+                        "width": lineWidth
+                    });
+
+                });
+
+                this.renderLine();
+
+
+            },
+            spec: {
+                line: {
+                    size: 10,
+                },
+                cross: {
+                    height: 30
+                }
             }
-        },
-        draw: function () {
-            var i, line, ctx = this.$el[0].getContext("2d"), x, y;
-
-            ctx.fillStyle = "#000"; ;
-
-            for (i = 0; i < this.LINES_LENGTH; i += 1) {
-                y = 0;
-                x = Math.floor((this.LINE_WIDTH * i) + ((this.LINE_WIDTH / 2) - (this.spec.line.width / 2)));
-
-                ctx.fillRect(x, y, this.spec.line.width, this.spec.line.height);
-            }
-
-            ctx.fillStyle = "red";
-            for (i = 0; i < this.crossed; i += 1) {
-                y = Math.floor(((this.spec.line.height / 2) - (this.spec.cross.height / 2)));
-                x = (this.LINE_WIDTH * i);
-
-                ctx.fillRect(x, y, this.LINE_WIDTH, this.spec.cross.height);
-            }
-
-        }
-    });
+        });
 
     return View;
 });
