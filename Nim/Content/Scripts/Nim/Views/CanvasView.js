@@ -13,16 +13,14 @@ define(["$", "Underscore", "Backbone", "Marionette", "Nim/App", "text!Templates/
             options = options || {}
 
             this.LINES_LENGTH = options.LINES_LENGTH || 10;
-            this.LINE_WIDTH = Math.floor(width / this.LINES_LENGTH);
-            this.LINE_HEIGHT = Math.floor(height / this.LINES_LENGTH);
+            this.LINE_WIDTH = width / this.LINES_LENGTH;
+            this.LINE_HEIGHT = height / this.LINES_LENGTH;
 
 
             this.$el.css({
                 "width": width + "px",
                 "height": height + "px"
             });
-
-            //this.draw();
         },
         crossOut: function (sum) {
             if (sum > this.getLinesLeft()) {

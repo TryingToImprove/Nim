@@ -16,6 +16,7 @@
     -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.05);
     -moz-box-shadow: 0 1px 2px rgba(0,0,0,.05);
     box-shadow: 0 1px 2px rgba(0,0,0,.05);
+    
 }
 .form-signin .form-signin-heading, .form-signin .checkbox
 {
@@ -60,7 +61,7 @@
     -moz-transition-timing-function: cubic-bezier(0.600, -0.280, 0.735, 0.045);
     -ms-transition-timing-function: cubic-bezier(0.600, -0.280, 0.735, 0.045);
     -o-transition-timing-function: cubic-bezier(0.600, -0.280, 0.735, 0.045);
-    border-radius:10px;
+    border-radius: 10px;
     transition-timing-function: cubic-bezier(0.600, -0.280, 0.735, 0.045); /* easeInBack */
 }
 
@@ -69,7 +70,7 @@
     position: absolute;
     z-index: 0;
 }
-x
+
 .canvas > .horizontal-holder > .line
 {
     margin: 0 auto;
@@ -91,15 +92,15 @@ x
         margin: 0 auto;
         height: 20px;
         width: 100%;
-        background-color: Black;
     }
 
 }
 
-    @media (max-width: 767px) and (orientation:landscape) {
-        .commands .btn 
-        {
-            float:none;
-            display:block;
-        }
+@media (max-width: 767px) and (orientation:landscape)
+{
+    .commands .btn
+    {
+        float: none;
+        display: block;
     }
+}
