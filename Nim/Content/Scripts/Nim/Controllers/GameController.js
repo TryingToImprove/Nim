@@ -34,7 +34,7 @@ define(["$", "Underscore", "Backbone", "Marionette", "Nim/App", "Nim/Views/GameL
             });
 
             this.layout.canvas.show(this.canvasView);
-
+            
             return this;
         },
         turnManager: function (currentTurn) {
@@ -70,7 +70,7 @@ define(["$", "Underscore", "Backbone", "Marionette", "Nim/App", "Nim/Views/GameL
             require(["Nim/Models/FinishModel", "Nim/Views/FinishView"], function (FinishModel, FinishView) {
                 var model = new FinishModel({ you: (winner === app.user.get("playerId")) });
 
-                that.layout.command.show(new FinishView({ model: model, controller: that }));
+                that.layout.modal.show(new FinishView({ model: model, controller: that }));
             });
         },
         playAgain: function () {

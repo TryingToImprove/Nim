@@ -14,7 +14,8 @@ define(["$", "Underscore", "Backbone", "Marionette", "Nim/App", "text!Templates/
         },
         restart: function () {
             this.controller.playAgain();
-        }
+        },
+        className: "modal"
     });
 
     return View;

@@ -3,11 +3,9 @@
 define(["$", "Underscore", "Backbone", "Marionette", "Nim/App", "text!Templates/GameLayout.html"], function ($, _, Backbone, Marionette, app, viewTemplate) {
 
     var ModalRegion = Backbone.Marionette.Region.extend({
-        el: ".modal-holder",
         constructor: function () {
             _.bindAll(this);
             Backbone.Marionette.Region.prototype.constructor.apply(this, arguments);
-
             this.on("view:show", this.showModal, this);
         },
         getEl: function (selector) {
@@ -17,20 +15,23 @@ define(["$", "Underscore", "Backbone", "Marionette", "Nim/App", "text!Templates/
         },
         showModal: function (view) {
             view.on("close", this.hideModal, this);
+            this.$el.modal('show');
         },
         hideModal: function () {
             this.$el.modal('hide');
         }
-    });
-
-    var Layout = Backbone.Marionette.Layout.extend({
-        template: viewTemplate,
-        regions: {
-            modal: ".modal",
-            canvas: ".canvas-holder",
-            command: ".commands-holder"
-        }
-    });
+    }),
+        Layout = Backbone.Marionette.Layout.extend({
+            template: viewTemplate,
+            regions: {
+                modal: {
+                    selector: ".modal-holder",
+                    regionType: ModalRegion
+                },
+                canvas: ".canvas-holder",
+                command: ".commands-holder"
+            }
+        });
 
     return Layout;
 });

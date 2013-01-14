@@ -1,5 +1,5 @@
 ﻿require.config({
-    deps: ["$", "Underscore", "Backbone", "Marionette", "Handlebars"],
+    deps: ["$", "Underscore", "Backbone", "Marionette", "Handlebars", "Bootstrap"],
     shim: {
         $: {
             exports: "jQuery"
@@ -20,6 +20,9 @@
         },
         SignalR: {
             deps: ["$"]
+        },
+        Bootstrap: {
+            deps: ["$"]
         }
     },
     paths: {
@@ -31,6 +34,7 @@
         Handlebars: "Vendor/Handlebars/handlebars-1.0.rc.1",
         Templates: "../Templates",
         PhoneAPI: "PhoneUtilities/PhoneUtilities",
+        Bootstrap: "Vendor/Bootstrap/bootstrap",
 
         //requireJS plugins
         text: "Vendor/RequireJS/Plugins/text",

@@ -40,6 +40,7 @@ define(["$", "Underscore", "Backbone", "Marionette", "SignalR"], function ($, _,
     app.vent.on("game:start", function (game) {
         require(["Nim/Controllers/GameController"], function (GameController) {
             app.gameController = GameController.start(game, app.gameHub);
+
         });
     });
 
@@ -51,7 +52,8 @@ define(["$", "Underscore", "Backbone", "Marionette", "SignalR"], function ($, _,
         app.gameHub = $.connection.game;
 
         app.gameHub.logging = true;
-        
+
+
         // Declare a function on the chat hub so the server can invoke it          
         app.gameHub.client.startGame = function (game) {
             app.vent.trigger("game:start", game);
