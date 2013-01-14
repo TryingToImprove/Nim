@@ -30,6 +30,7 @@
         Marionette: "Vendor/Backbone/Marionette/backbone.marionette",
         Handlebars: "Vendor/Handlebars/handlebars-1.0.rc.1",
         Templates: "../Templates",
+        PhoneAPI: "PhoneUtilities/PhoneUtilities",
 
         //requireJS plugins
         text: "Vendor/RequireJS/Plugins/text",

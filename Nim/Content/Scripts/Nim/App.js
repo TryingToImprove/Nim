@@ -12,7 +12,7 @@ define(["$", "Underscore", "Backbone", "Marionette", "SignalR"], function ($, _,
 
     app.vent.on("user:authenticate", function (name) {
         require(["Nim/Factories/UserFactory"], function (UserFactory) {
-            var user = UserFactory.create(name);
+            var user = UserFactory.create(name, app.gameHub.connection.id);
 
             app.vent.trigger("user:authenticated", user);
         });
@@ -24,15 +24,16 @@ define(["$", "Underscore", "Backbone", "Marionette", "SignalR"], function ($, _,
     });
 
     app.vent.on("game:idle", function () {
-        require(["Nim/Views/IdleView"], function (IdleView) {
+        require(["Nim/Views/IdleView", "Nim/Factories/UserFactory"], function (IdleView, UserFactory) {
             app.content.show(new IdleView());
 
-//            app.vent.trigger("game:start", {
-//                GameId: 323,
-//                Lines: 10,
-//                CurrentTurn: ""
-//            });
-            app.gameHub.server.requestGame(app.user.get("name"));
+            //            app.vent.trigger("game:start", {
+            //                GameId: 323,
+            //                Lines: 10,
+            //                CurrentTurn: ""
+            //            });
+
+            app.gameHub.server.requestGame(UserFactory.createDTO(app.user));
         })
     });
 
@@ -41,7 +42,7 @@ define(["$", "Underscore", "Backbone", "Marionette", "SignalR"], function ($, _,
             app.gameController = GameController.start(game, app.gameHub);
         });
     });
-    
+
     app.addInitializer(function () {
         window.addEventListener("resize", function () { app.vent.trigger("window:resize"); }, false);
     });
@@ -49,6 +50,8 @@ define(["$", "Underscore", "Backbone", "Marionette", "SignalR"], function ($, _,
     app.addInitializer(function () {
         app.gameHub = $.connection.game;
 
+        app.gameHub.logging = true;
+        
         // Declare a function on the chat hub so the server can invoke it          
         app.gameHub.client.startGame = function (game) {
             app.vent.trigger("game:start", game);

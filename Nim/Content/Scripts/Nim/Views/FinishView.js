@@ -4,11 +4,16 @@ define(["$", "Underscore", "Backbone", "Marionette", "Nim/App", "text!Templates/
 
     var View = Backbone.Marionette.ItemView.extend({
         template: viewTemplate,
+        initialize: function (options) {
+            options = options || {};
+
+            this.controller = options.controller;
+        },
         events: {
             "click .restart": "restart"
         },
-        restart: function(){
-            app.vent.trigger("game:idle");
+        restart: function () {
+            this.controller.playAgain();
         }
     });
 

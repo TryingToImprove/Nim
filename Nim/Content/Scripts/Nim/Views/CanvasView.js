@@ -1,31 +1,10 @@
 ﻿/// <reference path="../docs.js" />
 
-define(["$", "Underscore", "Backbone", "Marionette", "Nim/App", "text!Templates/CanvasView.html"], function ($, _, Backbone, Marionette, app, viewTemplate) {
+define(["PhoneAPI", "$", "Underscore", "Backbone", "Marionette", "Nim/App", "text!Templates/CanvasView.html"], function (PhoneAPI, $, _, Backbone, Marionette, app, viewTemplate) {
+    "use strict";
 
-    var Orientation = {
-        PORTRAIT: 0,
-        LANDSCAPE: 1,
-        getOrientation: function (width, height) {
-            var orientation, temp, realWidth, realdHeight;
-
-            if(arguments.length === 1){
-                temp = width;
-                realWidth = temp.width();
-                realHeight = temp.height();
-            } else {
-               realWidth = width;
-               realHeight = height;
-            }
-            
-            if (realWidth > realHeight) {
-                orientation = this.LANDSCAPE;
-            } else {
-                orientation = this.PORTRAIT;
-            }
-
-            return orientation;
-        }
-    },
+    var Orientation = PhoneAPI.Orientation,
+    
         View = Backbone.Marionette.ItemView.extend({
             template: viewTemplate,
             tagName: "div",
@@ -37,7 +16,7 @@ define(["$", "Underscore", "Backbone", "Marionette", "Nim/App", "text!Templates/
                     "width": "100%",
                     "height": 0 + "px"
                 });
-
+                
                 var cssClassNew,
                     cssClassOld, 
 
@@ -47,7 +26,7 @@ define(["$", "Underscore", "Backbone", "Marionette", "Nim/App", "text!Templates/
 
                     //Get current orientation
                     orientation = this.orientation = Orientation.getOrientation(width, height);
-                                   
+           
                 switch(orientation){
                     case Orientation.PORTRAIT:
                         //Make space at the bottom                        
@@ -117,6 +96,7 @@ define(["$", "Underscore", "Backbone", "Marionette", "Nim/App", "text!Templates/
                         left: 0, 
                         top: 0 
                     },
+                    width, height,
                     cssClassMode,
                     crossLine = $("#cross-line");
                     

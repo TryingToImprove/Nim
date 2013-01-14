@@ -113,6 +113,8 @@
     <Content Include="Content\Scripts\Nim\Views\IdleView.js" />
     <Content Include="Content\Scripts\Nim\Views\GameLayout.js" />
     <Content Include="Content\Scripts\Nim\Views\LoginView.js" />
+    <Content Include="Content\Scripts\PhoneUtilities\Orientation.js" />
+    <Content Include="Content\Scripts\PhoneUtilities\PhoneUtilities.js" />
     <Content Include="Content\Scripts\Vendor\Backbone\backbone.js" />
     <Content Include="Content\Scripts\Vendor\Backbone\Marionette\backbone.marionette.js" />
     <Content Include="Content\Scripts\Vendor\Bootstrap\bootstrap.js" />
@@ -147,10 +149,23 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Domain\IConnection.cs" />
+    <Compile Include="Factories\GameFactory.cs" />
+    <Compile Include="Factories\PlayerFactory.cs" />
     <Compile Include="Hubs\GameHub.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\ActivePlayer.cs" />
+    <Compile Include="Models\Connection.cs" />
+    <Compile Include="Models\DTO\GameDTO.cs" />
+    <Compile Include="Models\DTO\PlayerDTO.cs" />
+    <Compile Include="Models\Game.cs" />
+    <Compile Include="Models\IdlePlayer.cs" />
+    <Compile Include="Models\NimGame.cs" />
+    <Compile Include="Models\NimGameAction.cs" />
+    <Compile Include="Models\NimGameResult.cs" />
+    <Compile Include="Models\Player.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -180,6 +195,7 @@
       <Install>true</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

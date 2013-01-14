@@ -5,6 +5,10 @@ define(["$", "Underscore", "Backbone", "Marionette", "Nim/App", "Nim/Views/GameL
     var CanvasViewModel = Backbone.Model.extend({
     });
 
+    var Turn = {
+        OPPONENT: 0,
+        YOU: 1
+    };
 
     var Controller = {
         layout: new GameLayout(),
@@ -12,24 +16,20 @@ define(["$", "Underscore", "Backbone", "Marionette", "Nim/App", "Nim/Views/GameL
         commandView: null,
         currentTurn: "",
         start: function (game, hub) {
-            app.content.show(this.layout);
-
             this.game = game;
             this.hub = hub;
 
+            console.log(this.game);
+
+            app.content.show(this.layout);
+
             this.turnManager(game.CurrentTurn);
 
-            var lines = [];
-            for (var i = 0; i < this.game.Lines; i += 1) {
-                lines.push({});
-            }
-
-            
             this.canvasView = new CanvasView({
-                LINES_LENGTH: this.game.Lines,
+                LINES_LENGTH: this.game.ActiveGame.NumberOfLines,
                 controller: this,
                 model: new CanvasViewModel({
-                    lines: lines
+                    lines: createLinesArray(this.game.ActiveGame.NumberOfLines)
                 })
             });
 
@@ -37,17 +37,20 @@ define(["$", "Underscore", "Backbone", "Marionette", "Nim/App", "Nim/Views/GameL
 
             return this;
         },
-        turnManager: function (gameCurrentTurn) {
-            if (gameCurrentTurn === app.user.get("name")) {
+        turnManager: function (currentTurn) {
+            if (currentTurn.PlayerId === app.user.get("playerId")) { //Users turns
+
                 this.commandView = new CommandView({
                     controller: this
                 });
+
                 this.layout.command.show(this.commandView);
-            } else {
+
+            } else { //Opponant turns
                 this.layout.command.show(new IdleView());
             }
 
-            this.currentTurn = gameCurrentTurn;
+            this.currentTurn = currentTurn;
         },
         requestCrossOut: function (sum) {
             this.hub.server.requestCrossOut(this.game.GameId, sum);
@@ -59,17 +62,31 @@ define(["$", "Underscore", "Backbone", "Marionette", "Nim/App", "Nim/Views/GameL
 
             return this.canvasView.getLinesLeft();
         },
-        finish: function (loser, game) {
+        finish: function (winner, game) {
+            console.log(game);
+
             var that = this;
 
-            console.log(loser, app.user.get("name"));
             require(["Nim/Models/FinishModel", "Nim/Views/FinishView"], function (FinishModel, FinishView) {
-                var model = new FinishModel({ you: (loser === app.user.get("name")) });
+                var model = new FinishModel({ you: (winner === app.user.get("playerId")) });
 
-                that.layout.command.show(new FinishView({ model: model }));
+                that.layout.command.show(new FinishView({ model: model, controller: that }));
             });
+        },
+        playAgain: function () {
+            this.hub.server.requestSpecificGame(this.game.GameId, app.user.get("playerId"));
         }
     };
+
+    function createLinesArray(linesCount) {
+        var lines = [];
+
+        for (var i = 0; i < linesCount; i += 1) {
+            lines.push({});
+        }
+
+        return lines;
+    }
 
     return Controller;
 });
