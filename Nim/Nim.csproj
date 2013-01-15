@@ -103,6 +103,7 @@
     <Content Include="Content\Scripts\docs.js" />
     <Content Include="Content\Scripts\Main.js" />
     <Content Include="Content\Scripts\Nim\App.js" />
+    <Content Include="Content\Scripts\Nim\Controllers\GameController.v2.js" />
     <Content Include="Content\Scripts\Nim\Controllers\GameController.js" />
     <Content Include="Content\Scripts\Nim\Factories\UserFactory.js" />
     <Content Include="Content\Scripts\Nim\Models\FinishModel.js" />
@@ -149,6 +150,7 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Adaptors\JsonHelper.cs" />
     <Compile Include="Domain\IConnection.cs" />
     <Compile Include="Factories\GameFactory.cs" />
     <Compile Include="Factories\PlayerFactory.cs" />

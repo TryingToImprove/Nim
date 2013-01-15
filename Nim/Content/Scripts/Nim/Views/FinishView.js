@@ -4,6 +4,10 @@ define(["$", "Underscore", "Backbone", "Marionette", "Nim/App", "text!Templates/
 
     var View = Backbone.Marionette.ItemView.extend({
         template: viewTemplate,
+        attributes: {
+            "data-backdrop": "static"
+        },
+        className: "modal hide fade",
         initialize: function (options) {
             options = options || {};
 
@@ -14,8 +18,7 @@ define(["$", "Underscore", "Backbone", "Marionette", "Nim/App", "text!Templates/
         },
         restart: function () {
             this.controller.playAgain();
-        },
-        className: "modal"
+        }
     });
 
     return View;

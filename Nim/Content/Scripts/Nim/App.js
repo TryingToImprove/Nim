@@ -25,22 +25,38 @@ define(["$", "Underscore", "Backbone", "Marionette", "SignalR"], function ($, _,
 
     app.vent.on("game:idle", function () {
         require(["Nim/Views/IdleView", "Nim/Factories/UserFactory"], function (IdleView, UserFactory) {
+            var userDTO,
+                idleView;
+
+            //#region UI
+
+            //Create a idleView
+            idleView = new IdleView();
+
+            //Display the idle view
             app.content.show(new IdleView());
 
-            //            app.vent.trigger("game:start", {
-            //                GameId: 323,
-            //                Lines: 10,
-            //                CurrentTurn: ""
-            //            });
+            //#endregion
 
-            app.gameHub.server.requestGame(UserFactory.createDTO(app.user));
+            //#region server
+
+            //Create a DTO of user
+            userDTO = UserFactory.createDTO(app.user)
+
+            //Start a request for a game
+            app.gameHub.server.requestGame(userDTO);
+
+            //#endregion
         })
     });
 
     app.vent.on("game:start", function (game) {
-        require(["Nim/Controllers/GameController"], function (GameController) {
-            app.gameController = GameController.start(game, app.gameHub);
+        require(["Nim/Controllers/GameController.v2"], function (gameController) {
+            //Add a reference to the controller from the app
+            app.gameController = gameController;
 
+            //Start the game
+            app.gameController.start(game, app.gameHub);
         });
     });
 
@@ -60,11 +76,16 @@ define(["$", "Underscore", "Backbone", "Marionette", "SignalR"], function ($, _,
         };
 
         app.gameHub.client.responseCrossOut = function (sum, game) {
-            app.gameController.crossOut(sum, game);
+            app.gameController.trigger("server:crossOut", sum, game);
         };
 
         app.gameHub.client.responseGameEnd = function (loser, game) {
-            app.gameController.finish(loser, game);
+            app.gameController.trigger("server:finish", loser, game);
+        };
+
+        app.gameHub.client.playerDisconnected = function (player) {
+            app.gameController.trigger("server:player:disconnect", player);
+            console.log("Disconnect: ", player);
         };
 
         $.connection.hub.start().done(function () {

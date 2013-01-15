@@ -15,7 +15,7 @@ define(["$", "Underscore", "Backbone", "Marionette", "Nim/App", "text!Templates/
         crossOut: function (e) {
             var target = $(e.currentTarget);
 
-            this.controller.requestCrossOut(target.data("sum"));
+            this.controller.crossOut(target.data("sum"));
         }
     });
 

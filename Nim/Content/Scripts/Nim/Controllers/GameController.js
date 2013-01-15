@@ -34,7 +34,7 @@ define(["$", "Underscore", "Backbone", "Marionette", "Nim/App", "Nim/Views/GameL
             });
 
             this.layout.canvas.show(this.canvasView);
-            
+
             return this;
         },
         turnManager: function (currentTurn) {
@@ -75,6 +75,9 @@ define(["$", "Underscore", "Backbone", "Marionette", "Nim/App", "Nim/Views/GameL
         },
         playAgain: function () {
             this.hub.server.requestSpecificGame(this.game.GameId, app.user.get("playerId"));
+        },
+        playerLeaved: function () {
+            
         }
     };
 

@@ -5,6 +5,7 @@ using System.Web;
 using Microsoft.AspNet.SignalR.Hubs;
 using Nim.Hubs;
 using Microsoft.AspNet.SignalR;
+using Nim.Adaptors;
 
 namespace Nim.Models
 {
@@ -91,6 +92,23 @@ namespace Nim.Models
                 //Start a new game
                 this.StartNew();
             }
+        }
+
+        public void PlayerDisconnected(string connectionId)
+        {
+            ActivePlayer player = this.Players.FirstOrDefault(x => x.Connection.ConnectionId.Equals(connectionId, StringComparison.InvariantCultureIgnoreCase));
+
+            //Load clients from gameHub
+            IHubContext clients = GlobalHost.ConnectionManager.GetHubContext<GameHub>();
+
+            //Notify all players that a player have disconnected
+            this.Players.ForEach(x =>
+            {
+                clients.Clients.Client(x.Connection.ConnectionId).playerDisconnected(JsonHelper.SerializeObject(player));
+            });
+
+            //Remove the player
+            this.Players.Remove(player);
         }
     }
 }

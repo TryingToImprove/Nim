@@ -73,8 +73,13 @@ define(["PhoneAPI", "$", "Underscore", "Backbone", "Marionette", "Nim/App", "tex
                 options = options || {}; //Make sure there is a options object
 
                 var view = this;
+                
+                //Listen to callback from the server
+                options.controller.listenTo(options.controller, "server:crossOut", function (sum, game) {
+                    view.crossOut(sum);
+                });
 
-                this.LINES_LENGTH = options.LINES_LENGTH || 10;
+                this.LINES_LENGTH = options.numberOfLines || 10;
 
                 app.vent.on("window:resize", function () {
                     view.resize.call(view, options);

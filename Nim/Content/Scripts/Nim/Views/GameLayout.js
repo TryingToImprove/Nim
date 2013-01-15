@@ -6,19 +6,22 @@ define(["$", "Underscore", "Backbone", "Marionette", "Nim/App", "text!Templates/
         constructor: function () {
             _.bindAll(this);
             Backbone.Marionette.Region.prototype.constructor.apply(this, arguments);
-            this.on("view:show", this.showModal, this);
+            this.on("show", this.showModal, this);
         },
+
         getEl: function (selector) {
             var $el = $(selector);
             $el.on("hidden", this.close);
             return $el;
         },
+
         showModal: function (view) {
             view.on("close", this.hideModal, this);
-            this.$el.modal('show');
+            view.$el.modal('show');
         },
+
         hideModal: function () {
-            this.$el.modal('hide');
+            view.$el.modal('hide');
         }
     }),
         Layout = Backbone.Marionette.Layout.extend({

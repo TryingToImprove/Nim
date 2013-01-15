@@ -6,7 +6,7 @@ using Microsoft.AspNet.SignalR.Hubs;
 using Nim.Hubs;
 using Microsoft.AspNet.SignalR;
 using Nim.Factories;
-using Newtonsoft.Json;
+using Nim.Adaptors;
 
 namespace Nim.Models
 {
@@ -50,7 +50,7 @@ namespace Nim.Models
             //Notify all players that we start a new game
             game.Players.ForEach(x =>
             {
-                clients.Clients.Client(x.Connection.ConnectionId).startGame(SerializeObject(game));
+                clients.Clients.Client(x.Connection.ConnectionId).startGame(JsonHelper.SerializeObject(game));
             });
         }
 
@@ -62,7 +62,7 @@ namespace Nim.Models
             //Notify all players that we start a new game
             game.Players.ForEach(x =>
             {
-                clients.Clients.Client(x.Connection.ConnectionId).responseCrossOut(sum, SerializeObject(game));
+                clients.Clients.Client(x.Connection.ConnectionId).responseCrossOut(sum, JsonHelper.SerializeObject(game));
             });
         }
 
@@ -74,7 +74,7 @@ namespace Nim.Models
             //Notify all players that we start a new game
             game.Players.ForEach(x =>
             {
-                clients.Clients.Client(x.Connection.ConnectionId).responseGameEnd(player.PlayerId, SerializeObject(game));
+                clients.Clients.Client(x.Connection.ConnectionId).responseGameEnd(player.PlayerId, JsonHelper.SerializeObject(game));
             });
 
             //TODO: Remove game?
@@ -106,20 +106,10 @@ namespace Nim.Models
             {
                 //Save the result of the game
                 game.GameResults.Add(new NimGameResult(this.actions, game.CurrentTurn));
-                
+
                 //If they are then notify winne
                 this.NotifyWinner(game.CurrentTurn);
             }
-        }
-
-        private object SerializeObject<T>(T game)
-        {
-            return JsonConvert.DeserializeObject(
-                    JsonConvert.SerializeObject(game, Formatting.Indented, new JsonSerializerSettings()
-                    {
-                        ReferenceLoopHandling = ReferenceLoopHandling.Ignore
-                    })
-                );
         }
     }
 }

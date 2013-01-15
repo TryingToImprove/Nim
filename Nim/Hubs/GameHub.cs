@@ -6,6 +6,7 @@ using Microsoft.AspNet.SignalR.Hubs;
 using Nim.Models;
 using Nim.Factories;
 using Nim.Models.DTO;
+using System.Threading.Tasks;
 
 namespace Nim.Hubs
 {
@@ -52,6 +53,18 @@ namespace Nim.Hubs
                 .Find(x => x.GameId == gameId)
                 .ActiveGame
                 .RequestCrossOut(sum);
+        }
+
+        public override Task OnDisconnected()
+        {
+            List<Game> gamesWhereUserIn = Games.Where(x => x.Players.Any(y => y.Connection.ConnectionId.Equals(Context.ConnectionId, StringComparison.InvariantCultureIgnoreCase))).ToList();
+
+            gamesWhereUserIn.ForEach(x =>
+            {
+                x.PlayerDisconnected(Context.ConnectionId);
+            });
+
+            return base.OnDisconnected();
         }
     }
 }
