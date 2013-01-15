@@ -35,6 +35,7 @@ define(["$", "Underscore", "Backbone", "Marionette", "Nim/App", "Nim/Views/GameL
                 }));
             });
 
+
             this.switchTurn();
         },
         sync: function (game) {
