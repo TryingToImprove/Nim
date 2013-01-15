@@ -9,7 +9,7 @@ define(["$", "Underscore", "Backbone", "Marionette", "Nim/Models/User"], functio
             });
 
             return user;
-        }, 
+        },
         createDTO: function (user) {
             return {
                 Name: user.get("name"),

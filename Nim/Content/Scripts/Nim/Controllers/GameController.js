@@ -1,7 +1,6 @@
 ﻿/// <reference path="../docs.js" />
 
 define(["$", "Underscore", "Backbone", "Marionette", "Nim/App", "Nim/Views/GameLayout", "Nim/Views/CanvasView", "Nim/Views/CommandView", "Nim/Views/IdleView"], function ($, _, Backbone, Marionette, app, GameLayout, CanvasView, CommandView, IdleView) {
-
     var CanvasViewModel = Backbone.Model.extend({
     });
 
@@ -39,13 +38,11 @@ define(["$", "Underscore", "Backbone", "Marionette", "Nim/App", "Nim/Views/GameL
         },
         turnManager: function (currentTurn) {
             if (currentTurn.PlayerId === app.user.get("playerId")) { //Users turns
-
                 this.commandView = new CommandView({
                     controller: this
                 });
 
                 this.layout.command.show(this.commandView);
-
             } else { //Opponant turns
                 this.layout.command.show(new IdleView());
             }
@@ -77,7 +74,6 @@ define(["$", "Underscore", "Backbone", "Marionette", "Nim/App", "Nim/Views/GameL
             this.hub.server.requestSpecificGame(this.game.GameId, app.user.get("playerId"));
         },
         playerLeaved: function () {
-            
         }
     };
 

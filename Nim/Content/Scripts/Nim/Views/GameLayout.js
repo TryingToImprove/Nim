@@ -21,7 +21,7 @@ define(["$", "Underscore", "Backbone", "Marionette", "Nim/App", "text!Templates/
         },
 
         hideModal: function () {
-            view.$el.modal('hide');
+            this.currentView.$el.modal('hide');
         }
     }),
         Layout = Backbone.Marionette.Layout.extend({

@@ -18,7 +18,7 @@ define(["$", "Underscore", "Backbone", "Marionette", "Nim/App", "Nim/Views/GameL
         start: function (game) {
             var gameController = this;
 
-            //Main starting point for a game
+            //Westart by syncing the gameController
             this.sync(game);
 
             //Display the layout
@@ -49,7 +49,7 @@ define(["$", "Underscore", "Backbone", "Marionette", "Nim/App", "Nim/Views/GameL
         playAgain: function () { //When a user want to play again with the opponets
             // Tell the server that this player wants to play again
 
-            //TODO: Use the factory
+            //TODO: Use the factory, and send the player instead
             app.gameHub.server.requestSpecificGame(this.game.GameId, app.user.get("playerId"));
         },
         finish: function (winner) {
@@ -71,18 +71,16 @@ define(["$", "Underscore", "Backbone", "Marionette", "Nim/App", "Nim/Views/GameL
         },
         playerDisconnected: function () {
             var gameController = this;
-            require(["Nim/Models/FinishModel", "Nim/Views/FinishView"], function (FinishModel, FinishView) {
+
+            require(["Nim/Views/PlayerDisconnectedView"], function (PlayerDisconnectedView) {
 
                 //Create a finish view
-                var finishView = new FinishView({
-                    model: new FinishModel({
-                        you: true //TODO: BETTER
-                    }),
+                var playerDisconnectedView = new PlayerDisconnectedView({
                     controller: gameController
                 });
 
                 //Display the finish view as a modal
-                gameController.layout.modal.show(finishView);
+                gameController.layout.modal.show(playerDisconnectedView);
 
             });
         },
@@ -90,6 +88,9 @@ define(["$", "Underscore", "Backbone", "Marionette", "Nim/App", "Nim/Views/GameL
             var gameController = this;
 
             if (this.game.CurrentTurn.PlayerId === app.user.get("playerId")) {
+                //Close the waiting modal
+                gameController.layout.modal.close();
+
                 require(["Nim/Views/CommandView"], function (CommandView) {
                     var commandView = new CommandView({
                         controller: gameController
@@ -98,8 +99,12 @@ define(["$", "Underscore", "Backbone", "Marionette", "Nim/App", "Nim/Views/GameL
                     gameController.layout.command.show(commandView);
                 });
             } else {
+                //Close the buttons
+                gameController.layout.command.close();
+
                 require(["Nim/Views/IdleView"], function (IdleView) {
-                    gameController.layout.command.show(new IdleView());
+                    //Display the waiting modal
+                    gameController.layout.modal.show(new IdleView());
                 });
             }
         }

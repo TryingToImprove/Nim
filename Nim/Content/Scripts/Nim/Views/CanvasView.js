@@ -4,7 +4,7 @@ define(["PhoneAPI", "$", "Underscore", "Backbone", "Marionette", "Nim/App", "tex
     "use strict";
 
     var Orientation = PhoneAPI.Orientation,
-    
+
         View = Backbone.Marionette.ItemView.extend({
             template: viewTemplate,
             tagName: "div",
@@ -16,9 +16,9 @@ define(["PhoneAPI", "$", "Underscore", "Backbone", "Marionette", "Nim/App", "tex
                     "width": "100%",
                     "height": 0 + "px"
                 });
-                
+
                 var cssClassNew,
-                    cssClassOld, 
+                    cssClassOld,
 
                     $document = $(document),
                     width = $document.width(),
@@ -26,10 +26,10 @@ define(["PhoneAPI", "$", "Underscore", "Backbone", "Marionette", "Nim/App", "tex
 
                     //Get current orientation
                     orientation = this.orientation = Orientation.getOrientation(width, height);
-           
+
                 switch(orientation){
                     case Orientation.PORTRAIT:
-                        //Make space at the bottom                        
+                        //Make space at the bottom
                         height -= 100;
 
                         //define css class for portrait orientation
@@ -45,10 +45,10 @@ define(["PhoneAPI", "$", "Underscore", "Backbone", "Marionette", "Nim/App", "tex
                         cssClassNew = "landscape-mode";
                         break;
                 }
-                                
+
                 //Calculate the new value for the lines
                 this.calculateLineDimensions(this.LINES_LENGTH, width, height);
-                
+
                 //Set the canvas
                 this.$el.css({
                     "width": (width) + "px",
@@ -73,7 +73,7 @@ define(["PhoneAPI", "$", "Underscore", "Backbone", "Marionette", "Nim/App", "tex
                 options = options || {}; //Make sure there is a options object
 
                 var view = this;
-                
+
                 //Listen to callback from the server
                 options.controller.listenTo(options.controller, "server:crossOut", function (sum, game) {
                     view.crossOut(sum);
@@ -98,13 +98,13 @@ define(["PhoneAPI", "$", "Underscore", "Backbone", "Marionette", "Nim/App", "tex
             },
             renderLine: function () {
                 var position = {
-                        left: 0, 
-                        top: 0 
+                        left: 0,
+                        top: 0
                     },
                     width, height,
                     cssClassMode,
                     crossLine = $("#cross-line");
-                    
+
                 switch(this.orientation){
                     case Orientation.PORTRAIT:
                         //Set the position on the x-axis (left css)
@@ -114,8 +114,8 @@ define(["PhoneAPI", "$", "Underscore", "Backbone", "Marionette", "Nim/App", "tex
                         height = this.LINE_HEIGHT * this.crossed;
 
                         break;
-                    case Orientation.LANDSCAPE:          
-                        //Set the position on the y-axis (top css)    
+                    case Orientation.LANDSCAPE:
+                        //Set the position on the y-axis (top css)
                         position.top = ((this.$el.height() / 2) - (this.spec.cross.height / 2));
 
                         width = this.LINE_WIDTH * this.crossed;
@@ -137,7 +137,6 @@ define(["PhoneAPI", "$", "Underscore", "Backbone", "Marionette", "Nim/App", "tex
                 var that = this;
 
                 $(".horizontal-holder", this.$el).each(function (i) {
-
                     var $this = $(this),
                         marginTop = 0,
                         width = "100%",
@@ -170,12 +169,9 @@ define(["PhoneAPI", "$", "Underscore", "Backbone", "Marionette", "Nim/App", "tex
                         "height": lineHeight,
                         "width": lineWidth
                     });
-
                 });
 
                 this.renderLine();
-
-
             },
             spec: {
                 line: {

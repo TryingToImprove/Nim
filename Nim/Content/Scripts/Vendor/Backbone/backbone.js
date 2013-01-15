@@ -6,7 +6,6 @@
 //     http://backbonejs.org
 
 (function () {
-
     // Initial Setup
     // -------------
 
@@ -114,7 +113,6 @@
     //     object.trigger('expand');
     //
     var Events = Backbone.Events = {
-
         // Bind one or more space separated events, or an events map,
         // to a `callback` function. Passing `"all"` will bind the callback to
         // all events fired.
@@ -247,7 +245,6 @@
 
     // Attach all inheritable methods to the Model prototype.
     _.extend(Model.prototype, Events, {
-
         // A hash of attributes whose current and previous value differ.
         changed: null,
 
@@ -578,7 +575,6 @@
             this.trigger('error', this, error, options);
             return false;
         }
-
     });
 
     // Backbone.Collection
@@ -598,7 +594,6 @@
 
     // Define the Collection's inheritable methods.
     _.extend(Collection.prototype, Events, {
-
         // The default model for a collection is just a **Backbone.Model**.
         // This should be overridden in most cases.
         model: Model,
@@ -921,7 +916,6 @@
             }
             this.trigger.apply(this, arguments);
         }
-
     });
 
     // Underscore methods that we want to implement on the Collection.
@@ -975,7 +969,6 @@
 
     // Set up all inheritable **Backbone.Router** properties and methods.
     _.extend(Router.prototype, Events, {
-
         // Initialize is an empty function by default. Override it with your own
         // initialization logic.
         initialize: function () { },
@@ -1030,7 +1023,6 @@
         _extractParameters: function (route, fragment) {
             return route.exec(fragment).slice(1);
         }
-
     });
 
     // Backbone.History
@@ -1066,7 +1058,6 @@
 
     // Set up all inheritable **Backbone.History** properties and methods.
     _.extend(History.prototype, Events, {
-
         // The default interval to poll for hash changes, if necessary, is
         // twenty times a second.
         interval: 50,
@@ -1242,7 +1233,6 @@
                 location.hash = '#' + fragment;
             }
         }
-
     });
 
     // Create the default Backbone.history.
@@ -1269,7 +1259,6 @@
 
     // Set up all inheritable **Backbone.View** properties and methods.
     _.extend(View.prototype, Events, {
-
         // The default `tagName` of a View's element is `"div"`.
         tagName: 'div',
 
@@ -1384,7 +1373,6 @@
                 this.setElement(_.result(this, 'el'), false);
             }
         }
-
     });
 
     // Backbone.sync
@@ -1529,5 +1517,4 @@
     var urlError = function () {
         throw new Error('A "url" property or function must be specified');
     };
-
 }).call(this);

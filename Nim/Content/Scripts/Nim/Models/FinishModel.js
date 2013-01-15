@@ -5,6 +5,6 @@ define(["$", "Underscore", "Backbone", "Marionette"], function ($, _, Backbone, 
         initialize: function () {
         }
     });
-    
+
     return Model;
 });

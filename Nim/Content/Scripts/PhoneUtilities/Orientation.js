@@ -1,7 +1,6 @@
 ﻿/// <reference path="../docs.js" />
 
 define(["Underscore"], function (_) {
-
     return {
         PORTRAIT: 0,
         LANDSCAPE: 1,
@@ -27,7 +26,7 @@ define(["Underscore"], function (_) {
 
             if (realWidth > realHeight) { //If width is larger than height then it is landscape
                 currentOrientation = this.LANDSCAPE;
-            } else { //Otherwise it is portrait            
+            } else { //Otherwise it is portrait
                 currentOrientation = this.PORTRAIT;
             }
 
@@ -36,5 +35,4 @@ define(["Underscore"], function (_) {
             return currentOrientation;
         }
     }
-
 });

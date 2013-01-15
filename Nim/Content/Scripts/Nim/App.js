@@ -4,6 +4,7 @@ define(["$", "Underscore", "Backbone", "Marionette", "SignalR"], function ($, _,
 
     var app = new Backbone.Marionette.Application();
 
+    //Add the regions
     app.addRegions({
         content: "#nim"
     });
@@ -24,7 +25,7 @@ define(["$", "Underscore", "Backbone", "Marionette", "SignalR"], function ($, _,
     });
 
     app.vent.on("game:idle", function () {
-        require(["Nim/Views/IdleView", "Nim/Factories/UserFactory"], function (IdleView, UserFactory) {
+        require(["Nim/Views/IdleView"], function (IdleView) {
             var userDTO,
                 idleView;
 
@@ -38,16 +39,18 @@ define(["$", "Underscore", "Backbone", "Marionette", "SignalR"], function ($, _,
 
             //#endregion
 
-            //#region server
+            app.vent.trigger("game:request:new");
+        })
+    });
 
+    app.vent.on("game:request:new", function () {
+        require(["Nim/Factories/UserFactory"], function (UserFactory) {
             //Create a DTO of user
             userDTO = UserFactory.createDTO(app.user)
 
             //Start a request for a game
             app.gameHub.server.requestGame(userDTO);
-
-            //#endregion
-        })
+        });
     });
 
     app.vent.on("game:start", function (game) {
@@ -69,7 +72,6 @@ define(["$", "Underscore", "Backbone", "Marionette", "SignalR"], function ($, _,
 
         app.gameHub.logging = true;
 
-
         // Declare a function on the chat hub so the server can invoke it          
         app.gameHub.client.startGame = function (game) {
             app.vent.trigger("game:start", game);
@@ -79,8 +81,8 @@ define(["$", "Underscore", "Backbone", "Marionette", "SignalR"], function ($, _,
             app.gameController.trigger("server:crossOut", sum, game);
         };
 
-        app.gameHub.client.responseGameEnd = function (loser, game) {
-            app.gameController.trigger("server:finish", loser, game);
+        app.gameHub.client.responseGameEnd = function (winner, game) {
+            app.gameController.trigger("server:finish", winner, game);
         };
 
         app.gameHub.client.playerDisconnected = function (player) {

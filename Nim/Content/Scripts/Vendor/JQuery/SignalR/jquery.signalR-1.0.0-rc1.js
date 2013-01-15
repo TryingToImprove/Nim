@@ -1,14 +1,14 @@
 /* jquery.signalR.core.js */
 /*global window:false */
 /*!
- * ASP.NET SignalR JavaScript Library v1.0.0
- * http://signalr.net/
- *
- * Copyright Microsoft Open Technologies, Inc. All rights reserved.
- * Licensed under the Apache 2.0
- * https://github.com/SignalR/SignalR/blob/master/LICENSE.md
- *
- */
+* ASP.NET SignalR JavaScript Library v1.0.0
+* http://signalr.net/
+*
+* Copyright Microsoft Open Technologies, Inc. All rights reserved.
+* Licensed under the Apache 2.0
+* https://github.com/SignalR/SignalR/blob/master/LICENSE.md
+*
+*/
 
 /// <reference path="Scripts/jquery-1.6.4.js" />
 (function ($, window) {
@@ -76,7 +76,7 @@
             if (expectedState === connection.state) {
                 connection.state = newState;
 
-                $(connection).triggerHandler(events.onStateChanged, [{ oldState: expectedState, newState: newState }]);
+                $(connection).triggerHandler(events.onStateChanged, [{ oldState: expectedState, newState: newState}]);
                 return true;
             }
 
@@ -85,13 +85,13 @@
 
         isDisconnecting = function (connection) {
             return connection.state === signalR.connectionState.disconnected;
-        }, 
+        },
 
         configureStopReconnectingTimeout = function (connection) {
             var stopReconnectingTimeout,
                 onReconnectTimeout = function (connection) {
                     connection.log("Couldn't reconnect within the configured timeout (" + connection.disconnectTimeout + "ms), disconnecting.");
-                    connection.stop(/* async */ false, /* notifyServer */ false);
+                    connection.stop(/* async */false, /* notifyServer */false);
                 };
 
             connection.reconnecting(function () {
@@ -342,7 +342,6 @@
                     _pageWindow.unload(function () { // failure
                         connection.stop(false /* async */);
                     });
-
                 }, function () {
                     initialize(transports, index + 1);
                 });
@@ -373,7 +372,6 @@
                     // Once the server has labeled the PersistentConnection as Disconnected, we should stop attempting to reconnect
                     // after res.DisconnectTimeout seconds.
                     connection.disconnectTimeout = res.DisconnectTimeout * 1000; // in ms
-                    
 
                     // If we have a keep alive
                     if (res.KeepAlive) {
@@ -518,7 +516,7 @@
             /// <param name="callback" type="Function">A callback function to execute when the connection is slow</param>
             /// <returns type="signalR" />
             var connection = this;
-            $(connection).bind(events.onConnectionSlow, function(e, data) {
+            $(connection).bind(events.onConnectionSlow, function (e, data) {
                 callback.call(connection);
             });
 
@@ -610,8 +608,7 @@
     }
 
     $.connection = $.signalR = signalR;
-
-}(window.jQuery, window));
+} (window.jQuery, window));
 /* jquery.signalR.transports.common.js */
 // Copyright (c) Microsoft Open Technologies, Inc. All rights reserved. See License.md in the project root for license information.
 
@@ -925,8 +922,7 @@
             connections: {}
         }
     };
-
-}(window.jQuery, window));
+} (window.jQuery, window));
 /* jquery.signalR.transports.webSockets.js */
 // Copyright (c) Microsoft Open Technologies, Inc. All rights reserved. See License.md in the project root for license information.
 
@@ -1069,7 +1065,6 @@
 
         lostConnection: function (connection) {
             this.reconnect(connection);
-
         },
 
         stop: function (connection) {
@@ -1083,8 +1078,7 @@
         abort: function (connection) {
         }
     };
-
-}(window.jQuery, window));
+} (window.jQuery, window));
 /* jquery.signalR.transports.serverSentEvents.js */
 // Copyright (c) Microsoft Open Technologies, Inc. All rights reserved. See License.md in the project root for license information.
 
@@ -1278,8 +1272,7 @@
             transportLogic.ajaxAbort(connection, async);
         }
     };
-
-}(window.jQuery, window));
+} (window.jQuery, window));
 /* jquery.signalR.transports.foreverFrame.js */
 // Copyright (c) Microsoft Open Technologies, Inc. All rights reserved. See License.md in the project root for license information.
 
@@ -1315,7 +1308,6 @@
                 }
                 return;
             }
-
 
             // Build the url
             url = transportLogic.getUrl(connection, this.name);
@@ -1398,8 +1390,7 @@
                 if (connection.frame.stop) {
                     connection.frame.stop();
                 } else {
-                    try
-                    {
+                    try {
                         cw = connection.frame.contentWindow || connection.frame.contentDocument;
                         if (cw.document && cw.document.execCommand) {
                             cw.document.execCommand("Stop");
@@ -1440,8 +1431,7 @@
             }
         }
     };
-
-}(window.jQuery, window));
+} (window.jQuery, window));
 /* jquery.signalR.transports.longPolling.js */
 // Copyright (c) Microsoft Open Technologies, Inc. All rights reserved. See License.md in the project root for license information.
 
@@ -1493,7 +1483,6 @@
                                 if (changeState(connection,
                                                 signalR.connectionState.reconnecting,
                                                 signalR.connectionState.connected) === true) {
-
                                     $(instance).triggerHandler(events.onReconnect);
                                     reconnectFired = true;
                                 }
@@ -1583,8 +1572,7 @@
                     if (raiseReconnect === true) {
                         reconnectTimeOut = window.setTimeout(triggerReconnected, that.reconnectDelay);
                     }
-
-                }(connection));
+                } (connection));
 
                 // Now connected
                 // There's no good way know when the long poll has actually started so
@@ -1595,7 +1583,6 @@
                         initialConnectFired = true;
                     }
                 }, 150);
-
             }, 250); // Have to delay initial poll so Chrome doesn't show loader spinner in tab
         },
 
@@ -1621,8 +1608,7 @@
             transportLogic.ajaxAbort(connection, async);
         }
     };
-
-}(window.jQuery, window));
+} (window.jQuery, window));
 /* jquery.signalR.hubs.js */
 // Copyright (c) Microsoft Open Technologies, Inc. All rights reserved. See License.md in the project root for license information.
 
@@ -1790,7 +1776,7 @@
             if (!$.isEmptyObject(self.state)) {
                 data.S = self.state;
             }
-            
+
             self.connection.send(window.JSON.stringify(data));
 
             return d.promise();
@@ -1896,7 +1882,7 @@
 
     hubConnection.fn._registerSubscribedHubs = function () {
         /// <summary>
-        ///     Sets the starting event to loop through the known hubs and register any new hubs 
+        ///     Sets the starting event to loop through the known hubs and register any new hubs
         ///     that have been added to the proxy.
         /// </summary>
 
@@ -1944,8 +1930,7 @@
     hubConnection.fn.init.prototype = hubConnection.fn;
 
     $.hubConnection = hubConnection;
-
-}(window.jQuery, window));
+} (window.jQuery, window));
 /* jquery.signalR.version.js */
 // Copyright (c) Microsoft Open Technologies, Inc. All rights reserved. See License.md in the project root for license information.
 
@@ -1953,4 +1938,4 @@
 /// <reference path="jquery.signalR.core.js" />
 (function ($) {
     $.signalR.version = "1.0.0.rc1";
-}(window.jQuery));
+} (window.jQuery));

@@ -1,12 +1,12 @@
 /**
- * @license RequireJS text 2.0.3 Copyright (c) 2010-2012, The Dojo Foundation All Rights Reserved.
- * Available via the MIT or new BSD license.
- * see: http://github.com/requirejs/text for details
- */
+* @license RequireJS text 2.0.3 Copyright (c) 2010-2012, The Dojo Foundation All Rights Reserved.
+* Available via the MIT or new BSD license.
+* see: http://github.com/requirejs/text for details
+*/
 /*jslint regexp: true */
 /*global require: false, XMLHttpRequest: false, ActiveXObject: false,
-  define: false, window: false, process: false, Packages: false,
-  java: false, location: false */
+define: false, window: false, process: false, Packages: false,
+java: false, location: false */
 
 define(['module'], function (module) {
     'use strict';
@@ -62,7 +62,7 @@ define(['module'], function (module) {
                     progId = progIds[i];
                     try {
                         xhr = new ActiveXObject(progId);
-                    } catch (e) {}
+                    } catch (e) { }
 
                     if (xhr) {
                         progIds = [progId];  // so faster next time
@@ -75,13 +75,13 @@ define(['module'], function (module) {
         },
 
         /**
-         * Parses a resource name into its component parts. Resource names
-         * look like: module/name.ext!strip, where the !strip part is
-         * optional.
-         * @param {String} name the resource name
-         * @returns {Object} with properties "moduleName", "ext" and "strip"
-         * where strip is a boolean.
-         */
+        * Parses a resource name into its component parts. Resource names
+        * look like: module/name.ext!strip, where the !strip part is
+        * optional.
+        * @param {String} name the resource name
+        * @returns {Object} with properties "moduleName", "ext" and "strip"
+        * where strip is a boolean.
+        */
         parseName: function (name) {
             var strip = false, index = name.indexOf("."),
                 modName = name.substring(0, index),
@@ -105,13 +105,13 @@ define(['module'], function (module) {
         xdRegExp: /^((\w+)\:)?\/\/([^\/\\]+)/,
 
         /**
-         * Is an URL on another domain. Only works for browser use, returns
-         * false in non-browser environments. Only used to know if an
-         * optimized .js version of a text resource should be loaded
-         * instead.
-         * @param {String} url
-         * @returns Boolean
-         */
+        * Is an URL on another domain. Only works for browser use, returns
+        * false in non-browser environments. Only used to know if an
+        * optimized .js version of a text resource should be loaded
+        * instead.
+        * @param {String} url
+        * @returns Boolean
+        */
         useXhr: function (url, protocol, hostname, port) {
             var uProtocol, uHostName, uPort,
                 match = text.xdRegExp.exec(url);
@@ -195,8 +195,8 @@ define(['module'], function (module) {
         writeFile: function (pluginName, moduleName, req, write, config) {
             var parsed = text.parseName(moduleName),
                 nonStripName = parsed.moduleName + '.' + parsed.ext,
-                //Use a '.js' file name so that it indicates it is a
-                //script that can be loaded across domains.
+            //Use a '.js' file name so that it indicates it is a
+            //script that can be loaded across domains.
                 fileName = req.toUrl(parsed.moduleName + '.' +
                                      parsed.ext) + '.js';
 

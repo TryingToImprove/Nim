@@ -42,15 +42,12 @@
     }
 });
 
-
 require(["CustomConfiguration", "SignalR", "Nim/App"], function (CustomConfiguration, SignalR, App) {
     require(["noext!signalr/hubs"], function (hubs) {
-
         //Configure
         CustomConfiguration.configure();
 
         //Start game
         App.start();
-
     });
 });
