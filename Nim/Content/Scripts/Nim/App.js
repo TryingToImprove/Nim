@@ -54,9 +54,9 @@ define(["$", "Underscore", "Backbone", "Marionette", "SignalR"], function ($, _,
     });
 
     app.vent.listenTo(app, "game:start", function (game) {
-        require(["Nim/Controllers/GameController.v2"], function (gameController) {
+        require(["Nim/Controllers/GameController.v2"], function (GameController) {
             //Add a reference to the controller from the app
-            app.gameController = gameController;
+            app.gameController = new GameController;
 
             //Start the game
             app.gameController.start(game, app.gameHub);

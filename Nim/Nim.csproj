@@ -106,10 +106,13 @@
     <Content Include="Content\Scripts\Nim\Controllers\GameController.v2.js" />
     <Content Include="Content\Scripts\Nim\Controllers\GameController.js" />
     <Content Include="Content\Scripts\Nim\Factories\UserFactory.js" />
+    <Content Include="Content\Scripts\Nim\Models\CanvasViewModel.js" />
+    <Content Include="Content\Scripts\Nim\Models\StatusModel.js" />
     <Content Include="Content\Scripts\Nim\Models\FinishModel.js" />
     <Content Include="Content\Scripts\Nim\Models\User.js" />
     <Content Include="Content\Scripts\Nim\Views\CanvasView.js" />
     <Content Include="Content\Scripts\Nim\Views\CommandView.js" />
+    <Content Include="Content\Scripts\Nim\Views\StatusView.js" />
     <Content Include="Content\Scripts\Nim\Views\PlayerDisconnectedView.js" />
     <Content Include="Content\Scripts\Nim\Views\FinishView.js" />
     <Content Include="Content\Scripts\Nim\Views\IdleView.js" />
@@ -134,6 +137,8 @@
     <Content Include="Content\Stylesheets\bootstrap.min.css" />
     <Content Include="Content\Stylesheets\Nim.css" />
     <Content Include="Content\Templates\CommandView.html" />
+    <Content Include="Content\Templates\LoginLayout.html" />
+    <Content Include="Content\Templates\StatusView.html" />
     <Content Include="Content\Templates\PlayerDisconnectedView.html" />
     <Content Include="Content\Templates\FinishView.html" />
     <Content Include="Content\Templates\IdleView.html" />
