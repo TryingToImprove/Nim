@@ -53,7 +53,7 @@ define(["$", "Underscore", "Backbone", "Marionette", "SignalR"], function ($, _,
         });
     });
 
-    app.vent.on("game:start", function (game) {
+    app.vent.listenTo(app, "game:start", function (game) {
         require(["Nim/Controllers/GameController.v2"], function (gameController) {
             //Add a reference to the controller from the app
             app.gameController = gameController;
@@ -68,33 +68,23 @@ define(["$", "Underscore", "Backbone", "Marionette", "SignalR"], function ($, _,
     });
 
     app.addInitializer(function () {
-        app.gameHub = $.connection.game;
 
-        app.gameHub.logging = true;
 
-        // Declare a function on the chat hub so the server can invoke it          
-        app.gameHub.client.startGame = function (game) {
-            app.vent.trigger("game:start", game);
-        };
+        require(["Nim/Views/LoginView"], function (LoginView) {
 
-        app.gameHub.client.responseCrossOut = function (sum, game) {
-            app.gameController.trigger("server:crossOut", sum, game);
-        };
+            app.gameHub = $.connection.game;
 
-        app.gameHub.client.responseGameEnd = function (winner, game) {
-            app.gameController.trigger("server:finish", winner, game);
-        };
+            app.gameHub.client.Publish = function () {
+                app.vent.trigger.apply(app, arguments);
+            };
 
-        app.gameHub.client.playerDisconnected = function (player) {
-            app.gameController.trigger("server:player:disconnect", player);
-            console.log("Disconnect: ", player);
-        };
+            var loginView = new LoginView();
 
-        $.connection.hub.start().done(function () {
-            require(["Nim/Views/LoginView"], function (LoginView) {
-                app.content.show(new LoginView());
-            });
-        })
+            app.content.show(loginView);
+
+            $.connection.hub.start();
+        });
+
     });
 
     return app;

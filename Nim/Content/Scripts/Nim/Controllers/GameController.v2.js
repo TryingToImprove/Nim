@@ -113,25 +113,28 @@ define(["$", "Underscore", "Backbone", "Marionette", "Nim/App", "Nim/Views/GameL
 
     gameController = new GameController();
 
-    gameController.listenTo(gameController, "server:crossOut", function (sum, game) {
-        this.sync(game);
+    app.listenTo(app, "server:crossOut", function (sum, game) {
+        gameController.sync(game);
+
+        //Crossout
+        gameController.layout.canvas.currentView.crossOut(sum);
 
         //Trigger switch turn
-        this.switchTurn();
+        gameController.switchTurn();
     });
 
-    gameController.listenTo(gameController, "server:finish", function (winner, game) {
-        this.sync(game);
+    app.listenTo(app, "server:finish", function (winner, game) {
+        gameController.sync(game);
 
         //Trigger finish
-        this.finish(winner);
+        gameController.finish(winner);
     });
 
-    gameController.listenTo(gameController, "server:player:disconnect", function (player, game) {
-        this.sync(game);
+    app.listenTo(app, "server:player:disconnect", function (player, game) {
+        gameController.sync(game);
 
         //Listen to server finish
-        this.playerDisconnected();
+        gameController.playerDisconnected();
     });
 
     function createLinesArray(linesCount) {

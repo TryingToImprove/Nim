@@ -50,7 +50,7 @@ namespace Nim.Models
             //Notify all players that we start a new game
             game.Players.ForEach(x =>
             {
-                clients.Clients.Client(x.Connection.ConnectionId).startGame(JsonHelper.SerializeObject(game));
+                clients.Clients.Client(x.Connection.ConnectionId).Publish("game:start", JsonHelper.SerializeObject(game));
             });
         }
 
@@ -62,7 +62,7 @@ namespace Nim.Models
             //Notify all players that we start a new game
             game.Players.ForEach(x =>
             {
-                clients.Clients.Client(x.Connection.ConnectionId).responseCrossOut(sum, JsonHelper.SerializeObject(game));
+                clients.Clients.Client(x.Connection.ConnectionId).Publish("server:crossOut", sum, JsonHelper.SerializeObject(game));
             });
         }
 
@@ -74,7 +74,7 @@ namespace Nim.Models
             //Notify all players that we start a new game
             game.Players.ForEach(x =>
             {
-                clients.Clients.Client(x.Connection.ConnectionId).responseGameEnd(player.PlayerId, JsonHelper.SerializeObject(game));
+                clients.Clients.Client(x.Connection.ConnectionId).Publish("server:finish", player.PlayerId, JsonHelper.SerializeObject(game));
             });
 
             //TODO: Remove game?

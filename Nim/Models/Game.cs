@@ -104,7 +104,7 @@ namespace Nim.Models
             //Notify all players that a player have disconnected
             this.Players.ForEach(x =>
             {
-                clients.Clients.Client(x.Connection.ConnectionId).playerDisconnected(JsonHelper.SerializeObject(player));
+                clients.Clients.Client(x.Connection.ConnectionId).Publish("server:player:disconnect", JsonHelper.SerializeObject(player));
             });
 
             //Remove the player

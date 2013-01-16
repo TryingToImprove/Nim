@@ -1802,7 +1802,7 @@
         /// <param name="options" type="Object">[Optional] Settings to use when creating the hubConnection.</param>
         var settings = {
             qs: null,
-            logging: false,
+            logging: true,
             useDefaultPath: true
         };
 
