@@ -1,40 +1,34 @@
 ﻿/// <reference path="../docs.js" />
 
-define(["$", "Underscore", "Backbone", "Marionette", "Nim/App", "text!Templates/LoginView.html"], function ($, _, Backbone, Marionette, app, viewTemplate) {
+define(["$", "Underscore", "Backbone", "Marionette", "Nim/App", "Nim/Views/StatusView", "text!Templates/LoginLayout.html", "text!Templates/LoginView.html"], function ($, _, Backbone, Marionette, app, StatusView, layoutTemplate, viewTemplate) {
 
-    var StateModel = Backbone.Model.extend({})
-
-    var View = Backbone.Marionette.ItemView.extend({
-        template: viewTemplate,
-        tagName: "form",
-        className: "form-signin",
+    var Layout = Backbone.Marionette.Layout.extend({
+        template: layoutTemplate,
+        regions: {
+            "form": "#loginView-form",
+            "status": "#loginView-status"
+        },
         onShow: function () {
-            this.listenTo(app, "server:players:count:changed", function (playerCount, gameCount) {
-
-                this.model = new StateModel({
-                    idlePlayers: playerCount.IdlePlayers,
-                    activePlayers: playerCount.ActivePlayers,
-                    players: playerCount.Players,
-                    gameCount: gameCount
-                });
-
-                this.render();
-
-            });
-        },
-        events: {
-            "submit": "signIn"
-        },
-        ui: {
-            txtName: "input[name='name']",
-            lblIdlePlayer: "#loginView-idlePlayers"
-        },
-        signIn: function (e) {
-            app.vent.trigger("user:authenticate", this.ui.txtName.val());
-
-            return false;
+            this.form.show(new View());
+            this.status.show(new StatusView());
         }
-    });
+    }),
+        View = Backbone.Marionette.ItemView.extend({
+            template: viewTemplate,
+            tagName: "form",
+            className: "form-signin",
+            events: {
+                "submit": "signIn"
+            },
+            ui: {
+                txtName: "input[name='name']"
+            },
+            signIn: function (e) {
+                app.vent.trigger("user:authenticate", this.ui.txtName.val());
 
-    return View;
+                return false;
+            }
+        });
+
+    return Layout;
 });

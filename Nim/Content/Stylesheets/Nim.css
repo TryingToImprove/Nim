@@ -109,16 +109,19 @@
 {
     top: auto !important;
     width: auto;
-    background: #FFdd00;
+    background: #f9edbe;
     right: auto !important;
     left: 20px !important;
-    bottom: 20px;
+    bottom: 0px;
+    border-bottom-left-radius:0px;
+    border-bottom-right-radius:0px;
     margin-left: 0px;
+    border:1px solid #f0c36d;
 }
 
 .yellow-modal > .modal-body
 {
-    padding: 2px 6px;
+    padding: 6px 8px;
 }
 
 .yellow-modal > .modal-body > p
@@ -129,7 +132,7 @@
 .waiting-modal
 {
     font-weight:bold;
-    font-size: 12px;
+    font-size: 14px;
 }
 
 /*@media (max-width: 767px)

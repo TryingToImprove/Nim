@@ -69,15 +69,13 @@ define(["$", "Underscore", "Backbone", "Marionette", "SignalR"], function ($, _,
 
     app.addInitializer(function () {
 
+        this.gameHub = $.connection.game;
+
+        this.gameHub.client.Publish = function () {
+            app.vent.trigger.apply(app, arguments);
+        };
 
         require(["Nim/Views/LoginView"], function (LoginView) {
-
-            app.gameHub = $.connection.game;
-
-            app.gameHub.client.Publish = function () {
-                app.vent.trigger.apply(app, arguments);
-            };
-
             var loginView = new LoginView();
 
             app.content.show(loginView);

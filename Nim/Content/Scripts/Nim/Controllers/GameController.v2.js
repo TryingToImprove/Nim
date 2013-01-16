@@ -44,6 +44,9 @@ define(["$", "Underscore", "Backbone", "Marionette", "Nim/App", "Nim/Views/GameL
             this.game = game;
         },
         crossOut: function (sum) {
+            //Close the buttons
+            gameController.layout.command.close();
+
             // Send a message to the server about the sum of lines to cross out
             app.gameHub.server.requestCrossOut(this.game.GameId, sum);
         },
@@ -119,8 +122,18 @@ define(["$", "Underscore", "Backbone", "Marionette", "Nim/App", "Nim/Views/GameL
         //Crossout
         gameController.layout.canvas.currentView.crossOut(sum);
 
-        //Trigger switch turn
-        gameController.switchTurn();
+        if (gameController.game.CurrentTurn.PlayerId !== app.user.get("playerId")) {
+            gameController.layout.canvas.currentView.on("transitionEnd", function () {
+
+                //Trigger switch turn
+                gameController.switchTurn();
+                //TODO: Add some logic when the transition ends...
+            });
+        } else {
+            //Trigger switch turn
+            gameController.switchTurn();
+        }
+
     });
 
     app.listenTo(app, "server:finish", function (winner, game) {

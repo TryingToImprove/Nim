@@ -10,6 +10,12 @@ define(["PhoneAPI", "$", "Underscore", "Backbone", "Marionette", "Nim/App", "tex
             tagName: "div",
             className: "canvas",
             crossed: 0,
+            onShow: function(){
+                var that = this;
+                $("#cross-line").on('transitionend webkitTransitionEnd oTransitionEnd otransitionend', function(){ 
+                    that.trigger("transitionEnd"); 
+                });
+            },
             resize: function (options) {
                 //Reset the canvas dimensions so we don't fuck up the layout
                 this.$el.css({
@@ -75,7 +81,7 @@ define(["PhoneAPI", "$", "Underscore", "Backbone", "Marionette", "Nim/App", "tex
                 var view = this;
 
                 //Listen to callback from the server
-                options.controller.listenTo(options.controller, "server:crossOut", function (sum, game) {
+                this.listenTo(options.controller, "server:crossOut", function (sum, game) {
                     view.crossOut(sum);
                 });
 
