@@ -69,7 +69,7 @@ namespace Nim.Models
             });
         }
 
-        private void NotifyWinner(Player player, int sum)
+        private void NotifyWinner(Player winner, int sum)
         {
             //Load clients from gameHub
             IHubContext clients = GetClients();
@@ -77,7 +77,7 @@ namespace Nim.Models
             //Notify all players that we start a new game
             game.Players.ForEach(x =>
             {
-                clients.Clients.Client(x.Connection.ConnectionId).Publish("server:finish", player.PlayerId, sum, JsonHelper.SerializeObject(game));
+                clients.Clients.Client(x.Connection.ConnectionId).Publish("server:finish", winner, sum, JsonHelper.SerializeObject(game));
             });
 
             //TODO: Remove game?

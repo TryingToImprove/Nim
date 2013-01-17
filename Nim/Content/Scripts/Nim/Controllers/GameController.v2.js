@@ -10,7 +10,7 @@ define(["$", "Underscore", "Backbone", "Marionette", "Nim/App", "Nim/Views/GameL
         //Constructor
         initialize: function () {
             this.listenTo(app, "server:crossOut", function (sum, game) {
-                var gameController = this, transitionEndFunc;
+                var gameController = this;
 
                 this.sync(game);
 
@@ -20,16 +20,18 @@ define(["$", "Underscore", "Backbone", "Marionette", "Nim/App", "Nim/Views/GameL
                 //Check that it is not the current player
                 if (this.game.CurrentTurn.PlayerId !== app.user.get("playerId")) {
 
-                    transitionEndFunc = function () {
-                        //Trigger switch turn
-                        gameController.switchTurn();
+                    transitionEndFunc = (function (gameController) {
+                        return function () {
+                            //Trigger switch turn
+                            gameController.switchTurn();
 
-                        //Remove this function
-                        gameController.layout.canvas.currentView.off("transitionEnd", transitionEndFunc);
-                    }
+                            //Remove this function
+                            gameController.layout.canvas.currentView.off("transitionEnd", transitionEndFunc(gameController));
+                        }
+                    } ());
 
                     //Add a event when the transition is done
-                    this.layout.canvas.currentView.on("transitionEnd", transitionEndFunc);
+                    this.layout.canvas.currentView.on("transitionEnd", transitionEndFunc(this));
 
                 } else {
                     //Trigger switch turn
@@ -104,9 +106,7 @@ define(["$", "Underscore", "Backbone", "Marionette", "Nim/App", "Nim/Views/GameL
         },
         playAgain: function () { //When a user want to play again with the opponets
             // Tell the server that this player wants to play again
-
-            //TODO: Use a factory, and send the player instead
-            app.gameHub.server.requestSpecificGame(this.game.GameId, app.user.get("playerId"));
+            app.gameHub.server.requestSpecificGame(this.game.GameId);
         },
         finish: function (winner) {
             var gameController = this;
@@ -115,7 +115,7 @@ define(["$", "Underscore", "Backbone", "Marionette", "Nim/App", "Nim/Views/GameL
                 //Create a finish view
                 var finishView = new FinishView({
                     model: new FinishModel({
-                        you: (winner === app.user.get("playerId")) //TODO: BETTER
+                        you: (winner.PlayerId === app.user.get("playerId")) //TODO: BETTER
                     }),
                     controller: gameController
                 });

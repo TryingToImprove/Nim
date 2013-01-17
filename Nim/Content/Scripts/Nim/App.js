@@ -25,19 +25,15 @@ define(["$", "Underscore", "Backbone", "Marionette", "SignalR"], function ($, _,
     });
 
     app.vent.on("game:idle", function () {
-        require(["Nim/Views/IdleView"], function (IdleView) {
+        require(["Nim/Views/SearchingForOpponentView"], function (SearchingForOpponentView) {
             var userDTO,
                 idleView;
 
-            //#region UI
+            //Create a searchingForOpponentView
+            searchingForOpponentView = new SearchingForOpponentView();
 
-            //Create a idleView
-            idleView = new IdleView();
-
-            //Display the idle view
-            app.content.show(new IdleView());
-
-            //#endregion
+            //Display the searchingForOpponentView view
+            app.content.show(searchingForOpponentView);
 
             app.vent.trigger("game:request:new");
         })
@@ -67,28 +63,36 @@ define(["$", "Underscore", "Backbone", "Marionette", "SignalR"], function ($, _,
         });
     });
 
+    app.vent.listenTo(app, "show:login", function () {
+        require(["Nim/Views/LoginView"], function (LoginView) {
+            var loginView = new LoginView();
+
+            app.content.show(loginView);
+        });
+    });
+
+    //Initializer that add events to the window object
     app.addInitializer(function () {
         window.addEventListener("resize", function () {
             app.vent.trigger.apply(app, ["window:resize"]);
         }, false);
     });
 
+    //Initializer that start a connection
     app.addInitializer(function () {
-
         this.gameHub = $.connection.game;
 
         this.gameHub.client.Publish = function () {
             app.vent.trigger.apply(app, arguments);
         };
 
-        require(["Nim/Views/LoginView"], function (LoginView) {
-            var loginView = new LoginView();
+        //Start the hub connection
+        $.connection.hub.start();
+    });
 
-            app.content.show(loginView);
-
-            $.connection.hub.start();
-        });
-
+    //Initialzier that displays the login screen
+    app.addInitializer(function () {
+        this.vent.trigger.apply(this, ["show:login"]);
     });
 
     return app;

@@ -4,19 +4,14 @@
     overflow: auto;
 }
 
+.content-container
+{
+    max-width: 400px;
+    margin: 0 auto;
+}
+
 .form-signin
 {
-    max-width: 300px;
-    padding: 19px 29px 29px;
-    margin: 0 auto 20px;
-    background-color: #fff;
-    border: 1px solid #e5e5e5;
-    -webkit-border-radius: 5px;
-    -moz-border-radius: 5px;
-    border-radius: 5px;
-    -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.05);
-    -moz-box-shadow: 0 1px 2px rgba(0,0,0,.05);
-    box-shadow: 0 1px 2px rgba(0,0,0,.05);
 }
 .form-signin .form-signin-heading, .form-signin .checkbox
 {
@@ -113,10 +108,10 @@
     right: auto !important;
     left: 20px !important;
     bottom: 0px;
-    border-bottom-left-radius:0px;
-    border-bottom-right-radius:0px;
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
     margin-left: 0px;
-    border:1px solid #f0c36d;
+    border: 1px solid #f0c36d;
 }
 
 .yellow-modal > .modal-body
@@ -131,22 +126,16 @@
 
 .waiting-modal
 {
-    font-weight:bold;
+    font-weight: bold;
     font-size: 14px;
 }
 
-/*@media (max-width: 767px)
+@media (max-width: 767px)
 {
-    .canvas > .horizontal-holder
+    .content-container
     {
-        position: absolute;
-        z-index: 0;
-    }
-
-    .canvas > .horizontal-holder > .line
-    {
-        margin: 0 auto;
-        height: 20px;
+        max-width: none;
         width: 100%;
+        margin: 0 auto;
     }
-}*/
+}

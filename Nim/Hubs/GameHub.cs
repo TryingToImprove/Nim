@@ -43,8 +43,7 @@ namespace Nim.Hubs
             PlayerCountChanged();
         }
 
-        //TODO: remove playerId parameter
-        public void requestSpecificGame(Guid gameId, string playerId)
+        public void requestSpecificGame(Guid gameId)
         {
             Games
                 .Find(x => x.GameId == gameId)
