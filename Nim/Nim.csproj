@@ -113,6 +113,7 @@
     <Content Include="Content\Scripts\Nim\Models\User.js" />
     <Content Include="Content\Scripts\Nim\Views\CanvasView.js" />
     <Content Include="Content\Scripts\Nim\Views\CommandView.js" />
+    <Content Include="Content\Scripts\Nim\Views\SearchingForOpponentView.js" />
     <Content Include="Content\Scripts\Nim\Views\StatusView.js" />
     <Content Include="Content\Scripts\Nim\Views\PlayerDisconnectedView.js" />
     <Content Include="Content\Scripts\Nim\Views\FinishView.js" />
@@ -139,6 +140,7 @@
     <Content Include="Content\Stylesheets\Nim.css" />
     <Content Include="Content\Templates\CommandView.html" />
     <Content Include="Content\Templates\LoginLayout.html" />
+    <Content Include="Content\Templates\SearchingForOpponentView.html" />
     <Content Include="Content\Templates\StatusView.html" />
     <Content Include="Content\Templates\PlayerDisconnectedView.html" />
     <Content Include="Content\Templates\FinishView.html" />
