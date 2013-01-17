@@ -132,6 +132,11 @@
 
 @media (max-width: 767px)
 {
+    .github-link
+    {
+        display: none;
+    }
+
     .content-container
     {
         max-width: none;
