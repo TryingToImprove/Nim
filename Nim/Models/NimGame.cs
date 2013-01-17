@@ -34,7 +34,8 @@ namespace Nim.Models
 
         public static NimGame Create(Game game)
         {
-            int numberOfLines = new Random().Next(10, 20);
+            //TODO: Random again
+            int numberOfLines = 2; // new Random().Next(10, 20);
 
             return new NimGame(numberOfLines)
             {
@@ -45,19 +46,21 @@ namespace Nim.Models
         public void Begin()
         {
             //Load clients from gameHub
-            IHubContext clients = GlobalHost.ConnectionManager.GetHubContext<GameHub>();
+            IHubContext clients = GetClients();
+
+            string eventName = (this.Game.GameResults.Count > 0) ? "server:play:start:again" : "game:start";
 
             //Notify all players that we start a new game
             game.Players.ForEach(x =>
             {
-                clients.Clients.Client(x.Connection.ConnectionId).Publish("game:start", JsonHelper.SerializeObject(game));
+                clients.Clients.Client(x.Connection.ConnectionId).Publish(eventName, JsonHelper.SerializeObject(game));
             });
         }
 
         private void NotifyCrossOut(int sum)
         {
             //Load clients from gameHub
-            IHubContext clients = GlobalHost.ConnectionManager.GetHubContext<GameHub>();
+            IHubContext clients = GetClients();
 
             //Notify all players that we start a new game
             game.Players.ForEach(x =>
@@ -66,22 +69,31 @@ namespace Nim.Models
             });
         }
 
-        private void NotifyWinner(Player player)
+        private void NotifyWinner(Player player, int sum)
         {
             //Load clients from gameHub
-            IHubContext clients = GlobalHost.ConnectionManager.GetHubContext<GameHub>();
+            IHubContext clients = GetClients();
 
             //Notify all players that we start a new game
             game.Players.ForEach(x =>
             {
-                clients.Clients.Client(x.Connection.ConnectionId).Publish("server:finish", player.PlayerId, JsonHelper.SerializeObject(game));
+                clients.Clients.Client(x.Connection.ConnectionId).Publish("server:finish", player.PlayerId, sum, JsonHelper.SerializeObject(game));
             });
 
             //TODO: Remove game?
         }
 
+        private static IHubContext GetClients()
+        {
+            IHubContext clients = GlobalHost.ConnectionManager.GetHubContext<GameHub>();
+            return clients;
+        }
+
         public void RequestCrossOut(int sum)
         {
+            bool notifyCrossOut = false,
+                 notifyWinner = false;
+
             if (this.Crossed + sum < this.NumberOfLines)
             {
                 //Increment the number of crossed lines
@@ -97,18 +109,20 @@ namespace Nim.Models
                 //Change the turn
                 game.ChangeTurn();
 
-                //Notify the players
-                this.NotifyCrossOut(sum);
-            }
+                //Check if all lines are crossed..
+                if (this.Crossed == this.numberOfLines - 1 || this.Crossed >= this.numberOfLines)
+                {
+                    //Save the result of the game
+                    game.GameResults.Add(new NimGameResult(this.actions, game.CurrentTurn));
 
-            //Check if all lines are crossed..
-            if (this.Crossed == this.numberOfLines - 1 || this.Crossed >= this.numberOfLines)
-            {
-                //Save the result of the game
-                game.GameResults.Add(new NimGameResult(this.actions, game.CurrentTurn));
-
-                //If they are then notify winne
-                this.NotifyWinner(game.CurrentTurn);
+                    //If they are then notify winne
+                    this.NotifyWinner(game.CurrentTurn, sum);
+                }
+                else
+                {
+                    //Notify the players
+                    this.NotifyCrossOut(sum);
+                }
             }
         }
     }

@@ -105,8 +105,9 @@
     <Content Include="Content\Scripts\Nim\App.js" />
     <Content Include="Content\Scripts\Nim\Controllers\GameController.v2.js" />
     <Content Include="Content\Scripts\Nim\Controllers\GameController.js" />
+    <Content Include="Content\Scripts\Nim\Factories\CanvasModelFactory.js" />
     <Content Include="Content\Scripts\Nim\Factories\UserFactory.js" />
-    <Content Include="Content\Scripts\Nim\Models\CanvasViewModel.js" />
+    <Content Include="Content\Scripts\Nim\Models\CanvasModel.js" />
     <Content Include="Content\Scripts\Nim\Models\StatusModel.js" />
     <Content Include="Content\Scripts\Nim\Models\FinishModel.js" />
     <Content Include="Content\Scripts\Nim\Models\User.js" />

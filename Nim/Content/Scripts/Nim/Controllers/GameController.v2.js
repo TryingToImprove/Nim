@@ -1,6 +1,6 @@
 ﻿/// <reference path="../docs.js" />
 
-define(["$", "Underscore", "Backbone", "Marionette", "Nim/App", "Nim/Views/GameLayout", "Nim/Models/CanvasViewModel"], function ($, _, Backbone, Marionette, app, GameLayout, CanvasViewModel) {
+define(["$", "Underscore", "Backbone", "Marionette", "Nim/App", "Nim/Views/GameLayout", "Nim/Factories/CanvasModelFactory"], function ($, _, Backbone, Marionette, app, GameLayout, CanvasModelFactory) {
 
     var GameController = Backbone.Marionette.Controller.extend({
         //Properties
@@ -9,32 +9,6 @@ define(["$", "Underscore", "Backbone", "Marionette", "Nim/App", "Nim/Views/GameL
 
         //Constructor
         initialize: function () {
-            this.layout = new GameLayout();
-        },
-
-        //Methods
-        start: function (game) {
-            var gameController = this;
-
-            //Westart by syncing the gameController
-            this.sync(game);
-
-            //Display the layout
-            app.content.show(this.layout);
-
-            //Display the canvas
-            require(["Nim/Views/CanvasView"], function (CanvasView) {
-                gameController.layout.canvas.show(new CanvasView({
-                    numberOfLines: gameController.game.ActiveGame.NumberOfLines,
-                    controller: gameController,
-                    model: new CanvasViewModel({
-                        lines: createLinesArray(gameController.game.ActiveGame.NumberOfLines)
-                    })
-                }));
-            });
-
-            this.switchTurn();
-
             this.listenTo(app, "server:crossOut", function (sum, game) {
                 var gameController = this, transitionEndFunc;
 
@@ -64,8 +38,11 @@ define(["$", "Underscore", "Backbone", "Marionette", "Nim/App", "Nim/Views/GameL
 
             });
 
-            this.listenTo(app, "server:finish", function (winner, game) {
+            this.listenTo(app, "server:finish", function (winner, sum, game) {
                 this.sync(game);
+
+                //Crossout
+                this.layout.canvas.currentView.crossOut(sum);
 
                 //Trigger finish
                 this.finish(winner);
@@ -77,6 +54,42 @@ define(["$", "Underscore", "Backbone", "Marionette", "Nim/App", "Nim/Views/GameL
                 //Listen to server finish
                 this.playerDisconnected();
             });
+
+            this.listenTo(app, "server:play:start:again", function (game) {
+                this.start(game);
+            });
+
+            this.listenTo(app, "server:play:user:joined:again", function (player, game) {
+                this.sync(game);
+
+                alert("a user have joined");
+            });
+        },
+
+        //Methods
+        start: function (game) {
+            var gameController = this,
+                canvasModel;
+
+            //We start by syncing the gameController
+            this.sync(game);
+
+            this.layout = new GameLayout();
+
+            //Display the layout
+            app.content.show(this.layout);
+
+            //Display the canvas
+            canvasModel = CanvasModelFactory.create(this.game.ActiveGame.NumberOfLines);
+
+            require(["Nim/Views/CanvasView"], function (CanvasView) {
+                gameController.layout.canvas.show(new CanvasView({
+                    controller: gameController,
+                    model: canvasModel
+                }));
+            });
+
+            this.switchTurn();
         },
         sync: function (game) {
             //Should be call every time a callback from the server comes
@@ -92,7 +105,7 @@ define(["$", "Underscore", "Backbone", "Marionette", "Nim/App", "Nim/Views/GameL
         playAgain: function () { //When a user want to play again with the opponets
             // Tell the server that this player wants to play again
 
-            //TODO: Use the factory, and send the player instead
+            //TODO: Use a factory, and send the player instead
             app.gameHub.server.requestSpecificGame(this.game.GameId, app.user.get("playerId"));
         },
         finish: function (winner) {
@@ -152,16 +165,6 @@ define(["$", "Underscore", "Backbone", "Marionette", "Nim/App", "Nim/Views/GameL
             }
         }
     });
-
-    function createLinesArray(linesCount) {
-        var lines = [];
-
-        for (var i = 0; i < linesCount; i += 1) {
-            lines.push({});
-        }
-
-        return lines;
-    }
 
     return GameController;
 });

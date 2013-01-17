@@ -843,13 +843,13 @@
 
                 if (data.Messages) {
                     $.each(data.Messages, function () {
-                        try {
+//                        try {
                             $connection.triggerHandler(events.onReceived, [this]);
-                        }
-                        catch (e) {
-                            connection.log("Error raising received " + e);
-                            $(connection).triggerHandler(events.onError, [e]);
-                        }
+//                        }
+//                        catch (e) {
+//                            connection.log("Error raising received " + e);
+//                            $(connection).triggerHandler(events.onError, [e]);
+//                        }
                     });
                 }
 

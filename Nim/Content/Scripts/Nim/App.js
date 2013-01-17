@@ -55,8 +55,12 @@ define(["$", "Underscore", "Backbone", "Marionette", "SignalR"], function ($, _,
 
     app.vent.listenTo(app, "game:start", function (game) {
         require(["Nim/Controllers/GameController.v2"], function (GameController) {
+            if (app.gameController) {
+                app.gameController.close();
+            }
+
             //Add a reference to the controller from the app
-            app.gameController = new GameController;
+            app.gameController = new GameController();
 
             //Start the game
             app.gameController.start(game, app.gameHub);
@@ -64,7 +68,9 @@ define(["$", "Underscore", "Backbone", "Marionette", "SignalR"], function ($, _,
     });
 
     app.addInitializer(function () {
-        window.addEventListener("resize", function () { app.vent.trigger("window:resize"); }, false);
+        window.addEventListener("resize", function () {
+            app.vent.trigger.apply(app, ["window:resize"]);
+        }, false);
     });
 
     app.addInitializer(function () {

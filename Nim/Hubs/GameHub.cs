@@ -43,11 +43,12 @@ namespace Nim.Hubs
             PlayerCountChanged();
         }
 
+        //TODO: remove playerId parameter
         public void requestSpecificGame(Guid gameId, string playerId)
         {
             Games
                 .Find(x => x.GameId == gameId)
-                .UserJoined(playerId);
+                .UserJoined(Context.ConnectionId);
 
             PlayerCountChanged();
         }

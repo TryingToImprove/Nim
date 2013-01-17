@@ -78,7 +78,7 @@ namespace Nim.Models
             this.players.Add(player);
         }
 
-        public void UserJoined(string playerId)
+        public void UserJoined(string connectionId)
         {
             //Increment the users joined
             userJoined += 1;
@@ -92,11 +92,24 @@ namespace Nim.Models
                 //Start a new game
                 this.StartNew();
             }
+            else
+            {
+                ActivePlayer joinedPlayer = this.Players.FirstOrDefault(x => x.Connection.ConnectionId.Equals(connectionId, StringComparison.InvariantCultureIgnoreCase));
+
+                //Load clients from gameHub
+                IHubContext clients = GlobalHost.ConnectionManager.GetHubContext<GameHub>();
+
+                //Notify all players that a player have disconnected
+                foreach (var player in this.Players.Except(new ActivePlayer[] { joinedPlayer }))
+                {
+                    clients.Clients.Client(player.Connection.ConnectionId).Publish("server:play:user:joined:again", JsonHelper.SerializeObject(joinedPlayer), JsonHelper.SerializeObject(this));
+                };
+            }
         }
 
         public void PlayerDisconnected(string connectionId)
         {
-            ActivePlayer player = this.Players.FirstOrDefault(x => x.Connection.ConnectionId.Equals(connectionId, StringComparison.InvariantCultureIgnoreCase));
+            ActivePlayer disconnectedPlayer = this.Players.FirstOrDefault(x => x.Connection.ConnectionId.Equals(connectionId, StringComparison.InvariantCultureIgnoreCase));
 
             //Load clients from gameHub
             IHubContext clients = GlobalHost.ConnectionManager.GetHubContext<GameHub>();
@@ -104,11 +117,11 @@ namespace Nim.Models
             //Notify all players that a player have disconnected
             this.Players.ForEach(x =>
             {
-                clients.Clients.Client(x.Connection.ConnectionId).Publish("server:player:disconnect", JsonHelper.SerializeObject(player));
+                clients.Clients.Client(x.Connection.ConnectionId).Publish("server:player:disconnect", JsonHelper.SerializeObject(disconnectedPlayer));
             });
 
             //Remove the player
-            this.Players.Remove(player);
+            this.Players.Remove(disconnectedPlayer);
         }
     }
 }
