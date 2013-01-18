@@ -55,7 +55,7 @@ define(["$", "Underscore", "Backbone", "Marionette", "SignalR"], function ($, _,
     });
 
     app.vent.listenTo(app, "game:start", function (game) {
-        require(["Nim/Controllers/GameController.v2"], function (GameController) {
+        require(["Nim/Controllers/GameController"], function (GameController) {
             if (app.gameController) {
                 app.gameController.close();
             }

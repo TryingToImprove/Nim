@@ -1,91 +1,182 @@
 ﻿/// <reference path="../docs.js" />
 
-define(["$", "Underscore", "Backbone", "Marionette", "Nim/App", "Nim/Views/GameLayout", "Nim/Views/CanvasView", "Nim/Views/CommandView", "Nim/Views/IdleView"], function ($, _, Backbone, Marionette, app, GameLayout, CanvasView, CommandView, IdleView) {
-    var CanvasViewModel = Backbone.Model.extend({
-    });
+define(["$", "Underscore", "Backbone", "Marionette", "Nim/App", "Nim/Views/GameLayout", "Nim/Factories/GameModelFactory"], function ($, _, Backbone, Marionette, app, GameLayout, GameModelFactory) {
 
-    var Turn = {
-        OPPONENT: 0,
-        YOU: 1
-    };
+    var GameController = Backbone.Marionette.Controller.extend({
+        //Properties
+        game: null,
+        layout: null,
 
-    var Controller = {
-        layout: new GameLayout(),
-        canvasView: null,
-        commandView: null,
-        currentTurn: "",
-        start: function (game, hub) {
-            this.game = game;
-            this.hub = hub;
+        //Constructor
+        initialize: function () {
+            this.listenTo(app, "server:crossOut", function (sum, game) {
+                this.sync(game);
 
-            console.log(this.game);
+                //Crossout
+                this.layout.canvas.currentView.crossOut(sum);
 
+                //Check that it is not the current player
+                if (this.game.get("currentTurn").get("playerId") !== app.user.get("playerId")) {
+
+                    transitionEndFunc = (function (gameController) {
+                        return function () {
+                            //Trigger switch turn
+                            gameController.switchTurn();
+
+                            //Remove this function
+                            gameController.layout.canvas.currentView.off("transitionEnd", transitionEndFunc(gameController));
+                        }
+                    } ());
+
+                    //Add a event when the transition is done
+                    this.layout.canvas.currentView.on("transitionEnd", transitionEndFunc(this));
+
+                } else {
+                    //Trigger switch turn
+                    this.switchTurn();
+                }
+            });
+
+            this.listenTo(app, "server:finish", function (finishData, sum, game) {
+                var gameController = this;
+
+                this.sync(game);
+
+                //Crossout
+                this.layout.canvas.currentView.crossOut(sum);
+
+                require(["Nim/Factories/NimGameFinishModelFactory"], function (NimGameFinishModelFactory) {
+                    //Create a appropriate model 
+                    var finishModel = NimGameFinishModelFactory.create(finishData);
+
+                    //Trigger finish
+                    gameController.finish(finishModel);
+                });
+            });
+
+            this.listenTo(app, "server:player:disconnect", function (player, game) {
+                this.sync(game);
+
+                //Listen to server finish
+                this.playerDisconnected();
+            });
+
+            this.listenTo(app, "server:play:start:again", function (game) {
+                this.start(game);
+            });
+
+            this.listenTo(app, "server:play:user:joined:again", function (player, game) {
+                this.sync(game);
+
+                alert("a user have joined");
+            });
+        },
+
+        //Methods
+        start: function (game) {
+            var gameController = this,
+                canvasViewModel;
+
+            //We start by syncing the gameController
+            this.sync(game);
+
+            //Set the gameLayout
+            this.layout = new GameLayout();
+
+            //Display the layout
             app.content.show(this.layout);
 
-            this.turnManager(game.CurrentTurn);
+            //Display the canvas
 
-            this.canvasView = new CanvasView({
-                LINES_LENGTH: this.game.ActiveGame.NumberOfLines,
-                controller: this,
-                model: new CanvasViewModel({
-                    lines: createLinesArray(this.game.ActiveGame.NumberOfLines)
-                })
+            require(["Nim/Views/CanvasView", "Nim/ViewModels/CanvasViewModel"], function (CanvasView, CanvasViewModel) {
+                gameController.layout.canvas.show(new CanvasView({
+                    controller: gameController,
+                    model: new CanvasViewModel({
+                        numberOfLines: gameController.game.get("activeGame").get("numberOfLines")
+                    })
+                }));
             });
 
-            this.layout.canvas.show(this.canvasView);
-
-            return this;
+            this.switchTurn();
         },
-        turnManager: function (currentTurn) {
-            if (currentTurn.PlayerId === app.user.get("playerId")) { //Users turns
-                this.commandView = new CommandView({
-                    controller: this
-                });
-
-                this.layout.command.show(this.commandView);
-            } else { //Opponant turns
-                this.layout.command.show(new IdleView());
-            }
-
-            this.currentTurn = currentTurn;
-        },
-        requestCrossOut: function (sum) {
-            this.hub.server.requestCrossOut(this.game.GameId, sum);
-        },
-        crossOut: function (sum, game) {
-            this.turnManager(game.CurrentTurn);
-
-            this.canvasView.crossOut(sum);
-
-            return this.canvasView.getLinesLeft();
-        },
-        finish: function (winner, game) {
+        sync: function (game) {
+            //Make the game to a backbone model
+            game = GameModelFactory.create(game);
             console.log(game);
 
-            var that = this;
+            //Should be call every time a callback from the server comes
+            this.game = game;
+        },
+        crossOut: function (sum) {
+            //Close the buttons
+            this.layout.command.close();
 
-            require(["Nim/Models/FinishModel", "Nim/Views/FinishView"], function (FinishModel, FinishView) {
-                var model = new FinishModel({ you: (winner === app.user.get("playerId")) });
+            // Send a message to the server about the sum of lines to cross out
+            app.gameHub.server.requestCrossOut(this.game.get("gameId"), sum);
+        },
+        playAgain: function () { //When a user want to play again with the opponets
+            // Tell the server that this player wants to play again
+            app.gameHub.server.requestSpecificGame(this.game.get("gameId"));
+        },
+        finish: function (finishModel) {
+            var gameController = this;
 
-                that.layout.modal.show(new FinishView({ model: model, controller: that }));
+            require(["Nim/ViewModels/FinishViewModel", "Nim/Views/FinishView"], function (FinishViewModel, FinishView) {
+                //Create a finish view
+                var finishView = new FinishView({
+                    model: new FinishViewModel({
+                        winner: finishModel.get("winner"),
+                        scores: finishModel.get("scores"),
+                        currentPlayer: app.user
+                    }),
+                    controller: gameController
+                });
+
+                //Display the finish view as a modal
+                gameController.layout.modal.show(finishView);
+
             });
         },
-        playAgain: function () {
-            this.hub.server.requestSpecificGame(this.game.GameId, app.user.get("playerId"));
+        playerDisconnected: function () {
+            var gameController = this;
+
+            require(["Nim/Views/PlayerDisconnectedView"], function (PlayerDisconnectedView) {
+
+                //Create a finish view
+                var playerDisconnectedView = new PlayerDisconnectedView({
+                    controller: gameController
+                });
+
+                //Display the finish view as a modal
+                gameController.layout.modal.show(playerDisconnectedView);
+
+            });
         },
-        playerLeaved: function () {
+        switchTurn: function () {
+            var gameController = this;
+
+            if (this.game.get("currentTurn").get("playerId") === app.user.get("playerId")) {
+                //Close the waiting modal
+                gameController.layout.modal.close();
+
+                require(["Nim/Views/CommandView"], function (CommandView) {
+                    var commandView = new CommandView({
+                        controller: gameController
+                    });
+
+                    gameController.layout.command.show(commandView);
+                });
+            } else {
+                //Close the buttons
+                gameController.layout.command.close();
+
+                require(["Nim/Views/IdleView"], function (IdleView) {
+                    //Display the waiting modal
+                    gameController.layout.modal.show(new IdleView());
+                });
+            }
         }
-    };
+    });
 
-    function createLinesArray(linesCount) {
-        var lines = [];
-
-        for (var i = 0; i < linesCount; i += 1) {
-            lines.push({});
-        }
-
-        return lines;
-    }
-
-    return Controller;
+    return GameController;
 });
