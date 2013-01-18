@@ -1,6 +1,6 @@
 ﻿/// <reference path="../docs.js" />
 
-define(["Underscore", "Nim/Factories/Factory", "Nim/Factories/NimGameActionModelFactory", "Nim/Models/NimGameResultModel"], function (_, Factory, NimGameActionModelFactory, NimGameResultModel) {
+define(["Underscore", "Nim/Factories/Factory", "Nim/Factories/NimGameActionModelFactory", "Nim/Models/NimGameResultModel", "Nim/Factories/PlayerModelFactory"], function (_, Factory, NimGameActionModelFactory, NimGameResultModel, PlayerModelFactory) {
 
     var REQUIRED_PROPERTIES = [
         "Actions",
@@ -16,7 +16,7 @@ define(["Underscore", "Nim/Factories/Factory", "Nim/Factories/NimGameActionModel
 
             var model = new NimGameResultModel({
                 "actions": NimGameActionModelFactory.createMultiple(nimGameResult.Actions),
-                "winner": nimGameResult.Winner
+                "winner": PlayerModelFactory.create(nimGameResult.Winner)
             });
 
             return model;
