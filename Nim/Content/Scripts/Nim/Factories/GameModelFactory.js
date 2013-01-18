@@ -1,6 +1,6 @@
 ﻿/// <reference path="../docs.js" />
 
-define(["$", "Underscore", "Backbone", "Marionette", "Nim/Models/GameModel", "Nim/Factories/PlayerModelFactory", "Nim/Factories/NimGameModelFactory"], function ($, _, Backbone, Marionette, GameModel, PlayerFactory, NimGameFactory) {
+define(["Underscore", "Nim/Factories/Factory", "Nim/Models/GameModel", "Nim/Factories/PlayerModelFactory", "Nim/Factories/NimGameModelFactory", "Nim/Factories/NimGameResultModelFactory"], function (_, Factory, GameModel, PlayerFactory, NimGameFactory, NimGameResultFactory) {
 
     var REQUIRED_PROPERTIES = [
         "GameId",
@@ -10,10 +10,11 @@ define(["$", "Underscore", "Backbone", "Marionette", "Nim/Models/GameModel", "Ni
         "CurrentTurn"
     ];
 
-    return {
+    return Factory.extend({
         create: function (game) {
             //Check if the game is valid
             if (_.validateProperties(game, REQUIRED_PROPERTIES) === false) {
+                console.log(game);
                 throw new Error("Game could not be validated");
             }
 
@@ -25,28 +26,19 @@ define(["$", "Underscore", "Backbone", "Marionette", "Nim/Models/GameModel", "Ni
                 return player.get("playerId") === game.CurrentTurn.PlayerId
             }),
             //Create the activeGame
-            activeGame = NimGameFactory.create(game.ActiveGame);
+            activeGame = NimGameFactory.create(game.ActiveGame),
+            //Create the game results
+            gameResults = NimGameResultFactory.createMultiple(game.GameResults);
 
             var model = new GameModel({
                 "gameId": game.GameId,
                 "players": players,
-                "gameResults": game.GameResults,
+                "gameResults": gameResults,
                 "activeGame": activeGame,
                 "currentTurn": currentTurn
             });
 
             return model;
-        },
-        createMultiple: function (games) {
-            var createdGames = [],
-                createFunc = this.create; //save reference to the create function
-
-            //Loop over the games and push the created game to the createdGames array.
-            _.each(games, function (game) {
-                createdGames.push(createdFunc(game));
-            });
-
-            return createdGames;
         }
-    };
+    });
 });

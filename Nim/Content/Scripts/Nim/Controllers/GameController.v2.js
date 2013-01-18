@@ -16,7 +16,7 @@ define(["$", "Underscore", "Backbone", "Marionette", "Nim/App", "Nim/Views/GameL
                 this.layout.canvas.currentView.crossOut(sum);
 
                 //Check that it is not the current player
-                if (this.game.CurrentTurn.PlayerId !== app.user.get("playerId")) {
+                if (this.game.get("currentTurn").get("playerId") !== app.user.get("playerId")) {
 
                     transitionEndFunc = (function (gameController) {
                         return function () {
@@ -40,6 +40,8 @@ define(["$", "Underscore", "Backbone", "Marionette", "Nim/App", "Nim/Views/GameL
 
             this.listenTo(app, "server:finish", function (winner, sum, game) {
                 this.sync(game);
+
+                console.log("finiosh", this.game, game);
 
                 //Crossout
                 this.layout.canvas.currentView.crossOut(sum);
@@ -70,7 +72,7 @@ define(["$", "Underscore", "Backbone", "Marionette", "Nim/App", "Nim/Views/GameL
         start: function (game) {
             var gameController = this,
                 canvasModel;
-                
+
             //We start by syncing the gameController
             this.sync(game);
 

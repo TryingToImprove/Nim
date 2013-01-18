@@ -1,6 +1,6 @@
 ﻿/// <reference path="../docs.js" />
 
-define(["$", "Underscore", "Backbone", "Marionette", "Nim/Models/NimGameModel"], function ($, _, Backbone, Marionette, NimGameModel) {
+define(["Underscore", "Nim/Factories/Factory", "Nim/Models/NimGameModel"], function (_, Factory, NimGameModel) {
 
     var REQUIRED_PROPERTIES = [
         "Actions",
@@ -8,7 +8,7 @@ define(["$", "Underscore", "Backbone", "Marionette", "Nim/Models/NimGameModel"],
         "NumberOfLines"
     ];
 
-    return {
+    return Factory.extend({
         create: function (nimGame) {
             //Check if the game is valid
             if (_.validateProperties(nimGame, REQUIRED_PROPERTIES) === false) {
@@ -22,17 +22,6 @@ define(["$", "Underscore", "Backbone", "Marionette", "Nim/Models/NimGameModel"],
             });
 
             return model;
-        },
-        createMultiple: function (nimGames) {
-            var createdNimGames = [],
-                createFunc = this.create; //save reference to the create function
-
-            //Loop over the games and push the created game to the createdGames array.
-            _.each(nimGames, function (nimGame) {
-                createdNimGames.push(createdFunc(nimGame));
-            });
-
-            return createdNimGames;
         }
-    };
+    });
 });

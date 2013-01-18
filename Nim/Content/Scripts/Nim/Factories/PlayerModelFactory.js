@@ -1,6 +1,6 @@
 ﻿/// <reference path="../docs.js" />
 
-define(["$", "Underscore", "Backbone", "Marionette", "Nim/Models/PlayerModel"], function ($, _, Backbone, Marionette, PlayerModel) {
+define(["Underscore", "Nim/Factories/Factory", "Nim/Models/PlayerModel"], function (_, Factory, PlayerModel) {
 
     var REQUIRED_PROPERTIES = [
         "PlayerId",
@@ -8,7 +8,7 @@ define(["$", "Underscore", "Backbone", "Marionette", "Nim/Models/PlayerModel"], 
         "Name"
     ];
 
-    return {
+    return Factory.extend({
         create: function (player) {
             //Make sure the player is valid!
             if (_.validateProperties(player, REQUIRED_PROPERTIES) === false) {
@@ -24,17 +24,6 @@ define(["$", "Underscore", "Backbone", "Marionette", "Nim/Models/PlayerModel"], 
 
             return createdPlayer;
         },
-        createMultiple: function (players) {
-            var createdPlayers = [],
-                createFunc = this.create; //save reference to the create function
-
-            //Loop over the players and push the created player to the createdPlayers array.
-            _.each(players, function (player) {
-                createdPlayers.push(createFunc(player));
-            });
-
-            return createdPlayers;
-        },
         toJSON: function (player) {
             return {
                 "PlayerId": player.get("playerId"),
@@ -44,5 +33,5 @@ define(["$", "Underscore", "Backbone", "Marionette", "Nim/Models/PlayerModel"], 
                 "Name": player.get("name")
             };
         }
-    };
+    });
 });
