@@ -103,7 +103,6 @@
     <Content Include="Content\Scripts\docs.js" />
     <Content Include="Content\Scripts\Main.js" />
     <Content Include="Content\Scripts\Nim\App.js" />
-    <Content Include="Content\Scripts\Nim\Controllers\GameController.v2.js" />
     <Content Include="Content\Scripts\Nim\Controllers\GameController.js" />
     <Content Include="Content\Scripts\Nim\Factories\PlayerScoreModelFactory.js" />
     <Content Include="Content\Scripts\Nim\Factories\NimGameFinishModelFactory.js" />

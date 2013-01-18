@@ -18,15 +18,17 @@ define(["$", "Underscore", "Backbone", "Marionette", "Nim/App", "Nim/Views/GameL
                 //Check that it is not the current player
                 if (this.game.get("currentTurn").get("playerId") !== app.user.get("playerId")) {
 
-                    transitionEndFunc = (function (gameController) {
+                    transitionEndFunc = function (gameController) {
                         return function () {
+                            console.log(gameController);
+
                             //Trigger switch turn
                             gameController.switchTurn();
 
                             //Remove this function
                             gameController.layout.canvas.currentView.off("transitionEnd", transitionEndFunc(gameController));
                         }
-                    } ());
+                    };
 
                     //Add a event when the transition is done
                     this.layout.canvas.currentView.on("transitionEnd", transitionEndFunc(this));
