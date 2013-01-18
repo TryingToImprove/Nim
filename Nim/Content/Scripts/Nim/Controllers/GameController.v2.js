@@ -92,8 +92,6 @@ define(["$", "Underscore", "Backbone", "Marionette", "Nim/App", "Nim/Views/GameL
                 numberOfLines: this.game.get("activeGame").get("numberOfLines")
             });
 
-            canvasViewModel.set("numberOfLines", "2");
-
             require(["Nim/Views/CanvasView"], function (CanvasView) {
                 gameController.layout.canvas.show(new CanvasView({
                     controller: gameController,

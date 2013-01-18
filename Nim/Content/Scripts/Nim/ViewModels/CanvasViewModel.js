@@ -1,7 +1,7 @@
 ﻿/// <reference path="../docs.js" />
 
 define(["Underscore", "Backbone"], function (_, Backbone) {
-    "use strict"; 
+    "use strict";
 
     function createLinesArray(linesCount) {
         var lines = [];
@@ -18,13 +18,16 @@ define(["Underscore", "Backbone"], function (_, Backbone) {
             lines: [],
             numberOfLines: null
         },
-        constructor: function (attrs, options) {
+        updateLines: function (numberOfLines) {
+            this.set("lines", createLinesArray(numberOfLines));
+        },
+        initialize: function (attrs, options) {
             //Make a array of lines when the number of lines changes
             this.on("change:numberOfLines", function (model, numberOfLines) {
-                model.set("lines", createLinesArray(numberOfLines));
+                model.updateLines.call(model, numberOfLines);
             });
 
-            Backbone.Model.prototype.constructor.apply(this, arguments);
+            this.updateLines(this.get("numberOfLines"));
         }
     });
 
