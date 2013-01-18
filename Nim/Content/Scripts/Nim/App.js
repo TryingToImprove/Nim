@@ -12,10 +12,15 @@ define(["$", "Underscore", "Backbone", "Marionette", "SignalR"], function ($, _,
     app.user = "";
 
     app.vent.on("user:authenticate", function (name) {
-        require(["Nim/Factories/UserFactory"], function (UserFactory) {
-            var user = UserFactory.create(name, app.gameHub.connection.id);
+        require(["Nim/Factories/PlayerModelFactory"], function (PlayerModelFactory) {
+            var playerId = app.gameHub.connection.id,
+                player = PlayerModelFactory.create({
+                    "Name": name,
+                    "PlayerId": playerId,
+                    "Connection": { ConnectionId: playerId }
+                });
 
-            app.vent.trigger("user:authenticated", user);
+            app.vent.trigger("user:authenticated", player);
         });
     });
 
@@ -40,9 +45,9 @@ define(["$", "Underscore", "Backbone", "Marionette", "SignalR"], function ($, _,
     });
 
     app.vent.on("game:request:new", function () {
-        require(["Nim/Factories/UserFactory"], function (UserFactory) {
+        require(["Nim/Factories/PlayerModelFactory"], function (PlayerModelFactory) {
             //Create a DTO of user
-            userDTO = UserFactory.createDTO(app.user)
+            userDTO = PlayerModelFactory.toJSON(app.user)
 
             //Start a request for a game
             app.gameHub.server.requestGame(userDTO);

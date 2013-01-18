@@ -1,6 +1,6 @@
 ﻿/// <reference path="../docs.js" />
 
-define(["$", "Underscore", "Backbone", "Marionette", "Nim/App", "Nim/Views/GameLayout", "Nim/Factories/CanvasModelFactory"], function ($, _, Backbone, Marionette, app, GameLayout, CanvasModelFactory) {
+define(["$", "Underscore", "Backbone", "Marionette", "Nim/App", "Nim/Views/GameLayout", "Nim/Factories/CanvasModelFactory", "Nim/Factories/GameModelFactory"], function ($, _, Backbone, Marionette, app, GameLayout, CanvasModelFactory, GameModelFactory) {
 
     var GameController = Backbone.Marionette.Controller.extend({
         //Properties
@@ -10,8 +10,6 @@ define(["$", "Underscore", "Backbone", "Marionette", "Nim/App", "Nim/Views/GameL
         //Constructor
         initialize: function () {
             this.listenTo(app, "server:crossOut", function (sum, game) {
-                var gameController = this;
-
                 this.sync(game);
 
                 //Crossout
@@ -72,17 +70,18 @@ define(["$", "Underscore", "Backbone", "Marionette", "Nim/App", "Nim/Views/GameL
         start: function (game) {
             var gameController = this,
                 canvasModel;
-
+                
             //We start by syncing the gameController
             this.sync(game);
 
+            //Set the gameLayout
             this.layout = new GameLayout();
 
             //Display the layout
             app.content.show(this.layout);
 
             //Display the canvas
-            canvasModel = CanvasModelFactory.create(this.game.ActiveGame.NumberOfLines);
+            canvasModel = CanvasModelFactory.create(this.game.get("activeGame").get("numberOfLines"));
 
             require(["Nim/Views/CanvasView"], function (CanvasView) {
                 gameController.layout.canvas.show(new CanvasView({
@@ -94,6 +93,10 @@ define(["$", "Underscore", "Backbone", "Marionette", "Nim/App", "Nim/Views/GameL
             this.switchTurn();
         },
         sync: function (game) {
+            //Make the game to a backbone model
+            game = GameModelFactory.create(game);
+            console.log(game);
+
             //Should be call every time a callback from the server comes
             this.game = game;
         },
@@ -102,11 +105,11 @@ define(["$", "Underscore", "Backbone", "Marionette", "Nim/App", "Nim/Views/GameL
             this.layout.command.close();
 
             // Send a message to the server about the sum of lines to cross out
-            app.gameHub.server.requestCrossOut(this.game.GameId, sum);
+            app.gameHub.server.requestCrossOut(this.game.get("gameId"), sum);
         },
         playAgain: function () { //When a user want to play again with the opponets
             // Tell the server that this player wants to play again
-            app.gameHub.server.requestSpecificGame(this.game.GameId);
+            app.gameHub.server.requestSpecificGame(this.game.get("gameId"));
         },
         finish: function (winner) {
             var gameController = this;
@@ -143,7 +146,7 @@ define(["$", "Underscore", "Backbone", "Marionette", "Nim/App", "Nim/Views/GameL
         switchTurn: function () {
             var gameController = this;
 
-            if (this.game.CurrentTurn.PlayerId === app.user.get("playerId")) {
+            if (this.game.get("currentTurn").get("playerId") === app.user.get("playerId")) {
                 //Close the waiting modal
                 gameController.layout.modal.close();
 

@@ -2,7 +2,13 @@
 
 define(["$", "Underscore", "Backbone", "Marionette"], function ($, _, Backbone, Marionette) {
     var Model = Backbone.Model.extend({
-        strict: false,
+        defaults: {
+            "gameId": null,
+            "players": [],
+            "gameResults": [],
+            "activeGame": null,
+            "currentTurn": null
+        },
         initialize: function () {
         }
     });

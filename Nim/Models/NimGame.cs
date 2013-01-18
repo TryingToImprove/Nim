@@ -77,7 +77,7 @@ namespace Nim.Models
             //Notify all players that we start a new game
             game.Players.ForEach(x =>
             {
-                clients.Clients.Client(x.Connection.ConnectionId).Publish("server:finish", winner, sum, JsonHelper.SerializeObject(game));
+                clients.Clients.Client(x.Connection.ConnectionId).Publish("server:finish", JsonHelper.SerializeObject(winner), sum, JsonHelper.SerializeObject(game));
             });
 
             //TODO: Remove game?
