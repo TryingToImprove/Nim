@@ -14,11 +14,8 @@ define(["Underscore", "Nim/Factories/Factory", "Nim/Models/GameModel", "Nim/Fact
         create: function (game) {
             //Check if the game is valid
             if (_.validateProperties(game, REQUIRED_PROPERTIES) === false) {
-                console.log(game);
                 throw new Error("Game could not be validated");
             }
-
-            console.log(game);
 
             var players = PlayerFactory.createMultiple(game.Players), //Create the players
             //Search though the players to find the currentTurn player, by playerId

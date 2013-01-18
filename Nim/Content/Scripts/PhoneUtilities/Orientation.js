@@ -30,8 +30,6 @@ define(["Underscore"], function (_) {
                 currentOrientation = this.PORTRAIT;
             }
 
-            console.log(currentOrientation);
-
             return currentOrientation;
         }
     }

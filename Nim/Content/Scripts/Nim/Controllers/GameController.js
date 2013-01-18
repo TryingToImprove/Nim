@@ -102,7 +102,6 @@ define(["$", "Underscore", "Backbone", "Marionette", "Nim/App", "Nim/Views/GameL
         sync: function (game) {
             //Make the game to a backbone model
             game = GameModelFactory.create(game);
-            console.log(game);
 
             //Should be call every time a callback from the server comes
             this.game = game;

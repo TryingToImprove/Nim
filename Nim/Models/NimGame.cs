@@ -35,7 +35,7 @@ namespace Nim.Models
         public static NimGame Create(Game game)
         {
             //TODO: Random again
-            int numberOfLines = 2; // new Random().Next(10, 20);
+            int numberOfLines = new Random().Next(10, 20);
 
             return new NimGame(numberOfLines)
             {
