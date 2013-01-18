@@ -31,8 +31,7 @@ define(["$", "Underscore", "Backbone", "Marionette", "SignalR"], function ($, _,
 
     app.vent.on("game:idle", function () {
         require(["Nim/Views/SearchingForOpponentView"], function (SearchingForOpponentView) {
-            var userDTO,
-                idleView;
+            var searchingForOpponentView;
 
             //Create a searchingForOpponentView
             searchingForOpponentView = new SearchingForOpponentView();
@@ -47,7 +46,7 @@ define(["$", "Underscore", "Backbone", "Marionette", "SignalR"], function ($, _,
     app.vent.on("game:request:new", function () {
         require(["Nim/Factories/PlayerModelFactory"], function (PlayerModelFactory) {
             //Create a DTO of user
-            userDTO = PlayerModelFactory.toJSON(app.user)
+            var userDTO = PlayerModelFactory.toJSON(app.user)
 
             //Start a request for a game
             app.gameHub.server.requestGame(userDTO);
