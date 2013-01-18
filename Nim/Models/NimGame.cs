@@ -107,10 +107,7 @@ namespace Nim.Models
                     Cross = sum,
                     Player = game.CurrentTurn
                 });
-
-                //Change the turn
-                game.ChangeTurn();
-
+                
                 //Check if all lines are crossed..
                 if (this.Crossed == this.numberOfLines - 1 || this.Crossed >= this.numberOfLines)
                 {
@@ -119,9 +116,15 @@ namespace Nim.Models
 
                     //If they are then notify winne
                     this.NotifyWinner(game.CurrentTurn, sum);
+
+                    //Change the turn
+                    game.ChangeTurn();
                 }
                 else
                 {
+                    //Change the turn
+                    game.ChangeTurn();
+
                     //Notify the players
                     this.NotifyCrossOut(sum);
                 }

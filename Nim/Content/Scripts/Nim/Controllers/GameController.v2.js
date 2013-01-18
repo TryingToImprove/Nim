@@ -1,6 +1,6 @@
 ﻿/// <reference path="../docs.js" />
 
-define(["$", "Underscore", "Backbone", "Marionette", "Nim/App", "Nim/Views/GameLayout", "Nim/ViewModels/CanvasViewModel", "Nim/Factories/GameModelFactory"], function ($, _, Backbone, Marionette, app, GameLayout, CanvasViewModel, GameModelFactory) {
+define(["$", "Underscore", "Backbone", "Marionette", "Nim/App", "Nim/Views/GameLayout", "Nim/Factories/GameModelFactory"], function ($, _, Backbone, Marionette, app, GameLayout, GameModelFactory) {
 
     var GameController = Backbone.Marionette.Controller.extend({
         //Properties
@@ -35,7 +35,6 @@ define(["$", "Underscore", "Backbone", "Marionette", "Nim/App", "Nim/Views/GameL
                     //Trigger switch turn
                     this.switchTurn();
                 }
-
             });
 
             this.listenTo(app, "server:finish", function (finishData, sum, game) {
@@ -88,14 +87,13 @@ define(["$", "Underscore", "Backbone", "Marionette", "Nim/App", "Nim/Views/GameL
             app.content.show(this.layout);
 
             //Display the canvas
-            canvasViewModel = new CanvasViewModel({
-                numberOfLines: this.game.get("activeGame").get("numberOfLines")
-            });
 
-            require(["Nim/Views/CanvasView"], function (CanvasView) {
+            require(["Nim/Views/CanvasView", "Nim/ViewModels/CanvasViewModel"], function (CanvasView, CanvasViewModel) {
                 gameController.layout.canvas.show(new CanvasView({
                     controller: gameController,
-                    model: canvasViewModel
+                    model: new CanvasViewModel({
+                        numberOfLines: gameController.game.get("activeGame").get("numberOfLines")
+                    })
                 }));
             });
 
@@ -127,7 +125,9 @@ define(["$", "Underscore", "Backbone", "Marionette", "Nim/App", "Nim/Views/GameL
                 //Create a finish view
                 var finishView = new FinishView({
                     model: new FinishViewModel({
-                        you: (finishModel.get("winner").get("playerId") === app.user.get("playerId")) //TODO: BETTER
+                        winner: finishModel.get("winner"),
+                        scores: finishModel.get("scores"),
+                        currentPlayer: app.user
                     }),
                     controller: gameController
                 });

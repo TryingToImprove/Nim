@@ -3,6 +3,21 @@
         Backbone.Marionette.TemplateCache.prototype.compileTemplate = function (rawTemplate) {
             return Handlebars.compile(rawTemplate);
         };
+
+        Handlebars.registerHelper('score_each', function (obj, options) {
+            var template = "", score, i, scoreLength = obj.scores.length;
+
+            for (i = 0; i < scoreLength; i += 1) {
+                score = obj.scores[i];
+
+                template += options.fn({
+                    playerName: (score.get("player").get("playerId") === obj.currentPlayer.get("playerId")) ? "you" : score.get("player").get("name"),
+                    wins: score.get("wins")
+                });
+            }
+
+            return template;
+        });
     },
     underscoreMixins = function () {
         _.mixin({

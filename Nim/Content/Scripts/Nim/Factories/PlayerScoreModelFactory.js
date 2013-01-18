@@ -1,6 +1,6 @@
 ﻿/// <reference path="../docs.js" />
 
-define(["Underscore", "Nim/Factories/Factory", "Nim/Models/PlayerScoreModel"], function (_, Factory, PlayerScoreModel) {
+define(["Underscore", "Nim/Factories/Factory", "Nim/Factories/PlayerModelFactory", "Nim/Models/PlayerScoreModel"], function (_, Factory, PlayerModelFactory, PlayerScoreModel) {
 
     var REQUIRED_PROPERTIES = [
         "Player",
@@ -17,7 +17,7 @@ define(["Underscore", "Nim/Factories/Factory", "Nim/Models/PlayerScoreModel"], f
 
             //create the player
             var createdPlayer = new PlayerScoreModel({
-                "player": playerScore.Player,
+                "player": PlayerModelFactory.create(playerScore.Player),
                 "wins": playerScore.Wins,
                 "loses": playerScore.Loses
             });

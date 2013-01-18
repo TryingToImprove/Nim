@@ -144,3 +144,41 @@
         margin: 0 auto;
     }
 }
+
+.score-list
+{
+    display:block;
+    margin:0px;
+}
+
+.score-list > li:fist-child
+{
+    float:left;
+}
+
+.score-list > li:last-child
+{
+    float:right    
+}
+
+.score-list > li
+{
+    display:inline-block;
+    padding:20px;
+    width:30%;
+    text-align:center;
+}
+
+.score-list > li > .large
+{
+    font-size:5em;
+    font-weight:bold;
+}
+
+.score-list > li > .playerName
+{
+    margin-top:10px;
+    display:inline-block;
+    font-size:1.5em;
+    font-weight:bold;
+}
