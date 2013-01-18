@@ -1,6 +1,6 @@
 ﻿/// <reference path="../docs.js" />
 
-define(["$", "Underscore", "Backbone", "Marionette", "Nim/App", "Nim/Views/GameLayout", "Nim/Factories/CanvasModelFactory", "Nim/Factories/GameModelFactory"], function ($, _, Backbone, Marionette, app, GameLayout, CanvasModelFactory, GameModelFactory) {
+define(["$", "Underscore", "Backbone", "Marionette", "Nim/App", "Nim/Views/GameLayout", "Nim/ViewModels/CanvasViewModel", "Nim/Factories/GameModelFactory"], function ($, _, Backbone, Marionette, app, GameLayout, CanvasViewModel, GameModelFactory) {
 
     var GameController = Backbone.Marionette.Controller.extend({
         //Properties
@@ -38,16 +38,21 @@ define(["$", "Underscore", "Backbone", "Marionette", "Nim/App", "Nim/Views/GameL
 
             });
 
-            this.listenTo(app, "server:finish", function (winner, sum, game) {
-                this.sync(game);
+            this.listenTo(app, "server:finish", function (finishData, sum, game) {
+                var gameController = this;
 
-                console.log("finiosh", this.game, game);
+                this.sync(game);
 
                 //Crossout
                 this.layout.canvas.currentView.crossOut(sum);
 
-                //Trigger finish
-                this.finish(winner);
+                require(["Nim/Factories/NimGameFinishModelFactory"], function (NimGameFinishModelFactory) {
+                    //Create a appropriate model 
+                    var finishModel = NimGameFinishModelFactory.create(finishData);
+
+                    //Trigger finish
+                    gameController.finish(finishModel);
+                });
             });
 
             this.listenTo(app, "server:player:disconnect", function (player, game) {
@@ -71,7 +76,7 @@ define(["$", "Underscore", "Backbone", "Marionette", "Nim/App", "Nim/Views/GameL
         //Methods
         start: function (game) {
             var gameController = this,
-                canvasModel;
+                canvasViewModel;
 
             //We start by syncing the gameController
             this.sync(game);
@@ -83,12 +88,16 @@ define(["$", "Underscore", "Backbone", "Marionette", "Nim/App", "Nim/Views/GameL
             app.content.show(this.layout);
 
             //Display the canvas
-            canvasModel = CanvasModelFactory.create(this.game.get("activeGame").get("numberOfLines"));
+            canvasViewModel = new CanvasViewModel({
+                numberOfLines: this.game.get("activeGame").get("numberOfLines")
+            });
+
+            canvasViewModel.set("numberOfLines", "2");
 
             require(["Nim/Views/CanvasView"], function (CanvasView) {
                 gameController.layout.canvas.show(new CanvasView({
                     controller: gameController,
-                    model: canvasModel
+                    model: canvasViewModel
                 }));
             });
 
@@ -113,14 +122,14 @@ define(["$", "Underscore", "Backbone", "Marionette", "Nim/App", "Nim/Views/GameL
             // Tell the server that this player wants to play again
             app.gameHub.server.requestSpecificGame(this.game.get("gameId"));
         },
-        finish: function (winner) {
+        finish: function (finishModel) {
             var gameController = this;
 
-            require(["Nim/Models/FinishModel", "Nim/Views/FinishView"], function (FinishModel, FinishView) {
+            require(["Nim/ViewModels/FinishViewModel", "Nim/Views/FinishView"], function (FinishViewModel, FinishView) {
                 //Create a finish view
                 var finishView = new FinishView({
-                    model: new FinishModel({
-                        you: (winner.PlayerId === app.user.get("playerId")) //TODO: BETTER
+                    model: new FinishViewModel({
+                        you: (finishModel.get("winner").get("playerId") === app.user.get("playerId")) //TODO: BETTER
                     }),
                     controller: gameController
                 });

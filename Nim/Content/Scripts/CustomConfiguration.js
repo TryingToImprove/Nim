@@ -35,6 +35,9 @@
                 }, this);
             }
 
+            options = options || {};
+            attrs = attrs || {};
+
             if (!options.validate || !this.validate) return true;
             attrs = _.extend([], this.attributes, attrs);
             var error = this.validationError = this.validate(attrs, options) || null;

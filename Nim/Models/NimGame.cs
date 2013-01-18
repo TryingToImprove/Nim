@@ -74,10 +74,12 @@ namespace Nim.Models
             //Load clients from gameHub
             IHubContext clients = GetClients();
 
+            NimGameFinish nimGameFinish = new NimGameFinish(game);
+
             //Notify all players that we start a new game
             game.Players.ForEach(x =>
             {
-                clients.Clients.Client(x.Connection.ConnectionId).Publish("server:finish", JsonHelper.SerializeObject(winner), sum, JsonHelper.SerializeObject(game));
+                clients.Clients.Client(x.Connection.ConnectionId).Publish("server:finish", JsonHelper.SerializeObject(nimGameFinish), sum, JsonHelper.SerializeObject(game));
             });
 
             //TODO: Remove game?
