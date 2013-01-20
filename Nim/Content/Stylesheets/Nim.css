@@ -2,6 +2,8 @@
 {
     padding: 0;
     overflow: auto;
+    background-image:url('/Content/Images/woodbg.png');
+    background-size:100%;
 }
 
 .content-container
@@ -92,12 +94,11 @@
     z-index: 0;
 }
 
-.canvas > .horizontal-holder > .line
+.canvas .line
 {
     margin: 0 auto;
-    width: 20px;
-    height: 100%;
-    background-color: Black;
+    background-color: #FFF;
+    border-radius:5px;
 }
 
 .yellow-modal

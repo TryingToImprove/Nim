@@ -99,6 +99,7 @@
   <ItemGroup>
     <Content Include="Content\Images\glyphicons-halflings-white.png" />
     <Content Include="Content\Images\glyphicons-halflings.png" />
+    <Content Include="Content\Images\woodbg.png" />
     <Content Include="Content\Scripts\CustomConfiguration.js" />
     <Content Include="Content\Scripts\docs.js" />
     <Content Include="Content\Scripts\Main.js" />

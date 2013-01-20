@@ -88,7 +88,16 @@ define(["PhoneAPI", "$", "Underscore", "Backbone", "Marionette", "Nim/App", "tex
 
                 //Listen to resize events
                 this.listenTo(app, "window:resize", function(){
-                    this.resize(options);
+                
+                    var $document = $(document),
+                    width = $document.width(),
+                    height = $document.height();
+
+
+                    if(this.orientation !== Orientation.getOrientation(width, height)){
+                        console.log("resize");
+                        this.resize(options);
+                    }
                 });
                 
                 this.resize(options);
@@ -149,29 +158,33 @@ define(["PhoneAPI", "$", "Underscore", "Backbone", "Marionette", "Nim/App", "tex
                         height = "100%",
                         lineWidth = "100%",
                         lineHeight = "100%",
-                        y = 0,
-                        x = 0;
+                        y = 0 + "px",
+                        x = 0 + "px";
 
                     if (that.orientation === Orientation.LANDSCAPE) {
                         width = that.LINE_WIDTH;
+                        y = "10%";
+                        height = "90%";
                         lineWidth = that.spec.line.size + "px";
-                        x = Math.floor((that.LINE_WIDTH * i));
+                        lineHeight = "80%";
+                        x = Math.floor((that.LINE_WIDTH * i)) + "px";
                     } else {
-                        marginTop = (that.LINE_HEIGHT / 2) - (that.spec.line.size / 2);
+                        marginTop = (that.LINE_HEIGHT / 2) - (that.spec.line.size / 2) + "px";
                         height = that.LINE_HEIGHT;
+                        lineWidth = "80%";
                         lineHeight = that.spec.line.size + "px";
-                        y = Math.floor((that.LINE_HEIGHT * i));
+                        y = Math.floor((that.LINE_HEIGHT * i)) + "px";
                     }
 
                     $this.css({
                         "height": height,
                         "width": width,
-                        "top": y + "px",
-                        "left": x + "px"
+                        "top": y,
+                        "left": x
                     });
 
                     $(".line", $this).css({
-                        "margin-top": marginTop + "px",
+                        "margin-top": marginTop,
                         "height": lineHeight,
                         "width": lineWidth
                     });
