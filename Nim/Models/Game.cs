@@ -6,6 +6,7 @@ using Microsoft.AspNet.SignalR.Hubs;
 using Nim.Hubs;
 using Microsoft.AspNet.SignalR;
 using Nim.Adaptors;
+using Nim.Domain;
 
 namespace Nim.Models
 {
@@ -42,18 +43,27 @@ namespace Nim.Models
         }
         public Player CurrentTurn { get { return Players[currentTurn % Players.Count]; } }
 
+        private readonly GameState currentState;
+        public GameState CurrentState { get { return currentState; } }
+
         public Game()
         {
             this.gameId = Guid.NewGuid();
+            this.currentState = new GameState(GameStates.STARTING);
         }
 
         public void StartNew()
         {
             //Create a new game
             activeGame = NimGame.Create(this);
-
+            
             //Begin game!
             activeGame.Begin();
+        }
+
+        public void ChangeState(GameStates state)
+        {
+            this.currentState.ChangeState(state);
         }
 
         public void ChangeTurn()

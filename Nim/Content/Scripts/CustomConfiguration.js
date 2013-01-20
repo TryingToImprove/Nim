@@ -45,7 +45,7 @@
                 //Validate that properties sat is in the defaults
                 _.each(attrs, function (value, key) {
                     if (!this.defaults.hasOwnProperty(key)) {
-                        throw new Error(key + " was not found!!");
+                        throw new Error(key + " was not found!! Check model defaults");
                     }
                 }, this);
             }

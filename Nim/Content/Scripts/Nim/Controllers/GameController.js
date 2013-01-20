@@ -1,6 +1,6 @@
 ﻿/// <reference path="../docs.js" />
 
-define(["$", "Underscore", "Backbone", "Marionette", "Nim/App", "Nim/Views/GameLayout", "Nim/Factories/GameModelFactory"], function ($, _, Backbone, Marionette, app, GameLayout, GameModelFactory) {
+define(["$", "Underscore", "Backbone", "Marionette", "Nim/App", "Nim/Views/GameLayout", "Nim/Factories/GameModelFactory", "Nim/Domain/GameStates"], function ($, _, Backbone, Marionette, app, GameLayout, GameModelFactory, GameStates) {
 
     var GameController = Backbone.Marionette.Controller.extend({
         //Properties
@@ -20,10 +20,12 @@ define(["$", "Underscore", "Backbone", "Marionette", "Nim/App", "Nim/Views/GameL
 
                     transitionEndFunc = function (gameController) {
                         return function () {
-                            console.log(gameController);
 
-                            //Trigger switch turn
-                            gameController.switchTurn();
+                            //Check if the game is still active
+                            if (gameController.game.get("currentState").is(GameStates.ACTIVE)) {
+                                //Trigger switch turn
+                                gameController.switchTurn();
+                            }
 
                             //Remove this function
                             gameController.layout.canvas.currentView.off("transitionEnd", transitionEndFunc(gameController));

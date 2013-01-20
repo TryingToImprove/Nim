@@ -3,14 +3,12 @@
 define(["$", "Underscore", "Backbone", "Marionette"], function ($, _, Backbone, Marionette) {
     var Model = Backbone.Model.extend({
         defaults: {
-            "gameId": null,
-            "players": [],
-            "gameResults": [],
-            "activeGame": null,
-            "currentTurn": null,
             "currentState": null
         },
         initialize: function () {
+        },
+        is: function (state) {
+            return this.get("currentState") === state;
         }
     });
 

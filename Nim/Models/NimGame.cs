@@ -7,6 +7,7 @@ using Nim.Hubs;
 using Microsoft.AspNet.SignalR;
 using Nim.Factories;
 using Nim.Adaptors;
+using Nim.Domain;
 
 namespace Nim.Models
 {
@@ -55,6 +56,8 @@ namespace Nim.Models
             {
                 clients.Clients.Client(x.Connection.ConnectionId).Publish(eventName, JsonHelper.SerializeObject(game));
             });
+
+            this.game.ChangeState(GameStates.ACTIVE);
         }
 
         private void NotifyCrossOut(int sum)
@@ -107,12 +110,15 @@ namespace Nim.Models
                     Cross = sum,
                     Player = game.CurrentTurn
                 });
-                
+
                 //Check if all lines are crossed..
                 if (this.Crossed == this.numberOfLines - 1 || this.Crossed >= this.numberOfLines)
                 {
                     //Save the result of the game
                     game.GameResults.Add(new NimGameResult(this.actions, game.CurrentTurn));
+
+                    //Set the game state to ended
+                    game.ChangeState(GameStates.ENDED);
 
                     //If they are then notify winne
                     this.NotifyWinner(game.CurrentTurn, sum);

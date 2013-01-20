@@ -86,7 +86,9 @@ define(["$", "Underscore", "Backbone", "Marionette", "SignalR"], function ($, _,
     app.addInitializer(function () {
         this.gameHub = $.connection.game;
 
+        //Create publish function to emulate a event-based approach
         this.gameHub.client.Publish = function () {
+            console.log("Publish trigger: ", arguments[0]);
             app.vent.trigger.apply(app, arguments);
         };
 

@@ -1,13 +1,14 @@
 ﻿/// <reference path="../docs.js" />
 
-define(["Underscore", "Nim/Factories/Factory", "Nim/Models/GameModel", "Nim/Factories/PlayerModelFactory", "Nim/Factories/NimGameModelFactory", "Nim/Factories/NimGameResultModelFactory"], function (_, Factory, GameModel, PlayerFactory, NimGameFactory, NimGameResultFactory) {
+define(["Underscore", "Nim/Factories/Factory", "Nim/Models/GameModel", "Nim/Factories/PlayerModelFactory", "Nim/Factories/NimGameModelFactory", "Nim/Factories/NimGameResultModelFactory", "Nim/Factories/GameStateModelFactory"], function (_, Factory, GameModel, PlayerFactory, NimGameFactory, NimGameResultFactory, GameStateModelFactory) {
 
     var REQUIRED_PROPERTIES = [
         "GameId",
         "Players",
         "GameResults",
         "ActiveGame",
-        "CurrentTurn"
+        "CurrentTurn",
+        "CurrentState"
     ];
 
     return Factory.extend({
@@ -17,6 +18,8 @@ define(["Underscore", "Nim/Factories/Factory", "Nim/Models/GameModel", "Nim/Fact
                 throw new Error("Game could not be validated");
             }
 
+            console.log(game);
+
             var players = PlayerFactory.createMultiple(game.Players), //Create the players
             //Search though the players to find the currentTurn player, by playerId
             currentTurn = _.find(players, function (player) {
@@ -25,15 +28,20 @@ define(["Underscore", "Nim/Factories/Factory", "Nim/Models/GameModel", "Nim/Fact
             //Create the activeGame
             activeGame = NimGameFactory.create(game.ActiveGame),
             //Create the game results
-            gameResults = NimGameResultFactory.createMultiple(game.GameResults);
+            gameResults = NimGameResultFactory.createMultiple(game.GameResults),
+            //Create a currentState model
+            currentState = GameStateModelFactory.create(game.CurrentState);
 
             var model = new GameModel({
                 "gameId": game.GameId,
                 "players": players,
                 "gameResults": gameResults,
                 "activeGame": activeGame,
-                "currentTurn": currentTurn
+                "currentTurn": currentTurn,
+                "currentState": currentState
             });
+
+            console.log(model);
 
             return model;
         }
