@@ -26,6 +26,8 @@ define(["$", "Underscore", "Backbone", "Marionette", "Nim/App", "text!Templates/
     }),
         Layout = Backbone.Marionette.Layout.extend({
             template: viewTemplate,
+            tagName: "div",
+            className: "heightBuilder",
             regions: {
                 modal: {
                     selector: ".modal-holder",

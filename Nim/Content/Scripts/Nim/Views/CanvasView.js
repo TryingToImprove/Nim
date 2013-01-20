@@ -8,7 +8,7 @@ define(["PhoneAPI", "$", "Underscore", "Backbone", "Marionette", "Nim/App", "tex
         View = Backbone.Marionette.ItemView.extend({
             template: viewTemplate,
             tagName: "div",
-            className: "canvas",
+            className: "heightBuilder canvas",
             crossed: 0,
             onShow: function(){
                 var that = this;
@@ -33,10 +33,12 @@ define(["PhoneAPI", "$", "Underscore", "Backbone", "Marionette", "Nim/App", "tex
                     //Get current orientation
                     orientation = this.orientation = Orientation.getOrientation(width, height);
 
+                height = 100;
+
                 switch(orientation){
                     case Orientation.PORTRAIT:
                         //Make space at the bottom
-                        height -= 100;
+                        height -= 10;
 
                         //define css class for portrait orientation
                         cssClassNew = "portrait-mode";
@@ -57,23 +59,23 @@ define(["PhoneAPI", "$", "Underscore", "Backbone", "Marionette", "Nim/App", "tex
 
                 //Set the canvas
                 this.$el.css({
-                    "width": (width) + "px",
-                    "height": height + "px"
+                    "width": 90 + "%",
+                    "height": 90 + "%"
                 })
                 .removeClass(cssClassOld) //remove the old css class
                 .addClass(cssClassNew) //add the new css class
                 .empty();
-
+                
                 //Render
-                this.render();
-                this.renderLine();
+                //this.render();
+                //this.renderLine();
             },
             calculateLineDimensions: function(numberOfLines, width, height){
                 //Get the new line width
-                this.LINE_WIDTH = Math.floor(width / numberOfLines);
+                this.LINE_WIDTH = 100 / numberOfLines;
 
                 //Get the new line height
-                this.LINE_HEIGHT = Math.floor(height / numberOfLines);
+                this.LINE_HEIGHT = 100 / numberOfLines;
             },
             initialize: function (options) {
                 options = options || {}; //Make sure there is a options object
@@ -88,14 +90,11 @@ define(["PhoneAPI", "$", "Underscore", "Backbone", "Marionette", "Nim/App", "tex
 
                 //Listen to resize events
                 this.listenTo(app, "window:resize", function(){
-                
                     var $document = $(document),
-                    width = $document.width(),
-                    height = $document.height();
-
-
+                        width = $document.width(),
+                        height = $document.height();
+                    
                     if(this.orientation !== Orientation.getOrientation(width, height)){
-                        console.log("resize");
                         this.resize(options);
                     }
                 });
@@ -162,12 +161,12 @@ define(["PhoneAPI", "$", "Underscore", "Backbone", "Marionette", "Nim/App", "tex
                         x = 0 + "px";
 
                     if (that.orientation === Orientation.LANDSCAPE) {
-                        width = that.LINE_WIDTH;
+                        width = that.LINE_WIDTH + "%";
                         y = "10%";
                         height = "90%";
                         lineWidth = that.spec.line.size + "px";
                         lineHeight = "80%";
-                        x = Math.floor((that.LINE_WIDTH * i)) + "px";
+                        x = Math.floor((that.LINE_WIDTH * i)) + "%";
                     } else {
                         marginTop = (that.LINE_HEIGHT / 2) - (that.spec.line.size / 2) + "px";
                         height = that.LINE_HEIGHT;

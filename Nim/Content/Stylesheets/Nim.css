@@ -1,5 +1,11 @@
-﻿body
+﻿html
 {
+    height:100%;
+}
+
+body
+{
+    height:100%;
     padding: 0;
     overflow: auto;
     background-image:url('/Content/Images/woodbg.png');
@@ -27,6 +33,10 @@
     padding: 7px 9px;
 }
 
+.heightBuilder
+{
+    height:100%;
+}
 
 .commands
 {
