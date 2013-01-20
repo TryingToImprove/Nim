@@ -8,7 +8,8 @@
         <ul class="score-list">
             {{#score_each this}}
             <li><span class="large">{{wins}}</span><br />
-                <span class="playerName">{{playerName}}</span> </li>
+                <span class="playerName">{{playerName}}</span> {{#with state}} <span class="{{cssClass}}">
+                    {{message}}</span> {{/with}} </li>
             {{/score_each}}
         </ul>
     </div>

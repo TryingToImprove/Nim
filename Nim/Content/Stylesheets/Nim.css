@@ -181,4 +181,19 @@
     display:inline-block;
     font-size:1.5em;
     font-weight:bold;
+    display:block;
+}
+
+.score-list > li > .willPlayAgain
+{
+    font-size:11px;
+    color:green;
+    display:block;
+}
+
+.score-list > li > .disconnected
+{
+    font-size:11px;
+    color:red;
+    display:block;
 }

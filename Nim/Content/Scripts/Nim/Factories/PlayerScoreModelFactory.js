@@ -19,7 +19,8 @@ define(["Underscore", "Nim/Factories/Factory", "Nim/Factories/PlayerModelFactory
             var createdPlayer = new PlayerScoreModel({
                 "player": PlayerModelFactory.create(playerScore.Player),
                 "wins": playerScore.Wins,
-                "loses": playerScore.Loses
+                "loses": playerScore.Loses,
+                "state": false
             });
 
             return createdPlayer;

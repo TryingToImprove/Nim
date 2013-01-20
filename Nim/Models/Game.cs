@@ -56,7 +56,7 @@ namespace Nim.Models
         {
             //Create a new game
             activeGame = NimGame.Create(this);
-            
+
             //Begin game!
             activeGame.Begin();
         }
@@ -112,7 +112,7 @@ namespace Nim.Models
                 //Notify all players that a player have disconnected
                 foreach (var player in this.Players.Except(new ActivePlayer[] { joinedPlayer }))
                 {
-                    clients.Clients.Client(player.Connection.ConnectionId).Publish("server:play:user:joined:again", JsonHelper.SerializeObject(joinedPlayer), JsonHelper.SerializeObject(this));
+                    clients.Clients.Client(player.Connection.ConnectionId).Publish("server:play:user:joined:again", joinedPlayer.PlayerId, JsonHelper.SerializeObject(this));
                 };
             }
         }
@@ -127,7 +127,7 @@ namespace Nim.Models
             //Notify all players that a player have disconnected
             this.Players.ForEach(x =>
             {
-                clients.Clients.Client(x.Connection.ConnectionId).Publish("server:player:disconnect", JsonHelper.SerializeObject(disconnectedPlayer));
+                clients.Clients.Client(x.Connection.ConnectionId).Publish("server:player:disconnect", JsonHelper.SerializeObject(disconnectedPlayer), JsonHelper.SerializeObject(this));
             });
 
             //Remove the player

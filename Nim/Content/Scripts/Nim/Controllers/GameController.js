@@ -61,8 +61,11 @@ define(["$", "Underscore", "Backbone", "Marionette", "Nim/App", "Nim/Views/GameL
             this.listenTo(app, "server:player:disconnect", function (player, game) {
                 this.sync(game);
 
-                //Listen to server finish
-                this.playerDisconnected();
+                //We only want to trigger playerDisconnected when the game is active, if it ended then th finishView will handle UI..
+                if (this.game.get("currentState").not(GameStates.ENDED)) {
+                    //Listen to server finish
+                    this.playerDisconnected()
+                }
             });
 
             this.listenTo(app, "server:play:start:again", function (game) {
@@ -71,8 +74,6 @@ define(["$", "Underscore", "Backbone", "Marionette", "Nim/App", "Nim/Views/GameL
 
             this.listenTo(app, "server:play:user:joined:again", function (player, game) {
                 this.sync(game);
-
-                alert("a user have joined");
             });
         },
 

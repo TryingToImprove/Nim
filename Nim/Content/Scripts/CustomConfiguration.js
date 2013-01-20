@@ -12,7 +12,8 @@
 
                 template += options.fn({
                     playerName: (score.get("player").get("playerId") === obj.currentPlayer.get("playerId")) ? "you" : score.get("player").get("name"),
-                    wins: score.get("wins")
+                    wins: score.get("wins"),
+                    state: score.get("state")
                 });
             }
 
@@ -23,6 +24,8 @@
         _.mixin({
             validateProperties: function (obj, properties) {
                 var validated = true; //flag
+
+                console.log(obj);
 
                 //Loop over the properties that are required
                 _.each(properties, function (prop) {

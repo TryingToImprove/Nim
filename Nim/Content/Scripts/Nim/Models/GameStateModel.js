@@ -9,6 +9,9 @@ define(["$", "Underscore", "Backbone", "Marionette"], function ($, _, Backbone, 
         },
         is: function (state) {
             return this.get("currentState") === state;
+        },
+        not: function (state) {
+            return this.get("currentState") !== state;
         }
     });
 

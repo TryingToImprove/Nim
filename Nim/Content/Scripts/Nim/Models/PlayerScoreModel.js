@@ -5,7 +5,8 @@ define(["$", "Underscore", "Backbone", "Marionette"], function ($, _, Backbone, 
         defaults: {
             "player": null,
             "wins": null,
-            "loses": null
+            "loses": null,
+            "state": 0
         }
     });
 
