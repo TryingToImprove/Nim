@@ -1,15 +1,15 @@
 ﻿html
 {
-    height:100%;
+    height: 100%;
 }
 
 body
 {
-    height:100%;
+    height: 100%;
     padding: 0;
     overflow: auto;
-    background-image:url('/Content/Images/woodbg.png');
-    background-size:100%;
+    background-image: url('/Content/Images/woodbg.png');
+    background-size: 100%;
 }
 
 .content-container
@@ -35,21 +35,63 @@ body
 
 .heightBuilder
 {
-    height:100%;
+    height: 100%;
 }
 
 .commands
 {
+    float: left;
+    width: 15%;
+    box-shadow: -18px 9px 49px -17px #000;
+}
+
+.commands > .btn-command:last-child
+{
+    border-bottom-width: 0px;
+}
+
+.btn-command
+{
+    display: block;
+    width: 100%;
+    height: 33.33333333333333333%; /*background-image: -moz-linear-gradient(top, #0088cc, #0044cc);*/ /*background-image: -webkit-gradient(linear, 0 0, 0 100%, from(rgba(255, 255, 255, 0)), to(rgba(20, 20, 20, 0))); */
+    background-image: -webkit-linear-gradient(top, rgba(184, 81, 29, 0.6), rgba(184, 81, 29, 0.2)); /*background-image: -o-linear-gradient(top, #0088cc, #0044cc);*/ /*background-image: linear-gradient(to bottom, #0088cc, #0044cc);*/
+    border: 0 solid black;
+    border-bottom-width: 1px;
+    box-sizing: border-box;
+    font-size: 5em;
+    font-family: Georgia;
+    overflow: hidden;
+    color: white !important;
+    position: relative;
+    cursor:pointer;
+}
+
+.btn-command:hover
+{
+        background-image: -webkit-linear-gradient(top, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.09)); /*background-image: -o-linear-gradient(top, #0088cc, #0044cc);*/ /*background-image: linear-gradient(to bottom, #0088cc, #0044cc);*/
+}
+
+.btn-command > span
+{
+    position: absolute;
+    display: inline-block;
+    top: 33%;
+    font-weight:bold;
+    width: 100%;
     text-align: center;
 }
 
 .canvas-holder
 {
+    float: left;
+    width: 85%;
     text-align: center;
 }
 
 .canvas
 {
+    width: 100%;
     position: relative;
 }
 
@@ -108,7 +150,7 @@ body
 {
     margin: 0 auto;
     background-color: #FFF;
-    border-radius:5px;
+    border-radius: 5px;
 }
 
 .yellow-modal
@@ -158,53 +200,53 @@ body
 
 .score-list
 {
-    display:block;
-    margin:0px;
+    display: block;
+    margin: 0px;
 }
 
 .score-list > li:fist-child
 {
-    float:left;
+    float: left;
 }
 
 .score-list > li:last-child
 {
-    float:right    
+    float: right;
 }
 
 .score-list > li
 {
-    display:inline-block;
-    padding:20px;
-    width:30%;
-    text-align:center;
+    display: inline-block;
+    padding: 20px;
+    width: 30%;
+    text-align: center;
 }
 
 .score-list > li > .large
 {
-    font-size:5em;
-    font-weight:bold;
+    font-size: 5em;
+    font-weight: bold;
 }
 
 .score-list > li > .playerName
 {
-    margin-top:10px;
-    display:inline-block;
-    font-size:1.5em;
-    font-weight:bold;
-    display:block;
+    margin-top: 10px;
+    display: inline-block;
+    font-size: 1.5em;
+    font-weight: bold;
+    display: block;
 }
 
 .score-list > li > .willPlayAgain
 {
-    font-size:11px;
-    color:green;
-    display:block;
+    font-size: 11px;
+    color: green;
+    display: block;
 }
 
 .score-list > li > .disconnected
 {
-    font-size:11px;
-    color:red;
-    display:block;
+    font-size: 11px;
+    color: red;
+    display: block;
 }

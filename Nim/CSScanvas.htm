@@ -3,166 +3,126 @@
 <head>
     <title></title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <style type="text/css">
-        .canvas
-        {
-            height: 400px;
-            position: relative;
-        }
-        .canvas > .vertical-line
-        {
-            position: absolute;
-            height: 20px;
-            background-color: Red;
-            top: 190px;
-            z-index: 10;
-            -webkit-transition: all 700ms cubic-bezier(0.600, 0, 0.735, 0.045); /* older webkit */
-            -webkit-transition: all 700ms cubic-bezier(0.600, -0.280, 0.735, 0.045);
-            -moz-transition: all 700ms cubic-bezier(0.600, -0.280, 0.735, 0.045);
-            -ms-transition: all 700ms cubic-bezier(0.600, -0.280, 0.735, 0.045);
-            -o-transition: all 700ms cubic-bezier(0.600, -0.280, 0.735, 0.045);
-            transition: all 700ms cubic-bezier(0.600, -0.280, 0.735, 0.045); /* easeInBack */
-            -webkit-transition-timing-function: cubic-bezier(0.600, 0, 0.735, 0.045); /* older webkit */
-            -webkit-transition-timing-function: cubic-bezier(0.600, -0.280, 0.735, 0.045);
-            -moz-transition-timing-function: cubic-bezier(0.600, -0.280, 0.735, 0.045);
-            -ms-transition-timing-function: cubic-bezier(0.600, -0.280, 0.735, 0.045);
-            -o-transition-timing-function: cubic-bezier(0.600, -0.280, 0.735, 0.045);
-            transition-timing-function: cubic-bezier(0.600, -0.280, 0.735, 0.045); /* easeInBack */
-        }
-        
-        .canvas > .horizontal-holder
-        {
-            position: absolute;
-            height: 100%;
-            width: 100px;
-            z-index: 0;
-        }
-        
-        .canvas > .horizontal-holder > .line
-        {
-            margin: 0 auto;
-            width: 20px;
-            height: 100%;
-            background-color: Black;
-        }
-        
-        @media (max-width: 767px)
-        {
-            .canvas > .horizontal-holder
-            {
-                position: absolute;
-                width: 100%;
-                height: 100px;
-                z-index: 0;
-            }
-        
-            .canvas > .horizontal-holder > .line
-            {
-                margin: 0 auto;
-                height: 20px;
-                width: 100%;
-                background-color: Black;
-            }
-        }
-    </style>
-    <script src="http://code.jquery.com/jquery.min.js"></script>
+    <link href="/Content/Stylesheets/bootstrap.css" rel="stylesheet" />
+    <link href="/Content/Stylesheets/Nim.css" rel="stylesheet" />
 </head>
 <body>
-    <div class="canvas">
-        <div id="cross-line" class="vertical-line">
-        </div>
-        <div class="horizontal-holder" style="top: 0px; left: 0px;">
-            <div class="line">
+    <div class="container-fluid heightBuilder" id="nim" style="padding: 0">
+        <div class="heightBuilder">
+            <div class="modal-holder">
             </div>
-        </div>
-        <div class="horizontal-holder" style="top: 0px; left: 100px;">
-            <div class="line">
+            <div class="canvas-holder heightBuilder">
+                <div class="heightBuilder canvas landscape-mode" <!--style="width: 90%; height: 90%;"-->>
+                    <div id="cross-line" class="vertical-line">
+                    </div>
+                    <div class="horizontal-holder" style="height: 90%; width: 5.2631578947368425%; top: 10%;
+                        left: 0%;">
+                        <div class="line" style="margin-top: 0px; height: 80%; width: 10px;">
+                        </div>
+                    </div>
+                    <div class="horizontal-holder" style="height: 90%; width: 5.2631578947368425%; top: 10%;
+                        left: 5%;">
+                        <div class="line" style="margin-top: 0px; height: 80%; width: 10px;">
+                        </div>
+                    </div>
+                    <div class="horizontal-holder" style="height: 90%; width: 5.2631578947368425%; top: 10%;
+                        left: 10%;">
+                        <div class="line" style="margin-top: 0px; height: 80%; width: 10px;">
+                        </div>
+                    </div>
+                    <div class="horizontal-holder" style="height: 90%; width: 5.2631578947368425%; top: 10%;
+                        left: 15%;">
+                        <div class="line" style="margin-top: 0px; height: 80%; width: 10px;">
+                        </div>
+                    </div>
+                    <div class="horizontal-holder" style="height: 90%; width: 5.2631578947368425%; top: 10%;
+                        left: 21%;">
+                        <div class="line" style="margin-top: 0px; height: 80%; width: 10px;">
+                        </div>
+                    </div>
+                    <div class="horizontal-holder" style="height: 90%; width: 5.2631578947368425%; top: 10%;
+                        left: 26%;">
+                        <div class="line" style="margin-top: 0px; height: 80%; width: 10px;">
+                        </div>
+                    </div>
+                    <div class="horizontal-holder" style="height: 90%; width: 5.2631578947368425%; top: 10%;
+                        left: 31%;">
+                        <div class="line" style="margin-top: 0px; height: 80%; width: 10px;">
+                        </div>
+                    </div>
+                    <div class="horizontal-holder" style="height: 90%; width: 5.2631578947368425%; top: 10%;
+                        left: 36%;">
+                        <div class="line" style="margin-top: 0px; height: 80%; width: 10px;">
+                        </div>
+                    </div>
+                    <div class="horizontal-holder" style="height: 90%; width: 5.2631578947368425%; top: 10%;
+                        left: 42%;">
+                        <div class="line" style="margin-top: 0px; height: 80%; width: 10px;">
+                        </div>
+                    </div>
+                    <div class="horizontal-holder" style="height: 90%; width: 5.2631578947368425%; top: 10%;
+                        left: 47%;">
+                        <div class="line" style="margin-top: 0px; height: 80%; width: 10px;">
+                        </div>
+                    </div>
+                    <div class="horizontal-holder" style="height: 90%; width: 5.2631578947368425%; top: 10%;
+                        left: 52%;">
+                        <div class="line" style="margin-top: 0px; height: 80%; width: 10px;">
+                        </div>
+                    </div>
+                    <div class="horizontal-holder" style="height: 90%; width: 5.2631578947368425%; top: 10%;
+                        left: 57%;">
+                        <div class="line" style="margin-top: 0px; height: 80%; width: 10px;">
+                        </div>
+                    </div>
+                    <div class="horizontal-holder" style="height: 90%; width: 5.2631578947368425%; top: 10%;
+                        left: 63%;">
+                        <div class="line" style="margin-top: 0px; height: 80%; width: 10px;">
+                        </div>
+                    </div>
+                    <div class="horizontal-holder" style="height: 90%; width: 5.2631578947368425%; top: 10%;
+                        left: 68%;">
+                        <div class="line" style="margin-top: 0px; height: 80%; width: 10px;">
+                        </div>
+                    </div>
+                    <div class="horizontal-holder" style="height: 90%; width: 5.2631578947368425%; top: 10%;
+                        left: 73%;">
+                        <div class="line" style="margin-top: 0px; height: 80%; width: 10px;">
+                        </div>
+                    </div>
+                    <div class="horizontal-holder" style="height: 90%; width: 5.2631578947368425%; top: 10%;
+                        left: 78%;">
+                        <div class="line" style="margin-top: 0px; height: 80%; width: 10px;">
+                        </div>
+                    </div>
+                    <div class="horizontal-holder" style="height: 90%; width: 5.2631578947368425%; top: 10%;
+                        left: 84%;">
+                        <div class="line" style="margin-top: 0px; height: 80%; width: 10px;">
+                        </div>
+                    </div>
+                    <div class="horizontal-holder" style="height: 90%; width: 5.2631578947368425%; top: 10%;
+                        left: 89%;">
+                        <div class="line" style="margin-top: 0px; height: 80%; width: 10px;">
+                        </div>
+                    </div>
+                    <div class="horizontal-holder" style="height: 90%; width: 5.2631578947368425%; top: 10%;
+                        left: 94%;">
+                        <div class="line" style="margin-top: 0px; height: 80%; width: 10px;">
+                        </div>
+                    </div>
+                </div>
             </div>
-        </div>
-        <div class="horizontal-holder" style="top: 0px; left: 200px;">
-            <div class="line">
-            </div>
-        </div>
-        <div class="horizontal-holder" style="top: 0px; left: 300px;">
-            <div class="line">
-            </div>
-        </div>
-        <div class="horizontal-holder" style="top: 0px; left: 400px;">
-            <div class="line">
-            </div>
-        </div>
-        <div class="horizontal-holder" style="top: 0px; left: 500px;">
-            <div class="line">
-            </div>
-        </div>
-        <div class="horizontal-holder" style="top: 0px; left: 600px;">
-            <div class="line">
-            </div>
-        </div>
-        <div class="horizontal-holder" style="top: 0px; left: 700px;">
-            <div class="line">
-            </div>
-        </div>
-        <div class="horizontal-holder" style="top: 0px; left: 800px;">
-            <div class="line">
+            <div class="commands-holder heightBuilder">
+                <div class="commands heightBuilder">
+                    <a data-sum="1" class="btn-command">
+                        <span>1</span></a>
+                    <a data-sum="2" class="btn-command">
+                        <span>2</span></a>
+                    <a data-sum="3" class="btn-command">
+                        <span>3</span></a>
+                </div>
             </div>
         </div>
     </div>
-    <script>
-        var crossOut;
-
-        $(function () {
-            var lineBox = 100,
-            lineWidth = 20,
-            crossLine = document.getElementById("cross-line");
-
-
-            crossOut = function (sum) {
-
-
-                var mq = window.matchMedia("(max-width: 767px)"), width;
-                if (!mq.matches) {
-                    width = ((parseInt(crossLine.style.width, 10) || 0) + (lineBox * sum));
-                    crossLine.style.width = width + "px";
-                } else {
-                    width = ((parseInt(crossLine.style.height, 10) || 0) + (lineBox * sum));
-                    crossLine.style.height = width + "px";
-                }
-            };
-
-            // media query event handler
-            if (matchMedia) {
-                var mq = window.matchMedia("(min-width: 767px)");
-                mq.addListener(WidthChange);
-                console.log("added");
-            }
-
-            // media query change
-            function WidthChange(mq) {
-
-                console.log("changing");
-
-                $(".horizontal-holder").each(function (i) {
-
-                    var $this = $(this),
-                        tempTop = $(this).css("top");
-
-
-                    $this.css("top", $this.css("left")).css("left", tempTop);
-
-                });
-
-                var line = $("#cross-line"),
-                    temp = line.css("left");
-
-                line.css("left", line.css("top")).css("top", temp);
-
-                temp = line.css("width");
-                line.css("width", line.css("height"));
-                line.css("height", temp);
-            }
-        });
-
-    </script>
 </body>
 </html>

@@ -17,12 +17,7 @@ define(["PhoneAPI", "$", "Underscore", "Backbone", "Marionette", "Nim/App", "tex
                 });
             },
             resize: function (options) {
-                //Reset the canvas dimensions so we don't fuck up the layout
-                this.$el.css({
-                    "width": "100%",
-                    "height": 0 + "px"
-                });
-
+                
                 var cssClassNew,
                     cssClassOld,
 
@@ -58,13 +53,9 @@ define(["PhoneAPI", "$", "Underscore", "Backbone", "Marionette", "Nim/App", "tex
                 this.calculateLineDimensions(this.LINES_LENGTH, width, height);
 
                 //Set the canvas
-                this.$el.css({
-                    "width": 90 + "%",
-                    "height": 90 + "%"
-                })
+                this.$el
                 .removeClass(cssClassOld) //remove the old css class
-                .addClass(cssClassNew) //add the new css class
-                .empty();
+                .addClass(cssClassNew);
                 
                 //Render
                 //this.render();
@@ -138,10 +129,10 @@ define(["PhoneAPI", "$", "Underscore", "Backbone", "Marionette", "Nim/App", "tex
                 }
 
                 crossLine.css({
-                    "top": position.top + "px",
+                    "top": ((100/2) - (height/2)) + "%",
                     "left": position.left + "px",
-                    "width": width + "px",
-                    "height": height + "px"
+                    "width": width + "%",
+                    "height": height + "%"
                 });
             },
             getLinesLeft: function () {
@@ -163,7 +154,7 @@ define(["PhoneAPI", "$", "Underscore", "Backbone", "Marionette", "Nim/App", "tex
                     if (that.orientation === Orientation.LANDSCAPE) {
                         width = that.LINE_WIDTH + "%";
                         y = "10%";
-                        height = "90%";
+                        height = "100%";
                         lineWidth = that.spec.line.size + "px";
                         lineHeight = "80%";
                         x = Math.floor((that.LINE_WIDTH * i)) + "%";
@@ -196,7 +187,7 @@ define(["PhoneAPI", "$", "Underscore", "Backbone", "Marionette", "Nim/App", "tex
                     size: 10,
                 },
                 cross: {
-                    height: 30
+                    height: 10
                 }
             }
         });
