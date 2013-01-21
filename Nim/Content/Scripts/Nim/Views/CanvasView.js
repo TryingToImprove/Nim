@@ -154,7 +154,7 @@ define(["PhoneAPI", "$", "Underscore", "Backbone", "Marionette", "Nim/App", "tex
                     if (that.orientation === Orientation.LANDSCAPE) {
                         width = that.LINE_WIDTH + "%";
                         y = "10%";
-                        height = "100%";
+                        height = "90%";
                         lineWidth = that.spec.line.size + "px";
                         lineHeight = "80%";
                         x = Math.floor((that.LINE_WIDTH * i)) + "%";

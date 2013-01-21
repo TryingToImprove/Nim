@@ -9,7 +9,7 @@ body
     padding: 0;
     overflow: auto;
     background-image: url('/Content/Images/woodbg.png');
-    background-size: 100%;
+    background-size: auto 100%;
 }
 
 .content-container
