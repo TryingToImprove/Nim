@@ -163,10 +163,15 @@ define(["$", "Underscore", "Backbone", "Marionette", "Nim/App", "Nim/Views/GameL
                 //Close the waiting modal
                 gameController.layout.modal.close();
 
-                require(["Nim/Views/CommandView"], function (CommandView) {
-                    var commandView = new CommandView({
-                        controller: gameController
-                    });
+                require(["Nim/Views/CommandView", "Nim/ViewModels/CommandViewModel"], function (CommandView, CommandViewModel) {
+                    var activeGame = gameController.game.get("activeGame"),
+                        commandView = new CommandView({
+                            controller: gameController,
+                            model: new CommandViewModel({
+                                numberOfLines: activeGame.get("numberOfLines"),
+                                crossedLines: activeGame.get("crossed")
+                            })
+                        });
 
                     gameController.layout.command.show(commandView);
                 });

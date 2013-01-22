@@ -1,5 +1,5 @@
 ﻿<div class="commands">
-    <a data-sum="1" class="btn-command"><span>1</span></a>
-    <a data-sum="2" class="btn-command"><span>2</span></a>
-    <a data-sum="3" class="btn-command"><span>3</span></a>
+    {{#each commandButtons}}
+    <a data-sum="{{sum}}" class="btn-command"><span>{{text}}</span></a>
+    {{/each}}
 </div>

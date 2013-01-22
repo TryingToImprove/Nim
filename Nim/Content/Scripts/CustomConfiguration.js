@@ -25,8 +25,6 @@
             validateProperties: function (obj, properties) {
                 var validated = true; //flag
 
-                console.log(obj);
-
                 //Loop over the properties that are required
                 _.each(properties, function (prop) {
                     //Check if the player does not have the required property

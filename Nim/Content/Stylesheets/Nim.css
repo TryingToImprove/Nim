@@ -8,9 +8,9 @@ body
     height: 100%;
     padding: 0;
     overflow: auto;
-    background-image: url('/Content/Images/woodbg.png');
-    background-size: auto 100%;
-}
+    background-image: url('/Content/Images/test-bg2.png');
+    /*background-size: auto 100%;
+*/}
 
 .content-container
 {

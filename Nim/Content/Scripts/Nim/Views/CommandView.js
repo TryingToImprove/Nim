@@ -9,6 +9,8 @@ define(["$", "Underscore", "Backbone", "Marionette", "Nim/App", "text!Templates/
         },
         initialize: function (options) {
             options = options || {}
+            console.log(this.model);
+
             this.controller = options.controller || null;
         },
         crossOut: function (e) {
