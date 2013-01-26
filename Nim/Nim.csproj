@@ -124,6 +124,8 @@
     <Content Include="Content\Scripts\Nim\Models\NimGameModel.js" />
     <Content Include="Content\Scripts\Nim\Models\PlayerModel.js" />
     <Content Include="Content\Scripts\Nim\Models\GameModel.js" />
+    <Content Include="Content\Scripts\Nim\ViewModels\CommandViewModel.js" />
+    <Content Include="Content\Scripts\Nim\ViewModels\CommandButtonViewModel.js" />
     <Content Include="Content\Scripts\Nim\ViewModels\StatusViewModel.js" />
     <Content Include="Content\Scripts\Nim\ViewModels\FinishViewModel.js" />
     <Content Include="Content\Scripts\Nim\Views\CanvasView.js" />
@@ -226,7 +228,9 @@
       <Install>true</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="Content\Sounds\Beep.ogg" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

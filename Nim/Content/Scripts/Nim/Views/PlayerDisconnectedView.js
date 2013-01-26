@@ -7,6 +7,7 @@ define(["$", "Underscore", "Backbone", "Marionette", "Nim/App", "text!Templates/
         attributes: {
             "data-backdrop": "static"
         },
+        canRestart: true,
         className: "modal hide fade",
         events: {
             "click a[href='#requestNewGame']": "requestNewGame"
@@ -20,9 +21,18 @@ define(["$", "Underscore", "Backbone", "Marionette", "Nim/App", "text!Templates/
             this.controller = options.controller;
         },
         requestNewGame: function () {
-            app.vent.trigger("game:request:new");
+            if (this.canRestart) {
+                //Request the game
+                app.vent.trigger("game:request:new");
 
-            this.ui.requestNewGame.text("Searching for opponent...").attr("disabled", "disabled");
+                //Handle UI
+                this.ui.requestNewGame
+                    .text("Searching for opponent...")
+                    .attr("disabled", "disabled");
+
+                //Mark it as not possible to search for new player
+                this.canRestart = false;
+            }
 
             return false;
         }

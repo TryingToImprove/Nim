@@ -4,7 +4,7 @@ define(["$", "Underscore", "Backbone", "Marionette", "Nim/App", "text!Templates/
 
     var View = Backbone.Marionette.ItemView.extend({
         template: viewTemplate,
-        className: "content-container"
+        className: "content-container inverse"
     });
 
     return View;

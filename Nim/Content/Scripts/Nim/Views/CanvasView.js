@@ -26,7 +26,7 @@ define(["PhoneAPI", "$", "Underscore", "Backbone", "Marionette", "Nim/App", "tex
                     height = $document.height(),
 
                     //Get current orientation
-                    orientation = this.orientation = Orientation.getOrientation(width, height);
+                    orientation = this.orientation;
 
                 height = 100;
 
@@ -42,7 +42,8 @@ define(["PhoneAPI", "$", "Underscore", "Backbone", "Marionette", "Nim/App", "tex
                     case Orientation.LANDSCAPE:
                         //Make space to the left
                         width -= 100;
-
+                        
+                            console.log("landscape");
                         //define css class for landscape orientation
                         cssClassOld = "portrait-mode";
                         cssClassNew = "landscape-mode";
@@ -58,8 +59,8 @@ define(["PhoneAPI", "$", "Underscore", "Backbone", "Marionette", "Nim/App", "tex
                 .addClass(cssClassNew);
                 
                 //Render
-                //this.render();
-                //this.renderLine();
+                this.render();
+                this.renderLine();
             },
             calculateLineDimensions: function(numberOfLines, width, height){
                 //Get the new line width
@@ -80,15 +81,27 @@ define(["PhoneAPI", "$", "Underscore", "Backbone", "Marionette", "Nim/App", "tex
                 });
 
                 //Listen to resize events
-                this.listenTo(app, "window:resize", function(){
+                this.listenTo(app, "window:resize", function(options){
                     var $document = $(document),
                         width = $document.width(),
-                        height = $document.height();
+                        height = $document.height(),
+                        currentOrientation = Orientation.getOrientation(width, height);
                     
-                    if(this.orientation !== Orientation.getOrientation(width, height)){
+                    options = options || {};
+                    
+                    if(this.orientation !== currentOrientation){
+                        this.orientation = currentOrientation;
+
                         this.resize(options);
                     }
                 });
+                
+                var $document = $(document),
+                    width = $document.width(),
+                    height = $document.height(),
+                    currentOrientation = Orientation.getOrientation(width, height);
+
+                this.orientation = currentOrientation;
                 
                 this.resize(options);
             },
@@ -103,8 +116,8 @@ define(["PhoneAPI", "$", "Underscore", "Backbone", "Marionette", "Nim/App", "tex
             },
             renderLine: function () {
                 var position = {
-                        left: 0,
-                        top: 0
+                        left: 0 + "px",
+                        top: 0 + "px"
                     },
                     width, height,
                     cssClassMode,
@@ -112,25 +125,26 @@ define(["PhoneAPI", "$", "Underscore", "Backbone", "Marionette", "Nim/App", "tex
 
                 switch(this.orientation){
                     case Orientation.PORTRAIT:
-                        //Set the position on the x-axis (left css)
-                        position.left = ((this.$el.width() / 2) - (this.spec.cross.height / 2));
-
                         width = this.spec.cross.height;
                         height = this.LINE_HEIGHT * this.crossed;
 
+                        //Set the position on the x-axis (left css)
+                        position.left = ((100/2) - (width/2)) + "%"
+
                         break;
                     case Orientation.LANDSCAPE:
-                        //Set the position on the y-axis (top css)
-                        position.top = ((this.$el.height() / 2) - (this.spec.cross.height / 2));
-
                         width = this.LINE_WIDTH * this.crossed;
                         height = this.spec.cross.height;
+                    
+                        //Set the position on the y-axis (top css)
+                        position.top = ((100/2) - (height/2)) + "%";
+
                         break;
                 }
 
                 crossLine.css({
-                    "top": ((100/2) - (height/2)) + "%",
-                    "left": position.left + "px",
+                    "top": position.top,
+                    "left": position.left,
                     "width": width + "%",
                     "height": height + "%"
                 });
@@ -148,6 +162,7 @@ define(["PhoneAPI", "$", "Underscore", "Backbone", "Marionette", "Nim/App", "tex
                         height = "100%",
                         lineWidth = "100%",
                         lineHeight = "100%",
+                        position = "absolute",
                         y = 0 + "px",
                         x = 0 + "px";
 
@@ -158,15 +173,18 @@ define(["PhoneAPI", "$", "Underscore", "Backbone", "Marionette", "Nim/App", "tex
                         lineWidth = that.spec.line.size + "px";
                         lineHeight = "80%";
                         x = Math.floor((that.LINE_WIDTH * i)) + "%";
+                        position = "absolute";
                     } else {
                         marginTop = (that.LINE_HEIGHT / 2) - (that.spec.line.size / 2) + "px";
-                        height = that.LINE_HEIGHT;
+                        height = that.LINE_HEIGHT + "%";
+                        position = "static";
                         lineWidth = "80%";
                         lineHeight = that.spec.line.size + "px";
                         y = Math.floor((that.LINE_HEIGHT * i)) + "px";
                     }
-
+                    
                     $this.css({
+                        "position": position,
                         "height": height,
                         "width": width,
                         "top": y,

@@ -56,6 +56,7 @@ define(["$", "Underscore", "Backbone", "Marionette", "Nim/App", "text!Templates/
                     $(".restart", view.$el).attr("disabled", "disabled")
                         .addClass("btn-danger")
                         .removeClass("btn-primary")
+                        .removeClass("restart")
                         .text("A player have leaved, so you can't try again..");
                 });
             });
@@ -70,7 +71,10 @@ define(["$", "Underscore", "Backbone", "Marionette", "Nim/App", "text!Templates/
             if (this.canRestart) {
                 this.controller.playAgain();
 
+                this.canRestart = false;
+
                 this.ui.btnPlayAgain.removeClass("btn-primary")
+                .removeClass("restart")
                 .addClass("btn-success")
                 .attr("disabled", "disabled")
                 .text("Waiting for the other player..");

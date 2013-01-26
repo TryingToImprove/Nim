@@ -4,7 +4,7 @@ define(["$", "Underscore", "Backbone", "Marionette", "Nim/App", "Nim/Views/Statu
 
     var Layout = Backbone.Marionette.Layout.extend({
         template: layoutTemplate,
-        className: "content-container",
+        className: "content-container inverse login-box",
         regions: {
             "form": "#loginView-form",
             "status": "#loginView-status"

@@ -8,14 +8,18 @@ body
     height: 100%;
     padding: 0;
     overflow: auto;
-    background-image: url('/Content/Images/test-bg2.png');
-    /*background-size: auto 100%;
-*/}
+    background-image: url('/Content/Images/test-bg2.png'); /*background-size: auto 100%; */
+}
 
 .content-container
 {
     max-width: 400px;
     margin: 0 auto;
+}
+
+.inverse
+{
+    color: white;
 }
 
 .form-signin
@@ -64,12 +68,12 @@ body
     overflow: hidden;
     color: white !important;
     position: relative;
-    cursor:pointer;
+    cursor: pointer;
 }
 
 .btn-command:hover
 {
-        background-image: -webkit-linear-gradient(top, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.09)); /*background-image: -o-linear-gradient(top, #0088cc, #0044cc);*/ /*background-image: linear-gradient(to bottom, #0088cc, #0044cc);*/
+    background-image: -webkit-linear-gradient(top, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.09)); /*background-image: -o-linear-gradient(top, #0088cc, #0044cc);*/ /*background-image: linear-gradient(to bottom, #0088cc, #0044cc);*/
 }
 
 .btn-command > span
@@ -77,7 +81,7 @@ body
     position: absolute;
     display: inline-block;
     top: 33%;
-    font-weight:bold;
+    font-weight: bold;
     width: 100%;
     text-align: center;
 }
@@ -87,6 +91,10 @@ body
     float: left;
     width: 85%;
     text-align: center;
+}
+.login-box
+{
+    margin-top: 1%;
 }
 
 .canvas
@@ -100,10 +108,16 @@ body
     float: left;
 }
 
-.landscape-mode > .vertical-line
+.vertical-line
 {
     position: absolute;
-    background-color: Red;
+    border: 1px solid #f1f1f1;
+    background-color: #000;
+    background-image: -webkit-linear-gradient(top, rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.5)); /*background-image: -o-linear-gradient(top, #0088cc, #0044cc);*/ /*background-image: linear-gradient(to bottom, #0088cc, #0044cc);*/
+}
+
+.landscape-mode > .vertical-line
+{
     z-index: 10;
     -webkit-transition: width 700ms cubic-bezier(0.600, 0, 0.735, 0.045); /* older webkit */
     -webkit-transition: width 700ms cubic-bezier(0.600, -0.280, 0.735, 0.045);
@@ -122,8 +136,6 @@ body
 
 .portrait-mode > .vertical-line
 {
-    position: absolute;
-    background-color: Red;
     z-index: 10;
     -webkit-transition: height 700ms cubic-bezier(0.600, 0, 0.735, 0.045); /* older webkit */
     -webkit-transition: height 700ms cubic-bezier(0.600, -0.280, 0.735, 0.045);
@@ -182,9 +194,22 @@ body
     font-weight: bold;
     font-size: 14px;
 }
+@media (max-height: 360px)
+{
+    #loginView-status
+    {
+        display: none;
+    }
+}
 
 @media (max-width: 767px)
 {
+    .login-box
+    {
+        box-sizing:border-box;
+        padding: 6%;
+    }
+    
     .github-link
     {
         display: none;

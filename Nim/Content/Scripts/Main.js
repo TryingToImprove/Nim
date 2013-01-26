@@ -33,6 +33,7 @@
         Marionette: "Vendor/Backbone/Marionette/backbone.marionette",
         Handlebars: "Vendor/Handlebars/handlebars-1.0.rc.1",
         Templates: "../Templates",
+        Sounds: "../Sounds",
         PhoneAPI: "PhoneUtilities/PhoneUtilities",
         Bootstrap: "Vendor/Bootstrap/bootstrap",
 

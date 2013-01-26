@@ -159,9 +159,20 @@ define(["$", "Underscore", "Backbone", "Marionette", "Nim/App", "Nim/Views/GameL
         switchTurn: function () {
             var gameController = this;
 
+            //This user turn
             if (this.game.get("currentTurn").get("playerId") === app.user.get("playerId")) {
                 //Close the waiting modal
                 gameController.layout.modal.close();
+
+                //Play a sound..
+
+                require(["noext!Sounds/Beep.ogg"], function (beep) {
+                    var audioContext = new webkitAudioContext();
+                    var soundSource = audioContext.createBufferSource();
+                    soundSource.buffer = beep;
+                    soundSource.connect(audioContext.destination);
+                    soundSource.noteOn(0);
+                });
 
                 require(["Nim/Views/CommandView", "Nim/ViewModels/CommandViewModel"], function (CommandView, CommandViewModel) {
                     var activeGame = gameController.game.get("activeGame"),
