@@ -99,6 +99,8 @@
   <ItemGroup>
     <Content Include="Content\Images\glyphicons-halflings-white.png" />
     <Content Include="Content\Images\glyphicons-halflings.png" />
+    <Content Include="Content\Images\test-bg.png" />
+    <Content Include="Content\Images\test-bg2.png" />
     <Content Include="Content\Images\woodbg.png" />
     <Content Include="Content\Scripts\CustomConfiguration.js" />
     <Content Include="Content\Scripts\docs.js" />
@@ -168,7 +170,9 @@
     <Content Include="CSScanvas.htm" />
     <Content Include="index.html" />
     <Content Include="Global.asax" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
