@@ -163,12 +163,7 @@ define(["$", "Underscore", "Backbone", "Marionette", "Nim/App", "Nim/Views/GameL
             if (this.game.get("currentTurn").get("playerId") === app.user.get("playerId")) {
                 //Close the waiting modal
                 gameController.layout.modal.close();
-
-                //Play a sound..
-                require(["audio!Sounds/notify.ogg"], function (notifySound) {
-                    notifySound.noteOn(0);
-                });
-
+                
                 require(["Nim/Views/CommandView", "Nim/ViewModels/CommandViewModel"], function (CommandView, CommandViewModel) {
                     var activeGame = gameController.game.get("activeGame"),
                         commandView = new CommandView({
@@ -180,6 +175,11 @@ define(["$", "Underscore", "Backbone", "Marionette", "Nim/App", "Nim/Views/GameL
                         });
 
                     gameController.layout.command.show(commandView);
+
+                    //Play a sound..
+                    require(["audio!Sounds/notify.ogg"], function (notifySound) {
+                        notifySound.noteOn(0);
+                    });
                 });
             } else {
                 //Close the buttons
