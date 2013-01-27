@@ -165,13 +165,8 @@ define(["$", "Underscore", "Backbone", "Marionette", "Nim/App", "Nim/Views/GameL
                 gameController.layout.modal.close();
 
                 //Play a sound..
-
-                require(["noext!Sounds/Beep.ogg"], function (beep) {
-                    var audioContext = new webkitAudioContext();
-                    var soundSource = audioContext.createBufferSource();
-                    soundSource.buffer = beep;
-                    soundSource.connect(audioContext.destination);
-                    soundSource.noteOn(0);
+                require(["audio!Sounds/notify.ogg"], function (notifySound) {
+                    notifySound.noteOn(0);
                 });
 
                 require(["Nim/Views/CommandView", "Nim/ViewModels/CommandViewModel"], function (CommandView, CommandViewModel) {

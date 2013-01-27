@@ -38,6 +38,7 @@
         Bootstrap: "Vendor/Bootstrap/bootstrap",
 
         //requireJS plugins
+        audio: "Vendor/RequireJS/Plugins/audio",
         text: "Vendor/RequireJS/Plugins/text",
         noext: "Vendor/RequireJS/Plugins/noext"
     }

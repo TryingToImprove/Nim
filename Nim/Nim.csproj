@@ -97,6 +97,7 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="audio.htm" />
     <Content Include="Content\Images\glyphicons-halflings-white.png" />
     <Content Include="Content\Images\glyphicons-halflings.png" />
     <Content Include="Content\Images\test-bg.png" />
@@ -148,10 +149,13 @@
     <Content Include="Content\Scripts\Vendor\Handlebars\handlebars-1.0.rc.1.js" />
     <Content Include="Content\Scripts\Vendor\JQuery\jquery-1.8.3.js" />
     <Content Include="Content\Scripts\Vendor\JQuery\SignalR\jquery.signalR-1.0.0-rc1.js" />
+    <Content Include="Content\Scripts\Vendor\RequireJS\Plugins\audio.js" />
     <Content Include="Content\Scripts\Vendor\RequireJS\Plugins\noext.js" />
     <Content Include="Content\Scripts\Vendor\RequireJS\Plugins\text.js" />
     <Content Include="Content\Scripts\Vendor\RequireJS\require.js" />
     <Content Include="Content\Scripts\Vendor\Underscore\underscore.js" />
+    <Content Include="Content\Sounds\notify.mp3" />
+    <Content Include="Content\Sounds\notify.wav" />
     <Content Include="Content\Stylesheets\bootstrap-responsive.css" />
     <Content Include="Content\Stylesheets\bootstrap-responsive.min.css" />
     <Content Include="Content\Stylesheets\bootstrap.css" />
@@ -233,7 +237,7 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Content\Sounds\Beep.ogg" />
+    <None Include="Content\Sounds\notify.ogg" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
